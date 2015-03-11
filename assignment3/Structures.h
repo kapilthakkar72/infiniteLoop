@@ -10,18 +10,57 @@
 
 #include<stdio.h>
 #include<vector>
+#include<queue>
 
-#define MAX_ROW 9
-#define MAX_COLUMN 9
+#include "Constants.h"
+
 
 using namespace std;
 
-struct Player
+struct Node
+{
+    Position pos;
+    //f(n) = g(n) + h(n)
+    double f; 
+    double g;
+    int numberOfSteps;
+    Node parent;    
+};
+
+struct Position
 {
     int x;
     int y;
+};
+
+struct Player
+{
+    Position position;
     int wallsRemaining;
     int playerNumber;
+};
+
+struct Weights
+{
+    double a_0; // weight for moves
+    double a_1; // weight for walls
+};
+
+enum MoveType
+{
+    Move_Player, PlaceWall
+    
+};
+
+struct Move
+{
+    MoveType moveType;
+    Position position;
+};
+
+enum NodeType
+{
+    MIN_NODE, MAX_NODE
 };
 
 struct GameState
@@ -32,8 +71,10 @@ struct GameState
     double alpha;
     double beta;
     Graph graph;
+    Move move;
     GameState parent;
     int count; // To keep track of number of moves
+    NodeType nodeType;
     vector<GameState> children;
 };
 
