@@ -107,7 +107,7 @@ bool presentInClosed(Node n, vector<Node> &closed) {
 // will return true if path exist, else will return false
 // path will be stored in the vector passed as argument 
 
-int a_star(Graph g, Player p, vector<Node> path) {
+int a_star(Graph g, Player p) {
 
     int playerNumber = p.playerNumber;
     priority_queue<Node, vector<Node>, CompareNodes> openList;
@@ -188,7 +188,7 @@ int a_star(Graph g, Player p, vector<Node> path) {
 
     }
     if (openList.empty() || !nodeGoalPosition(currentNode, playerNumber)) {
-        path = NULL;
+        //path = NULL;
         return -1;
     } else {
         return currentNode.numberOfSteps;
