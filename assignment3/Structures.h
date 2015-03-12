@@ -17,6 +17,12 @@
 
 using namespace std;
 
+struct Position
+{
+    int x;
+    int y;
+};
+
 struct Node
 {
     Position pos;
@@ -24,20 +30,14 @@ struct Node
     double f; 
     double g;
     int numberOfSteps;
-    Node parent;    
-};
-
-struct Position
-{
-    int x;
-    int y;
+    Node *parent;    //TODO: discuss --- need to be a pointer
 };
 
 struct Player
 {
     Position position;
     int wallsRemaining;
-    int playerNumber;
+    PlayerNum playerNumber;
 };
 
 struct Weights
@@ -46,49 +46,34 @@ struct Weights
     double a_1; // weight for walls
 };
 
-enum MoveType
-{
-    Move_Player, PlaceWall
-    
-};
-
 struct Move
 {
     MoveType moveType;
     Position position;
 };
 
-enum NodeType
+struct Graph
 {
-    MIN_NODE, MAX_NODE
+    ObjectType graph[MAX_ROW*2 +1][MAX_COL*2 +1];
 };
 
 struct GameState
 {
     Player player1;
     Player player2;
-    int turn;
+    
+    Player turn; //refers to the object of the current player
+    NodeType nodeType;
+    
     double alpha;
     double beta;
+    
     Graph graph;
     Move move;
-    GameState parent;
-    int count; // To keep track of number of moves
-    NodeType nodeType;
+    
+    GameState *parent; //TODO: discuss --- need to be a pointer
     vector<GameState> children;
 };
-
-enum ObjectType
-{
-    WALL, PLAYER1, PLAYER2, EMPTY
-};
-
-struct Graph
-{
-    ObjectType graph[MAX_ROW*2 +1 ][MAX_COLUMN*2 +1];
-};
-
-
 
 #endif	/* STRUCTURES_H */
 

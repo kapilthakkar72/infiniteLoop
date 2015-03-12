@@ -10,8 +10,29 @@
 
 #include<limits.h>
 
+enum PlayerNum
+{
+    PlayerNum_P1, PlayerNum_P2
+};
+
+enum MoveType
+{
+    MoveType_PLAYER, MoveType_PLACE_WALL
+};
+
+enum NodeType
+{
+    NodeType_MIN_NODE, NodeType_MAX_NODE
+};
+
+enum ObjectType
+{
+    ObjectType_WALL, ObjectType_PLAYER1, ObjectType_PLAYER2, ObjectType_EMPTY
+};
+
+
 #define MAX_ROW 9
-#define MAX_COLUMN 9
+#define MAX_COL 9
 
 #define INFINITY INT_MAX
 #define MINUS_INFINITY INT_MIN

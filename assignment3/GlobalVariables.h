@@ -15,5 +15,8 @@
 Weights final;
 Weights changing;
 
+Position CURRENT_GAME_MAX_POSITION; //initialized in the main
+
+
 #endif	/* GLOBALVARIABLES_H */
 

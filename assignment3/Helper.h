@@ -9,6 +9,7 @@
 #define	HELPER_H
 
 #include "Structures.h"
+#include "GlobalVariables.h"
 
 // This is just used to define priority of queue
 
@@ -69,6 +70,7 @@ bool nodeGoalPosition(Node n, int p_no) {
 bool canMoveUp(Node n, Graph g) {
     if (n.pos.x - 2 > 1 && !g.graph[n.pos.x - 1][n.pos.y] == ObjectType.WALL)
         return true;
+
     else
         return false;
 }
@@ -101,6 +103,7 @@ bool presentInClosed(Node n, vector<Node> &closed) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -220,5 +223,70 @@ double utility(GameState g, Weights w) {
     return (w.a_0 * moves + w.a_1 * walls);
 }
 
+GameState generateStartGameState(int maxWalls){
+    //TODO: can be used
+    GameState startGS;
+    startGS.alpha = MINUS_INFINITY;
+    startGS.beta = INFINITY;
+    
+    startGS.parent = NULL;
+    startGS.nodeType = NodeType_MAX_NODE;
+    
+    Player p1;
+    p1.position.x = 2;
+    p1.position.y = (CURRENT_GAME_MAX_POSITION.y+1)/2;
+    p1.wallsRemaining = maxWalls;
+    p1.playerNumber = PlayerNum_P1;
+    
+    Player p2;
+    p2.position.x = CURRENT_GAME_MAX_POSITION.x-1;
+    p2.position.y = (CURRENT_GAME_MAX_POSITION.y+1)/2;
+    p2.wallsRemaining = maxWalls;
+    p2.playerNumber = PlayerNum_P2;
+            
+    startGS.player1 = p1;
+    startGS.player2 = p2;
+    
+    startGS.turn = p1;
+    
+    return startGS;
+}
+
+vector<GameState> generateChildren(GameState gs){
+    
+}
+
+
+GameState genChild_gameState(GameState gs)
+{
+    GameState newGS;
+    
+    newGS.player1 = gs.player1; //TODO: shall be modified at a later stage
+    newGS.player2 = gs.player2; //TODO: shall be modified at a later stage
+    
+    if(gs.turn.playerNumber == PlayerNum_P1){
+        //This is obvious - alternate turns
+        newGS.nodeType = NodeType_MIN_NODE;
+        newGS.turn = newGS.player2;
+    }
+    else{
+        newGS.nodeType = NodeType_MAX_NODE;
+        newGS.turn = newGS.player1;
+    }
+    
+    newGS.alpha = gs.alpha;
+    newGS.beta = gs.beta;
+    
+    newGS.graph = gs.graph; //TODO: shall be modified at a later stage
+    newGS.move = gs.move; //TODO: shall be modified at a later stage
+    
+    newGS.parent = gs; //the gs is now parent of newGs
+    
+    newGS.nodeType = gs.nodeType; 
+    newGS.turn = gs.turn;
+    newGS.children = gs.children;
+    
+    //TODO: children will be added later
+}
 #endif	/* HELPER_H */
 
