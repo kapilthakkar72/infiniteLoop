@@ -10,48 +10,34 @@
 
 #include "Structures.h"
 #include "GlobalVariables.h"
+#include "Utils.h"
 
+bool isValidPositionForPlayer(Position pos, ObjectType graph[][MAX_COL]) {
+    if (pos.x % 2 != 0 || pos.y % 2 != 0) //player can only be at even positions
+        return false;
 
-bool isValidPositionForPlayer(Position pos, ObjectType graph[][MAX_COL]){
-    if(pos.x %2 !=0 || pos.y %2 !=0){ //player can only be at even positions
+    if (pos.x > CURRENT_GAME_MAX_POSITION.x || pos.y > CURRENT_GAME_MAX_POSITION.y)
         return false;
-    }
-    
-    if(pos.x > CURRENT_GAME_MAX_POSITION.x || pos.y > CURRENT_GAME_MAX_POSITION.y){
+
+    if (graph[pos.x][pos.y] == ObjectType_WALL)
         return false;
-    }
-    
-    if(graph[pos.x][pos.y])
-    
+
     return true;
 }
 
-bool canMoveUp(Position pos, Graph g) {
-    Position p_up;
-    p_up.x = pos.x-2;
-    p_up.y = pos.y;
-    return isValidPositionForPlayer(p_up,g);
+bool isPosOccupiedByOtherPlayer(Player player, Position pos, ObjectType graph[][MAX_COL]) {
+    if (player.playerNumber == PlayerNum_P1 && graph[pos.x][pos.y] == ObjectType.ObjectType_PLAYER2)
+        return true;
+
+    if (player.playerNumber == PlayerNum_P2 && graph[pos.x][pos.y] == ObjectType.ObjectType_PLAYER1)
+        return true;
+
+    return false;
 }
 
-bool canMoveDown(Position pos, Graph g) {
-    Position p_up;
-    p_up.x = pos.x+2;
-    p_up.y = pos.y;
-    return isValidPositionForPlayer(p_up,g);
-}
-
-bool canMoveRight(Position pos, Graph g) {
-    Position p_up;
-    p_up.x = pos.x;
-    p_up.y = pos.y+2;
-    return isValidPositionForPlayer(p_up,g);
-}
-
-bool canMoveLeft(Position pos, Graph g) {
-    Position p_up;
-    p_up.x = pos.x;
-    p_up.y = pos.y-2;
-    return isValidPositionForPlayer(p_up,g);
+bool canMoveToDirection(Position pos, Graph g, Direction direction){
+    Position new_pos = getNewPositionInDirection(pos, direction);
+    return isValidPositionForPlayer(new_pos, g);
 }
 
 bool isGoalPosition(Player p) {
@@ -61,13 +47,14 @@ bool isGoalPosition(Player p) {
         else
             return false;
     else // player number 2
-        if (p.position.x == MAX_ROW * 2)
+        if (p.position.x == CURRENT_GAME_MAX_POSITION.x - 1)
         return true;
     else
         return false;
 }
 
 //a_star specific
+
 bool nodeGoalPosition(Node n, PlayerNum p_no) {
     if (p_no == PlayerNum_P1)
         if (n.pos.x == 2)
@@ -75,13 +62,14 @@ bool nodeGoalPosition(Node n, PlayerNum p_no) {
         else
             return false;
     else // player number 2
-        if (n.pos.x == MAX_ROW * 2)
+        if (n.pos.x == CURRENT_GAME_MAX_POSITION.x - 1)
         return true;
     else
         return false;
 }
 
 //a_star specific
+
 bool presentInClosed(Node n, vector<Node> &closed) {
     for (vector<Node>::iterator it = closed.begin(); it != closed.end(); it++) {
         Node currentNode = *it;

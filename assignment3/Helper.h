@@ -8,8 +8,13 @@
 #ifndef HELPER_H
 #define	HELPER_H
 
+#include "Constants.h"
+
+
 #include "Structures.h"
 #include "GlobalVariables.h"
+#include "Utils.h"
+#include "Validations.h"
 
 // This is just used to define priority of queue
 
@@ -20,15 +25,6 @@ public:
         return ((comp1.f) > (comp2.f));
     }
 };
-
-int isValidMoveForPlayer(GameState g, int x, int y) {
-    if (g.graph[x][y] == ObjectType_WALL)
-        return 0; // false : can not move
-    else if (g.graph[x][y] == ObjectType_EMPTY)
-        return 1; // can move 
-    else if (g.graph[x][y] == ObjectType_PLAYER1 || g.graph[x][y] == ObjectType_PLAYER2)
-        return 2; // make jump
-}
 
 double getHeuristicValue(PlayerNum playerNumber, Position currentPos) {
     if (playerNumber == PlayerNum_P1) {
@@ -42,6 +38,7 @@ double getHeuristicValue(PlayerNum playerNumber, Position currentPos) {
 }
 
 //returns the path cost (number of steps)
+
 int a_star(Graph g, Player p) {
 
     priority_queue<Node, vector<Node>, CompareNodes> openList;
@@ -76,10 +73,9 @@ int a_star(Graph g, Player p) {
         // put currentNode in the closed list
         closeList.push_back(currentNode);
 
-        if (canMoveUp(currentNode.pos, g)) {
+        if (canMoveToDirection(currentNode.pos, g, Direction_UP)) {
             Node temp;
-            temp.pos.x = currentNode.pos.x - 2;
-            temp.pos.y = currentNode.pos.y;
+            temp.pos = getNewPositionInDirection(currentNode.pos, Direction_UP);
             temp.g = currentNode.g + 1;
             temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
             temp.parent = currentNode;
@@ -87,10 +83,9 @@ int a_star(Graph g, Player p) {
             openList.push(temp);
         }
 
-        if (canMoveDown(currentNode.pos, g)) {
+        if (canMoveToDirection(currentNode.pos, g, Direction_DOWN)) {
             Node temp;
-            temp.pos.x = currentNode.pos.x + 2;
-            temp.pos.y = currentNode.pos.y;
+            temp.pos = getNewPositionInDirection(currentNode.pos, Direction_DOWN);
             temp.g = currentNode.g + 1;
             temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
             temp.parent = currentNode;
@@ -98,10 +93,9 @@ int a_star(Graph g, Player p) {
             openList.push(temp);
         }
 
-        if (canMoveLeft(currentNode.pos, g)) {
+        if (canMoveToDirection(currentNode.pos, g, Direction_LEFT)) {
             Node temp;
-            temp.pos.x = currentNode.pos.x;
-            temp.pos.y = currentNode.pos.y - 2;
+            temp.pos = getNewPositionInDirection(currentNode.pos, Direction_LEFT);
             temp.g = currentNode.g + 1;
             temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
             temp.parent = currentNode;
@@ -109,10 +103,9 @@ int a_star(Graph g, Player p) {
             openList.push(temp);
         }
 
-        if (canMoveRight(currentNode.pos, g)) {
+        if (canMoveToDirection(currentNode.pos, g, Direction_RIGHT)) {
             Node temp;
-            temp.pos.x = currentNode.pos.x;
-            temp.pos.y = currentNode.pos.y + 2;
+            temp.pos = getNewPositionInDirection(currentNode.pos, Direction_RIGHT);
             temp.g = currentNode.g + 1;
             temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
             temp.parent = currentNode;
@@ -144,65 +137,84 @@ int a_star(Graph g, Player p) {
 //    return (w.a_0 * moves + w.a_1 * walls);
 //}
 
-GameState generateStartGameState(int maxWalls){
+GameState generateStartGameState(int maxWalls) {
     //TODO: can be used
     GameState startGS;
     startGS.alpha = MINUS_INFINITY;
     startGS.beta = INFINITY;
-    
+
     startGS.parent = NULL;
     startGS.nodeType = NodeType_MAX_NODE;
-    
+
     Player p1;
     p1.position.x = 2;
-    p1.position.y = (CURRENT_GAME_MAX_POSITION.y+1)/2;
+    p1.position.y = (CURRENT_GAME_MAX_POSITION.y + 1) / 2;
     p1.wallsRemaining = maxWalls;
     p1.playerNumber = PlayerNum_P1;
-    
+
     Player p2;
-    p2.position.x = CURRENT_GAME_MAX_POSITION.x-1;
-    p2.position.y = (CURRENT_GAME_MAX_POSITION.y+1)/2;
+    p2.position.x = CURRENT_GAME_MAX_POSITION.x - 1;
+    p2.position.y = (CURRENT_GAME_MAX_POSITION.y + 1) / 2;
     p2.wallsRemaining = maxWalls;
     p2.playerNumber = PlayerNum_P2;
-            
+
     startGS.player1 = p1;
     startGS.player2 = p2;
-    
+
     startGS.turn = p1;
-    
+
     return startGS;
 }
 
-vector<GameState> generateChildren(GameState gs){
-    
+vector<GameState> generateChildren(GameState gs) {
+    vector<GameState> children;
+
+    if (canMoveUp(gs.turn.position, gs.graph)) {
+        Position p_up = getUpPosition(gs.turn.position);
+        GameState newGs = genChild_gameState(gs);
+    }
+
+    if (canMoveDown(gs.turn.position, gs.graph)) {
+
+    }
+
+    if (canMoveLeft(gs.turn.position, gs.graph)) {
+
+    }
+
+    if (canMoveRight(gs.turn.position, gs.graph)) {
+
+    }
+
+
+
+
+    return children;
 }
 
-
-GameState genChild_gameState(GameState gs)
-{
+GameState genChild_gameState(GameState gs) {
     GameState newGS;
-    
+
     newGS.player1 = gs.player1; //TODO: shall be modified at a later stage
     newGS.player2 = gs.player2; //TODO: shall be modified at a later stage
-    
-    if(gs.turn.playerNumber == PlayerNum_P1){
+
+    if (gs.turn.playerNumber == PlayerNum_P1) {
         //This is obvious - alternate turns
         newGS.nodeType = NodeType_MIN_NODE;
         newGS.turn = newGS.player2;
-    }
-    else{
+    } else {
         newGS.nodeType = NodeType_MAX_NODE;
         newGS.turn = newGS.player1;
     }
-    
+
     newGS.alpha = gs.alpha;
     newGS.beta = gs.beta;
-    
+
     newGS.graph = gs.graph; //TODO: shall be modified at a later stage
     newGS.move = gs.move; //TODO: shall be modified at a later stage
-    
+
     newGS.parent = gs; //the gs is now parent of newGs
-    
+
     //TODO: children will be added later
 }
 #endif	/* HELPER_H */
