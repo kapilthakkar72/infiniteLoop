@@ -12,24 +12,24 @@
 #include "GlobalVariables.h"
 #include "Utils.h"
 
-bool isValidPositionForPlayer(Position pos, ObjectType graph[][MAX_COL]) {
+bool isValidPositionForPlayer(Position pos, Graph graph_struct) {
     if (pos.x % 2 != 0 || pos.y % 2 != 0) //player can only be at even positions
         return false;
 
     if (pos.x > CURRENT_GAME_MAX_POSITION.x || pos.y > CURRENT_GAME_MAX_POSITION.y)
         return false;
 
-    if (graph[pos.x][pos.y] == ObjectType_WALL)
+    if (graph_struct.graph[pos.x][pos.y] == ObjectType_WALL)
         return false;
 
     return true;
 }
 
-bool isPosOccupiedByOtherPlayer(Player player, Position pos, ObjectType graph[][MAX_COL]) {
-    if (player.playerNumber == PlayerNum_P1 && graph[pos.x][pos.y] == ObjectType.ObjectType_PLAYER2)
+bool isPosOccupiedByOtherPlayer(Player player, Position pos, Graph graph_struct) {
+    if (player.playerNumber == PlayerNum_P1 && graph_struct.graph[pos.x][pos.y] == ObjectType_PLAYER2)
         return true;
 
-    if (player.playerNumber == PlayerNum_P2 && graph[pos.x][pos.y] == ObjectType.ObjectType_PLAYER1)
+    if (player.playerNumber == PlayerNum_P2 && graph_struct.graph[pos.x][pos.y] == ObjectType_PLAYER1)
         return true;
 
     return false;
