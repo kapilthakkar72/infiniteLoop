@@ -11,31 +11,40 @@
 #include<limits.h>
 
 enum PlayerNum {
-    PlayerNum_P1, PlayerNum_P2
+	PlayerNum_P1, PlayerNum_P2
+};
+
+enum WallType {
+	WallType_H, WallType_V
 };
 
 enum MoveType {
-    MoveType_PLAYER, MoveType_PLACE_WALL
+	MoveType_PLAYER, MoveType_PLACE_WALL
 };
 
 enum NodeType {
-    NodeType_MIN_NODE, NodeType_MAX_NODE
+	NodeType_MIN_NODE, NodeType_MAX_NODE
 };
 
 enum ObjectType {
-    ObjectType_WALL, ObjectType_PLAYER1, ObjectType_PLAYER2, ObjectType_EMPTY
+	ObjectType_WALL_H,
+	ObjectType_WALL_V,
+	ObjectType_PLAYER1,
+	ObjectType_PLAYER2,
+	ObjectType_EMPTY
 };
 
 enum Direction {
-    Direction_UP, Direction_DOWN, Direction_LEFT, Direction_RIGHT
+	Direction_UP, Direction_DOWN, Direction_LEFT, Direction_RIGHT
 };
-
 
 #define MAX_ROW 9
 #define MAX_COL 9
 
-#define INFINITY INT_MAX
-#define MINUS_INFINITY INT_MIN
+#define CUTOFF_LEVEL 8
+
+#define INFINITY_THAKKAR INT_MAX
+#define MINUS_INFINITY_THAKKAR INT_MIN
 
 #endif	/* CONSTANTS_H */
 
