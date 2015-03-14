@@ -12,20 +12,6 @@
 
 using namespace std;
 
-int max_my(double a, double b) {
-	if (a > b)
-		return a;
-
-	return b;
-}
-
-int min_my(double a, double b) {
-	if (a < b)
-		return a;
-
-	return b;
-}
-
 ObjectType playerNum_to_ObjectType(PlayerNum p_num) {
 
 	switch (p_num) {

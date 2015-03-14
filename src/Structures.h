@@ -61,7 +61,8 @@ struct GameState {
 	double beta;
 
 	Graph graph;
-	Move move;
+	Move moveTakenToReach;
+	Move moveToBeTaken;
 
 	int level;
 	double utilityVal;

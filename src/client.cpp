@@ -15,8 +15,7 @@
 #include "Helper.h"
 
 using namespace std;
-/* Complete the function below to print 1 integer which will be your next move 
- */
+
 int N, M, K, time_left, player;
 
 int main(int argc, char *argv[]) {
@@ -28,7 +27,7 @@ int main(int argc, char *argv[]) {
 	char sendBuff[1025];
 	struct sockaddr_in serv_addr;
 
-	if (argc != 3) {
+	if (argc != 4) {
 		printf("\n Usage: %s <ip of server> <port no> \n", argv[0]);
 		return 1;
 	}
@@ -44,7 +43,7 @@ int main(int argc, char *argv[]) {
 	serv_addr.sin_port = htons(atoi(argv[2]));
 
 	//----Our Code Start---
-	bool isAI = argv[3];
+	bool isAI = atoi(argv[3]);
 	//----Our Code End---
 
 	if (inet_pton(AF_INET, argv[1], &serv_addr.sin_addr) <= 0) {
@@ -69,7 +68,7 @@ int main(int argc, char *argv[]) {
 	cout << "Board size " << N << "x" << M << " :" << K << endl;
 
 	//------Our Code Start----
-	int opponent;
+	PlayerNum opponent;
 
 	//Setting game specific max position
 	CURRENT_GAME_MAX_POSITION.x = N * 2 + 1;
@@ -102,19 +101,37 @@ int main(int argc, char *argv[]) {
 	if (player == 1) {
 
 		//----Our Code Start---
-		Move move = getMeMove(curr_GS);
+		if (isAI) {
+			Move move = getMeMove(curr_GS);
 
-		if (move.moveType == MoveType_PLAYER) {
-			m = 0;
-		} else if (move.wallType == WallType_H) {
-			m = 1;
-		} else { //vertical wall
-			m = 2;
+			if (move.moveType == MoveType_PLAYER) {
+				m = 0;
+				curr_GS.graph.graph[curr_GS.players[whoAmI].position.x][curr_GS.players[whoAmI].position.y]
+						= ObjectType_EMPTY;
+				curr_GS.graph.graph[move.position.x][move.position.y]
+						= ObjectType_PLAYER1;
+				curr_GS.players[whoAmI].position = move.position;
+			}
+
+			else if (move.wallType == WallType_H) {
+				curr_GS.graph.graph[move.position.x][move.position.y]
+						= ObjectType_WALL_H;
+				curr_GS.players[opponent].wallsRemaining -= 1;
+				m = 1;
+			}
+
+			else { //vertical wall
+				curr_GS.graph.graph[move.position.x][move.position.y]
+						= ObjectType_WALL_V;
+				curr_GS.players[whoAmI].wallsRemaining -= 1;
+				m = 2;
+			}
+
+			r = move.position.x / 2 + 1;
+			c = move.position.y / 2 + 1;
+		} else {
+			cin >> m >> r >> c;
 		}
-
-		r = move.position.x / 2 + 1;
-		c = move.position.y / 2 + 1;
-
 		//-----Our Code End---
 
 		memset(sendBuff, '0', sizeof(sendBuff));
@@ -153,14 +170,22 @@ int main(int argc, char *argv[]) {
 
 			curr_GS.players[opponent].position.x = oro * 2 - 1;
 			curr_GS.players[opponent].position.y = oc * 2 - 1;
+
+			curr_GS.graph.graph[curr_GS.players[opponent].position.x][curr_GS.players[opponent].position.y]
+					= playerNum_to_ObjectType(opponent);
+
+			cout << "opponent moved to: " << oro * 2 - 1 << "," << oc * 2 - 1
+					<< endl;
 		}
 
 		else if (om == 1) {
-			curr_GS.graph.graph[oro * 2 - 1][oc * 2 - 1] = ObjectType_WALL_H;
+			curr_GS.graph.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_H;
+			curr_GS.players[opponent].wallsRemaining -= 1;
 		}
 
 		else {
-			curr_GS.graph.graph[oro * 2 - 1][oc * 2 - 1] = ObjectType_WALL_H;
+			curr_GS.graph.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_H;
+			curr_GS.players[opponent].wallsRemaining -= 1;
 		}
 
 		//---Our Code End---
@@ -182,10 +207,27 @@ int main(int argc, char *argv[]) {
 
 			if (move.moveType == MoveType_PLAYER) {
 				m = 0;
-			} else if (move.wallType == WallType_H) {
+
+				curr_GS.graph.graph[curr_GS.players[whoAmI].position.x][curr_GS.players[whoAmI].position.y]
+						= ObjectType_EMPTY;
+				curr_GS.graph.graph[move.position.x][move.position.y]
+						= playerNum_to_ObjectType(whoAmI);
+
+				curr_GS.players[whoAmI].position = move.position;
+			}
+
+			else if (move.wallType == WallType_H) {
 				m = 1;
-			} else { //vertical wall
+				curr_GS.players[whoAmI].wallsRemaining -= 1;
+				curr_GS.graph.graph[move.position.x][move.position.y]
+						= ObjectType_WALL_H;
+			}
+
+			else { //vertical wall
 				m = 2;
+				curr_GS.players[whoAmI].wallsRemaining -= 1;
+				curr_GS.graph.graph[move.position.x][move.position.y]
+						= ObjectType_WALL_V;
 			}
 
 			r = move.position.x / 2 + 1;

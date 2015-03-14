@@ -15,11 +15,11 @@ enum PlayerNum {
 };
 
 enum WallType {
-	WallType_H, WallType_V
+	WallType_H, WallType_V, WallType_None
 };
 
 enum MoveType {
-	MoveType_PLAYER, MoveType_PLACE_WALL
+	MoveType_PLAYER, MoveType_PLACE_WALL, MoveType_NONE
 };
 
 enum NodeType {
@@ -41,7 +41,7 @@ enum Direction {
 #define MAX_ROW 9
 #define MAX_COL 9
 
-#define CUTOFF_LEVEL 8
+#define CUTOFF_LEVEL 2
 
 #define INFINITY_THAKKAR INT_MAX
 #define MINUS_INFINITY_THAKKAR INT_MIN

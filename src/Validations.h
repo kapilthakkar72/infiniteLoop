@@ -94,6 +94,11 @@ bool isValidPositionForWall(Position pos, Graph graph, WallType wallType) {
 		if (graph.graph[pos.x][pos.y - 2] == ObjectType_WALL_V)
 			return false;
 		break;
+
+	case WallType_None:
+		cout << "Error---shall never come here" << endl;
+		exit(1);
+		break;
 	}
 
 	return true;

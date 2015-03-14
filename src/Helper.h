@@ -35,6 +35,23 @@ double getHeuristicValue(PlayerNum playerNumber, Position currentPos) {
 	}
 }
 
+void helper_a_star(Node & currentNode, Graph & g, Player & p,
+		priority_queue<Node, vector<Node> , CompareNodes> & openList,
+		Direction direction) {
+
+	if (!isValidMoveForPlayer(currentNode.pos, g, direction)) {
+		return;
+	}
+
+	Node temp;
+	temp.pos = getNewPositionInDirection(currentNode.pos, direction);
+	temp.g = currentNode.g + 1;
+	temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
+	temp.parent = &currentNode;
+	temp.numberOfSteps = currentNode.numberOfSteps + 1;
+	openList.push(temp);
+}
+
 //returns the path cost (number of steps)
 int a_star(Graph g, Player p) {
 
@@ -70,54 +87,18 @@ int a_star(Graph g, Player p) {
 		// put currentNode in the closed list
 		closeList.push_back(currentNode);
 
-		if (isValidMoveForPlayer(currentNode.pos, g, Direction_UP)) {
-			Node temp;
-			temp.pos = getNewPositionInDirection(currentNode.pos, Direction_UP);
-			temp.g = currentNode.g + 1;
-			temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
-			temp.parent = &currentNode;
-			temp.numberOfSteps = currentNode.numberOfSteps + 1;
-			openList.push(temp);
-		}
-
-		if (isValidMoveForPlayer(currentNode.pos, g, Direction_DOWN)) {
-			Node temp;
-			temp.pos = getNewPositionInDirection(currentNode.pos,
-					Direction_DOWN);
-			temp.g = currentNode.g + 1;
-			temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
-			temp.parent = &currentNode;
-			temp.numberOfSteps = currentNode.numberOfSteps + 1;
-			openList.push(temp);
-		}
-
-		if (isValidMoveForPlayer(currentNode.pos, g, Direction_LEFT)) {
-			Node temp;
-			temp.pos = getNewPositionInDirection(currentNode.pos,
-					Direction_LEFT);
-			temp.g = currentNode.g + 1;
-			temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
-			temp.parent = &currentNode;
-			temp.numberOfSteps = currentNode.numberOfSteps + 1;
-			openList.push(temp);
-		}
-
-		if (isValidMoveForPlayer(currentNode.pos, g, Direction_RIGHT)) {
-			Node temp;
-			temp.pos = getNewPositionInDirection(currentNode.pos,
-					Direction_RIGHT);
-			temp.g = currentNode.g + 1;
-			temp.f = temp.g + getHeuristicValue(p.playerNumber, temp.pos);
-			temp.parent = &currentNode;
-			temp.numberOfSteps = currentNode.numberOfSteps + 1;
-			openList.push(temp);
-		}
+		helper_a_star(currentNode, g, p, openList, Direction_UP);
+		helper_a_star(currentNode, g, p, openList, Direction_DOWN);
+		helper_a_star(currentNode, g, p, openList, Direction_LEFT);
+		helper_a_star(currentNode, g, p, openList, Direction_RIGHT);
 	}
 
 	if (openList.empty() || !nodeGoalPosition(currentNode, p.playerNumber)) {
 		//path = NULL;
 		return -1;
 	} else {
+		cout << "---returning from a_star: " << currentNode.numberOfSteps
+				<< endl;
 		return currentNode.numberOfSteps;
 	}
 }
@@ -155,8 +136,9 @@ GameState genChild_gameState(GameState gs) {
 	newGS.beta = gs.beta;
 
 	newGS.graph = gs.graph; //modified at a later stage
-	newGS.move = gs.move; //modified at a later stage
+	newGS.moveTakenToReach = gs.moveTakenToReach; //modified at a later stage
 
+	newGS.level = gs.level + 1;
 	return newGS;
 }
 
@@ -170,8 +152,8 @@ void helper_movePlayer(GameState gs, Direction direction,
 	Position new_pos = getNewPositionInDirection(gs.players[gs.turn].position,
 			direction);
 	new_GS.players[gs.turn].position = new_pos;
-	new_GS.move.moveType = MoveType_PLAYER;
-	new_GS.move.position = new_pos;
+	new_GS.moveTakenToReach.moveType = MoveType_PLAYER;
+	new_GS.moveTakenToReach.position = new_pos;
 	new_GS.graph.graph[new_pos.x][new_pos.y] = playerNum_to_ObjectType(gs.turn); //new position of player
 	new_GS.graph.graph[gs.players[gs.turn].position.x][gs.players[gs.turn].position.y]
 			= ObjectType_EMPTY; //the previous position is offcourse empty
@@ -193,8 +175,8 @@ void helper_placeWall(GameState gs, vector<GameState> & successors,
 	else
 		new_gs.graph.graph[pos.x][pos.y] = ObjectType_WALL_V;
 
-	new_gs.move.moveType = MoveType_PLACE_WALL;
-	new_gs.move.position = pos;
+	new_gs.moveTakenToReach.moveType = MoveType_PLACE_WALL;
+	new_gs.moveTakenToReach.position = pos;
 
 	successors.push_back(new_gs);
 }
@@ -206,6 +188,10 @@ vector<GameState> generateSuccessors(GameState gs) {
 	helper_movePlayer(gs, Direction_DOWN, successors);
 	helper_movePlayer(gs, Direction_LEFT, successors);
 	helper_movePlayer(gs, Direction_RIGHT, successors);
+
+	if (gs.players[whoAmI].wallsRemaining == 0) {
+		return successors;
+	}
 
 	for (int i = 2; i < CURRENT_GAME_MAX_POSITION.x - 2; i += 2) {
 		for (int j = 2; j < CURRENT_GAME_MAX_POSITION.y - 2; j += 2) {
@@ -222,7 +208,12 @@ vector<GameState> generateSuccessors(GameState gs) {
 }
 
 GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
+	cout << "---called: alpha_beta" << endl;
+	cout << "alpha: " << alpha << endl;
+	cout << "beta: " << beta << endl;
+
 	if (node.level == CUTOFF_LEVEL) {
+		cout << "cutOff level reached" << endl;
 		node.utilityVal = utility(node, w);
 		return node;
 	}
@@ -233,7 +224,11 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 		for (vector<GameState>::iterator it = successors.begin(); it
 				!= successors.end(); it++) {
 			GameState tempGS = alpha_beta(*it, alpha, beta, w);
-			alpha = max_my(alpha, tempGS.utilityVal);
+
+			if (alpha < tempGS.utilityVal) {
+				alpha = tempGS.utilityVal;
+				node.moveToBeTaken = tempGS.moveTakenToReach;
+			}
 
 			if (alpha >= beta) {
 				node.utilityVal = beta;
@@ -251,7 +246,11 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 		for (vector<GameState>::iterator it = successors.begin(); it
 				!= successors.end(); it++) {
 			GameState tempGS = alpha_beta(*it, alpha, beta, w);
-			beta = min_my(beta, tempGS.utilityVal);
+
+			if (beta > tempGS.utilityVal) {
+				beta = tempGS.utilityVal;
+				node.moveToBeTaken = tempGS.moveTakenToReach;
+			}
 
 			if (alpha >= beta) {
 				node.utilityVal = alpha;
@@ -265,8 +264,23 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 }
 
 Move getMeMove(GameState gs) {
+	cout << "---called: getMeMove" << endl;
+	gs.level = 0;
+
+	gs.moveTakenToReach.moveType = MoveType_NONE;
+	gs.moveTakenToReach.wallType = WallType_None;
+	gs.moveTakenToReach.position.x = 0;
+	gs.moveTakenToReach.position.y = 0;
+
+	gs.moveToBeTaken.moveType = MoveType_NONE;
+	gs.moveToBeTaken.wallType = WallType_None;
+	gs.moveToBeTaken.position.x = 0;
+	gs.moveToBeTaken.position.y = 0;
+
+	gs.utilityVal = MINUS_INFINITY_THAKKAR;
+
 	gs = alpha_beta(gs, MINUS_INFINITY_THAKKAR, INFINITY_THAKKAR, Wts_final);
-	return gs.move;
+	return gs.moveToBeTaken;
 }
 
 GameState generateStartGameState(int maxWalls) {
@@ -278,13 +292,13 @@ GameState generateStartGameState(int maxWalls) {
 
 	Player p1;
 	p1.position.x = 1;
-	p1.position.y = (CURRENT_GAME_MAX_POSITION.y + 1) / 2;
+	p1.position.y = (CURRENT_GAME_MAX_POSITION.y - 1) / 2;
 	p1.wallsRemaining = maxWalls;
 	p1.playerNumber = PlayerNum_P1;
 
 	Player p2;
 	p2.position.x = CURRENT_GAME_MAX_POSITION.x - 2;
-	p2.position.y = (CURRENT_GAME_MAX_POSITION.y + 1) / 2;
+	p2.position.y = (CURRENT_GAME_MAX_POSITION.y - 1) / 2;
 	p2.wallsRemaining = maxWalls;
 	p2.playerNumber = PlayerNum_P2;
 
@@ -293,8 +307,16 @@ GameState generateStartGameState(int maxWalls) {
 
 	startGS.turn = PlayerNum_P1;
 
+	for (int i = 0; i < CURRENT_GAME_MAX_POSITION.x; i++) {
+		for (int j = 0; j < CURRENT_GAME_MAX_POSITION.y; j++) {
+			startGS.graph.graph[i][j] = ObjectType_EMPTY;
+		}
+	}
+
+	startGS.graph.graph[p1.position.x][p1.position.y] = ObjectType_PLAYER1;
+	startGS.graph.graph[p2.position.x][p2.position.y] = ObjectType_PLAYER2;
+
 	return startGS;
 }
 
 #endif	/* HELPER_H */
-
