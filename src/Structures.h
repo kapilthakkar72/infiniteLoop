@@ -51,6 +51,12 @@ struct Graph {
 	ObjectType graph[9 * 2 + 1][9 * 2 + 1];
 };
 
+struct Utility {
+	double utilityVal;
+	int walls_diff;
+	int moves_diff;
+};
+
 struct GameState {
 	Player players[2];
 
@@ -65,7 +71,7 @@ struct GameState {
 	Move moveToBeTaken;
 
 	int level;
-	double utilityVal;
+	Utility utility;
 };
 
 #endif	/* STRUCTURES_H */

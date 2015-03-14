@@ -164,7 +164,9 @@ bool isValidPositionForWall(Position pos, GameState gs, WallType wallType) {
 	return true;
 }
 
-double utility(GameState g, Weights w) {
+Utility utility(GameState g, Weights w) {
+	Utility utility;
+
 	int p1walls = g.players[PlayerNum_P1].wallsRemaining;
 	int p2walls = g.players[PlayerNum_P2].wallsRemaining;
 
@@ -175,7 +177,11 @@ double utility(GameState g, Weights w) {
 
 	int moves = noOfMoves2 - noOfMoves1;
 
-	return (w.a_0 * moves + w.a_1 * walls);
+	utility.utilityVal = w.a_0 * moves + w.a_1 * walls;
+	utility.moves_diff = moves;
+	utility.walls_diff = walls;
+
+	return utility;
 }
 
 GameState genChild_gameState(GameState gs) {
@@ -325,7 +331,7 @@ vector<GameState> generateSuccessors(GameState gs) {
 GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 
 	if (node.level == CUTOFF_LEVEL) {
-		node.utilityVal = utility(node, w);
+		node.utility = utility(node, w);
 		return node;
 	}
 
@@ -336,19 +342,19 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 				!= successors.end(); it++) {
 			GameState tempGS = alpha_beta(*it, alpha, beta, w);
 
-			if (alpha < tempGS.utilityVal) {
-				alpha = tempGS.utilityVal;
+			if (alpha < tempGS.utility.utilityVal) {
+				alpha = tempGS.utility.utilityVal;
 				node.moveToBeTaken = tempGS.moveTakenToReach;
 			}
 
 			if (alpha >= beta) {
 				//cout << "-----------PRUNED MAX_NODE----------" << endl;
-				node.utilityVal = beta;
+				node.utility.utilityVal = beta;
 				return node;
 			}
 
 		}
-		node.utilityVal = alpha;
+		node.utility.utilityVal = alpha;
 		return node;
 	}
 
@@ -359,19 +365,19 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 				!= successors.end(); it++) {
 			GameState tempGS = alpha_beta(*it, alpha, beta, w);
 
-			if (beta > tempGS.utilityVal) {
-				beta = tempGS.utilityVal;
+			if (beta > tempGS.utility.utilityVal) {
+				beta = tempGS.utility.utilityVal;
 				node.moveToBeTaken = tempGS.moveTakenToReach;
 			}
 
 			if (alpha >= beta) {
 				//cout << "-----------PRUNED MIN_NODE----------" << endl;
-				node.utilityVal = alpha;
+				node.utility.utilityVal = alpha;
 				return node;
 			}
 
 		}
-		node.utilityVal = beta;
+		node.utility.utilityVal = beta;
 		return node;
 	}
 }
@@ -389,7 +395,7 @@ GameState getMeMove(GameState gs) {
 	gs.moveToBeTaken.position.row = 0;
 	gs.moveToBeTaken.position.col = 0;
 
-	gs.utilityVal = MINUS_INFINITY_THAKKAR;
+	gs.utility.utilityVal = MINUS_INFINITY_THAKKAR;
 
 	gs = alpha_beta(gs, MINUS_INFINITY_THAKKAR, INFINITY_THAKKAR, Wts_final);
 	return gs;
