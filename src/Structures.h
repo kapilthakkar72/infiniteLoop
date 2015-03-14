@@ -17,8 +17,8 @@
 using namespace std;
 
 struct Position {
-	int x;
-	int y;
+	int row;
+	int col;
 };
 
 struct Node {

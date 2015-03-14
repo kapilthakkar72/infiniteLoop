@@ -71,8 +71,8 @@ int main(int argc, char *argv[]) {
 	PlayerNum opponent;
 
 	//Setting game specific max position
-	CURRENT_GAME_MAX_POSITION.x = N * 2 + 1;
-	CURRENT_GAME_MAX_POSITION.y = M * 2 + 1;
+	CURRENT_GAME_MAX_POSITION.row = N * 2 + 1;
+	CURRENT_GAME_MAX_POSITION.col = M * 2 + 1;
 
 	if (player == 1) {
 		whoAmI = PlayerNum_P1;
@@ -102,33 +102,37 @@ int main(int argc, char *argv[]) {
 
 		//----Our Code Start---
 		if (isAI) {
-			Move move = getMeMove(curr_GS);
+			curr_GS = getMeMove(curr_GS);
+			Move move = curr_GS.moveToBeTaken;
 
 			if (move.moveType == MoveType_PLAYER) {
 				m = 0;
-				curr_GS.graph.graph[curr_GS.players[whoAmI].position.x][curr_GS.players[whoAmI].position.y]
+				curr_GS.graph.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
 						= ObjectType_EMPTY;
-				curr_GS.graph.graph[move.position.x][move.position.y]
+				curr_GS.graph.graph[move.position.row][move.position.col]
 						= ObjectType_PLAYER1;
 				curr_GS.players[whoAmI].position = move.position;
 			}
 
 			else if (move.wallType == WallType_H) {
-				curr_GS.graph.graph[move.position.x][move.position.y]
+				curr_GS.graph.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_H;
 				curr_GS.players[opponent].wallsRemaining -= 1;
 				m = 1;
 			}
 
 			else { //vertical wall
-				curr_GS.graph.graph[move.position.x][move.position.y]
+				curr_GS.graph.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_V;
 				curr_GS.players[whoAmI].wallsRemaining -= 1;
 				m = 2;
 			}
 
-			r = move.position.x / 2 + 1;
-			c = move.position.y / 2 + 1;
+			r = move.position.row / 2 + 1;
+			c = move.position.col / 2 + 1;
+
+			cout << "sending move: " << move.position.row << ","
+					<< move.position.col << endl;
 		} else {
 			cin >> m >> r >> c;
 		}
@@ -165,13 +169,13 @@ int main(int argc, char *argv[]) {
 		//----Our Code Start---
 
 		if (om == 0) {
-			curr_GS.graph.graph[curr_GS.players[opponent].position.x][curr_GS.players[opponent].position.y]
+			curr_GS.graph.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
 					= ObjectType_EMPTY;
 
-			curr_GS.players[opponent].position.x = oro * 2 - 1;
-			curr_GS.players[opponent].position.y = oc * 2 - 1;
+			curr_GS.players[opponent].position.row = oro * 2 - 1;
+			curr_GS.players[opponent].position.col = oc * 2 - 1;
 
-			curr_GS.graph.graph[curr_GS.players[opponent].position.x][curr_GS.players[opponent].position.y]
+			curr_GS.graph.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
 					= playerNum_to_ObjectType(opponent);
 
 			cout << "opponent moved to: " << oro * 2 - 1 << "," << oc * 2 - 1
@@ -184,7 +188,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		else {
-			curr_GS.graph.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_H;
+			curr_GS.graph.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_V;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 		}
 
@@ -203,14 +207,15 @@ int main(int argc, char *argv[]) {
 
 		//----Our Code Start---
 		if (isAI) {
-			Move move = getMeMove(curr_GS);
+			curr_GS = getMeMove(curr_GS);
+			Move move = curr_GS.moveToBeTaken;
 
 			if (move.moveType == MoveType_PLAYER) {
 				m = 0;
 
-				curr_GS.graph.graph[curr_GS.players[whoAmI].position.x][curr_GS.players[whoAmI].position.y]
+				curr_GS.graph.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
 						= ObjectType_EMPTY;
-				curr_GS.graph.graph[move.position.x][move.position.y]
+				curr_GS.graph.graph[move.position.row][move.position.col]
 						= playerNum_to_ObjectType(whoAmI);
 
 				curr_GS.players[whoAmI].position = move.position;
@@ -219,19 +224,22 @@ int main(int argc, char *argv[]) {
 			else if (move.wallType == WallType_H) {
 				m = 1;
 				curr_GS.players[whoAmI].wallsRemaining -= 1;
-				curr_GS.graph.graph[move.position.x][move.position.y]
+				curr_GS.graph.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_H;
 			}
 
 			else { //vertical wall
 				m = 2;
 				curr_GS.players[whoAmI].wallsRemaining -= 1;
-				curr_GS.graph.graph[move.position.x][move.position.y]
+				curr_GS.graph.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_V;
 			}
 
-			r = move.position.x / 2 + 1;
-			c = move.position.y / 2 + 1;
+			r = move.position.row / 2 + 1;
+			c = move.position.col / 2 + 1;
+
+			cout << "sending move: " << move.position.row << ","
+					<< move.position.col << endl;
 		}
 
 		else {

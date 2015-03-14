@@ -644,7 +644,7 @@ if __name__ == "__main__":
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     serversocket.settimeout(30)
-    serversocket.bind(('127.0.0.1', 12347))
+    serversocket.bind(('127.0.0.1', 12345))
     serversocket.listen(2)
     
     print ("Server running and waiting for clients to connect")

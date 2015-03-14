@@ -27,11 +27,11 @@ public:
 double getHeuristicValue(PlayerNum playerNumber, Position currentPos) {
 	if (playerNumber == PlayerNum_P1) {
 		// Player 1 will start from top and has to reach to end
-		return (MAX_ROW * 2 - currentPos.x);
+		return (MAX_ROW * 2 - currentPos.row);
 	} else // for player 2
 	{
 		// player 2 will start from bottom of the board and has to reach to top of the board
-		return (currentPos.x - 2);
+		return (currentPos.row - 2);
 	}
 }
 
@@ -61,8 +61,8 @@ int a_star(Graph g, Player p) {
 
 	Node n;
 	n.g = 0;
-	n.pos.x = p.position.x;
-	n.pos.y = p.position.y;
+	n.pos.row = p.position.row;
+	n.pos.col = p.position.col;
 	n.f = getHeuristicValue(p.playerNumber, n.pos);
 	n.numberOfSteps = 0;
 	n.parent = NULL;
@@ -97,8 +97,6 @@ int a_star(Graph g, Player p) {
 		//path = NULL;
 		return -1;
 	} else {
-		cout << "---returning from a_star: " << currentNode.numberOfSteps
-				<< endl;
 		return currentNode.numberOfSteps;
 	}
 }
@@ -136,7 +134,6 @@ GameState genChild_gameState(GameState gs) {
 	newGS.beta = gs.beta;
 
 	newGS.graph = gs.graph; //modified at a later stage
-	newGS.moveTakenToReach = gs.moveTakenToReach; //modified at a later stage
 
 	newGS.level = gs.level + 1;
 	return newGS;
@@ -154,8 +151,9 @@ void helper_movePlayer(GameState gs, Direction direction,
 	new_GS.players[gs.turn].position = new_pos;
 	new_GS.moveTakenToReach.moveType = MoveType_PLAYER;
 	new_GS.moveTakenToReach.position = new_pos;
-	new_GS.graph.graph[new_pos.x][new_pos.y] = playerNum_to_ObjectType(gs.turn); //new position of player
-	new_GS.graph.graph[gs.players[gs.turn].position.x][gs.players[gs.turn].position.y]
+	new_GS.graph.graph[new_pos.row][new_pos.col] = playerNum_to_ObjectType(
+			gs.turn); //new position of player
+	new_GS.graph.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col]
 			= ObjectType_EMPTY; //the previous position is offcourse empty
 
 	successors.push_back(new_GS);
@@ -170,10 +168,13 @@ void helper_placeWall(GameState gs, vector<GameState> & successors,
 
 	GameState new_gs = genChild_gameState(gs);
 
-	if (wallType == WallType_H)
-		new_gs.graph.graph[pos.x][pos.y] = ObjectType_WALL_H;
-	else
-		new_gs.graph.graph[pos.x][pos.y] = ObjectType_WALL_V;
+	if (wallType == WallType_H) {
+		new_gs.graph.graph[pos.row][pos.col] = ObjectType_WALL_H;
+		new_gs.moveTakenToReach.wallType = WallType_H;
+	} else {
+		new_gs.graph.graph[pos.row][pos.col] = ObjectType_WALL_V;
+		new_gs.moveTakenToReach.wallType = WallType_V;
+	}
 
 	new_gs.moveTakenToReach.moveType = MoveType_PLACE_WALL;
 	new_gs.moveTakenToReach.position = pos;
@@ -193,11 +194,11 @@ vector<GameState> generateSuccessors(GameState gs) {
 		return successors;
 	}
 
-	for (int i = 2; i < CURRENT_GAME_MAX_POSITION.x - 2; i += 2) {
-		for (int j = 2; j < CURRENT_GAME_MAX_POSITION.y - 2; j += 2) {
-			Position new_pos;
-			new_pos.x = i;
-			new_pos.y = j;
+	Position new_pos;
+	for (int i = 2; i < CURRENT_GAME_MAX_POSITION.row - 2; i += 2) {
+		new_pos.row = i;
+		for (int j = 2; j < CURRENT_GAME_MAX_POSITION.col - 2; j += 2) {
+			new_pos.col = j;
 
 			helper_placeWall(gs, successors, WallType_H, new_pos);
 			helper_placeWall(gs, successors, WallType_V, new_pos);
@@ -208,12 +209,8 @@ vector<GameState> generateSuccessors(GameState gs) {
 }
 
 GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
-	cout << "---called: alpha_beta" << endl;
-	cout << "alpha: " << alpha << endl;
-	cout << "beta: " << beta << endl;
 
 	if (node.level == CUTOFF_LEVEL) {
-		cout << "cutOff level reached" << endl;
 		node.utilityVal = utility(node, w);
 		return node;
 	}
@@ -263,24 +260,23 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 	}
 }
 
-Move getMeMove(GameState gs) {
-	cout << "---called: getMeMove" << endl;
+GameState getMeMove(GameState gs) {
 	gs.level = 0;
 
 	gs.moveTakenToReach.moveType = MoveType_NONE;
 	gs.moveTakenToReach.wallType = WallType_None;
-	gs.moveTakenToReach.position.x = 0;
-	gs.moveTakenToReach.position.y = 0;
+	gs.moveTakenToReach.position.row = 0;
+	gs.moveTakenToReach.position.col = 0;
 
 	gs.moveToBeTaken.moveType = MoveType_NONE;
 	gs.moveToBeTaken.wallType = WallType_None;
-	gs.moveToBeTaken.position.x = 0;
-	gs.moveToBeTaken.position.y = 0;
+	gs.moveToBeTaken.position.row = 0;
+	gs.moveToBeTaken.position.col = 0;
 
 	gs.utilityVal = MINUS_INFINITY_THAKKAR;
 
 	gs = alpha_beta(gs, MINUS_INFINITY_THAKKAR, INFINITY_THAKKAR, Wts_final);
-	return gs.moveToBeTaken;
+	return gs;
 }
 
 GameState generateStartGameState(int maxWalls) {
@@ -291,14 +287,14 @@ GameState generateStartGameState(int maxWalls) {
 	startGS.nodeType = NodeType_MAX_NODE;
 
 	Player p1;
-	p1.position.x = 1;
-	p1.position.y = (CURRENT_GAME_MAX_POSITION.y - 1) / 2;
+	p1.position.row = 1;
+	p1.position.col = (CURRENT_GAME_MAX_POSITION.col - 1) / 2;
 	p1.wallsRemaining = maxWalls;
 	p1.playerNumber = PlayerNum_P1;
 
 	Player p2;
-	p2.position.x = CURRENT_GAME_MAX_POSITION.x - 2;
-	p2.position.y = (CURRENT_GAME_MAX_POSITION.y - 1) / 2;
+	p2.position.row = CURRENT_GAME_MAX_POSITION.row - 2;
+	p2.position.col = (CURRENT_GAME_MAX_POSITION.col - 1) / 2;
 	p2.wallsRemaining = maxWalls;
 	p2.playerNumber = PlayerNum_P2;
 
@@ -307,14 +303,14 @@ GameState generateStartGameState(int maxWalls) {
 
 	startGS.turn = PlayerNum_P1;
 
-	for (int i = 0; i < CURRENT_GAME_MAX_POSITION.x; i++) {
-		for (int j = 0; j < CURRENT_GAME_MAX_POSITION.y; j++) {
+	for (int i = 0; i < CURRENT_GAME_MAX_POSITION.row; i++) {
+		for (int j = 0; j < CURRENT_GAME_MAX_POSITION.col; j++) {
 			startGS.graph.graph[i][j] = ObjectType_EMPTY;
 		}
 	}
 
-	startGS.graph.graph[p1.position.x][p1.position.y] = ObjectType_PLAYER1;
-	startGS.graph.graph[p2.position.x][p2.position.y] = ObjectType_PLAYER2;
+	startGS.graph.graph[p1.position.row][p1.position.col] = ObjectType_PLAYER1;
+	startGS.graph.graph[p2.position.row][p2.position.col] = ObjectType_PLAYER2;
 
 	return startGS;
 }

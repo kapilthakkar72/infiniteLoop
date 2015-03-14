@@ -31,24 +31,24 @@ ObjectType playerNum_to_ObjectType(PlayerNum p_num) {
 Position getNewPositionInDirection(Position pos, Direction direction) {
 	Position new_pos;
 
-	new_pos.x = pos.x;
-	new_pos.y = pos.y;
+	new_pos.row = pos.row;
+	new_pos.col = pos.col;
 
 	switch (direction) {
 	case Direction_UP:
-		new_pos.x -= 2;
+		new_pos.row -= 2;
 		break;
 
 	case Direction_DOWN:
-		new_pos.x += 2;
+		new_pos.row += 2;
 		break;
 
 	case Direction_LEFT:
-		new_pos.y -= 2;
+		new_pos.col -= 2;
 		break;
 
 	case Direction_RIGHT:
-		new_pos.y += 2;
+		new_pos.col += 2;
 		break;
 
 	default:
