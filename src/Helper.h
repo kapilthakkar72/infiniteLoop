@@ -139,24 +139,75 @@ GameState genChild_gameState(GameState gs) {
 	return newGS;
 }
 
-void helper_movePlayer(GameState gs, Direction direction,
+void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
+		vector<GameState> & successors);
+
+void playerBehindHandler(GameState gs, Position old_pos, Direction direction,
 		vector<GameState> & successors) {
-	if (!isValidMoveForPlayer(gs.players[gs.turn].position, gs.graph, direction)) {
+	Position tmp_pos = old_pos;
+
+	switch (direction) {
+	case Direction_UP:
+		tmp_pos.row -= 2;
+		break;
+
+	case Direction_DOWN:
+		tmp_pos.row += 2;
+		break;
+
+	case Direction_LEFT:
+		tmp_pos.col -= 2;
+		break;
+
+	case Direction_RIGHT:
+		tmp_pos.col += 2;
+		break;
+	}
+
+	if (isValidMoveForPlayer(tmp_pos, gs.graph, direction)) {
+		//Move to place behind the opponent
+		helper_movePlayer(gs, tmp_pos, direction, successors);
+		return; //return since no sideways checking here
+	}
+
+	//Can't move behind the opponent, move sideways of opponent
+	if (direction == Direction_DOWN || direction == Direction_UP) {
+		helper_movePlayer(gs, tmp_pos, Direction_LEFT, successors);
+		helper_movePlayer(gs, tmp_pos, Direction_RIGHT, successors);
+	}
+
+	if (direction == Direction_LEFT || direction == Direction_RIGHT) {
+		helper_movePlayer(gs, tmp_pos, Direction_UP, successors);
+		helper_movePlayer(gs, tmp_pos, Direction_DOWN, successors);
+	}
+}
+
+void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
+		vector<GameState> & successors) {
+
+	if (!isValidMoveForPlayer(old_pos, gs.graph, direction)) {
 		return;
 	}
 
-	GameState new_GS = genChild_gameState(gs);
-	Position new_pos = getNewPositionInDirection(gs.players[gs.turn].position,
-			direction);
-	new_GS.players[gs.turn].position = new_pos;
-	new_GS.moveTakenToReach.moveType = MoveType_PLAYER;
-	new_GS.moveTakenToReach.position = new_pos;
-	new_GS.graph.graph[new_pos.row][new_pos.col] = playerNum_to_ObjectType(
-			gs.turn); //new position of player
-	new_GS.graph.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col]
-			= ObjectType_EMPTY; //the previous position is offcourse empty
+	if (isPosOccupiedByOtherPlayer(gs, old_pos, direction)) {
+		playerBehindHandler(gs, old_pos, direction, successors);
+		return;
+	}
 
-	successors.push_back(new_GS);
+	else {
+		GameState new_GS = genChild_gameState(gs);
+		Position new_pos = getNewPositionInDirection(
+				gs.players[gs.turn].position, direction);
+		new_GS.players[gs.turn].position = new_pos;
+		new_GS.moveTakenToReach.moveType = MoveType_PLAYER;
+		new_GS.moveTakenToReach.position = new_pos;
+		new_GS.graph.graph[new_pos.row][new_pos.col] = playerNum_to_ObjectType(
+				gs.turn); //new position of player
+		new_GS.graph.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col]
+				= ObjectType_EMPTY; //the previous position is of-course empty
+
+		successors.push_back(new_GS);
+	}
 }
 
 void helper_placeWall(GameState gs, vector<GameState> & successors,
@@ -185,10 +236,11 @@ void helper_placeWall(GameState gs, vector<GameState> & successors,
 vector<GameState> generateSuccessors(GameState gs) {
 	vector<GameState> successors;
 
-	helper_movePlayer(gs, Direction_UP, successors);
-	helper_movePlayer(gs, Direction_DOWN, successors);
-	helper_movePlayer(gs, Direction_LEFT, successors);
-	helper_movePlayer(gs, Direction_RIGHT, successors);
+	Position old_pos = gs.players[gs.turn].position;
+	helper_movePlayer(gs, old_pos, Direction_UP, successors);
+	helper_movePlayer(gs, old_pos, Direction_DOWN, successors);
+	helper_movePlayer(gs, old_pos, Direction_LEFT, successors);
+	helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
 
 	if (gs.players[whoAmI].wallsRemaining == 0) {
 		return successors;

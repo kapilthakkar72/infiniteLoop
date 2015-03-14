@@ -68,7 +68,6 @@ int main(int argc, char *argv[]) {
 	cout << "Board size " << N << "x" << M << " :" << K << endl;
 
 	//------Our Code Start----
-	PlayerNum opponent;
 
 	//Setting game specific max position
 	CURRENT_GAME_MAX_POSITION.row = N * 2 + 1;

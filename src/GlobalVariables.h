@@ -16,6 +16,8 @@ Weights Wts_changing;
 Position CURRENT_GAME_MAX_POSITION; //initialized in the main
 
 PlayerNum whoAmI;
+PlayerNum opponent;
+
 double timeLeft;
 
 #endif	/* GLOBALVARIABLES_H */
