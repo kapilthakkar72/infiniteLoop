@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
 
 	timeLeft = time_left;
 
-	Wts_final.a_0 = 2; //TODO: may be modified later
+	Wts_final.a_1 = 1.5; //TODO: may be modified later
 	Wts_final.a_0 = 1;
 
 	GameState curr_GS = generateStartGameState(K);
@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
 			r = move.position.row / 2 + 1;
 			c = move.position.col / 2 + 1;
 
-			cout << "sending move: " << move.position.row << ","
+			cout << "sending move: " << m << ": " << move.position.row << ","
 					<< move.position.col << endl;
 		} else {
 			cin >> m >> r >> c;
@@ -237,7 +237,7 @@ int main(int argc, char *argv[]) {
 			r = move.position.row / 2 + 1;
 			c = move.position.col / 2 + 1;
 
-			cout << "sending move: " << move.position.row << ","
+			cout << "sending move: " << m << ": " << move.position.row << ","
 					<< move.position.col << endl;
 		}
 

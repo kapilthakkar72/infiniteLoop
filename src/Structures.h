@@ -27,7 +27,7 @@ struct Node {
 	double f;
 	double g;
 	int numberOfSteps;
-	Node *parent; //TODO: discuss --- need to be a pointer
+	Node *parent;//TODO: to-do just because this is a pointer
 };
 
 struct Player {
@@ -48,7 +48,7 @@ struct Move {
 };
 
 struct Graph {
-	ObjectType graph[MAX_ROW * 2 + 1][MAX_COL * 2 + 1];
+	ObjectType graph[9 * 2 + 1][9 * 2 + 1];
 };
 
 struct GameState {

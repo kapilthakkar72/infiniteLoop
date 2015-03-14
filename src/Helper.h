@@ -24,14 +24,17 @@ public:
 	}
 };
 
-double getHeuristicValue(PlayerNum playerNumber, Position currentPos) {
+int getHeuristicValue(PlayerNum playerNumber, Position currentPos) {
 	if (playerNumber == PlayerNum_P1) {
 		// Player 1 will start from top and has to reach to end
-		return (MAX_ROW * 2 - currentPos.row);
-	} else // for player 2
-	{
+		int temp = CURRENT_GAME_MAX_POSITION.row - currentPos.row - 1;
+		temp /= 2;
+		return temp;
+	}
+
+	else {
 		// player 2 will start from bottom of the board and has to reach to top of the board
-		return (currentPos.row - 2);
+		return ((currentPos.row - 1) / 2);
 	}
 }
 
@@ -93,12 +96,56 @@ int a_star(Graph g, Player p) {
 		helper_a_star(currentNode, g, p, openList, Direction_RIGHT);
 	}
 
-	if (openList.empty() || !nodeGoalPosition(currentNode, p.playerNumber)) {
+	if (!nodeGoalPosition(currentNode, p.playerNumber)) {
 		//path = NULL;
 		return -1;
 	} else {
 		return currentNode.numberOfSteps;
 	}
+}
+
+//here pos denotes the middle of the wall
+bool isValidPositionForWall(Position pos, Graph graph, WallType wallType) {
+	if (pos.row % 2 != 0 || pos.col % 2 != 0) //walls can only be at even positions
+		return false;
+
+	if (pos.row <= 1 || pos.col <= 1)
+		return false;
+
+	if (pos.row >= CURRENT_GAME_MAX_POSITION.row - 2 || pos.col
+			>= CURRENT_GAME_MAX_POSITION.col - 2) {
+		//we have subtracted 2 because the pos denotes the middle
+		return false;
+	}
+
+	if (graph.graph[pos.row][pos.col] == ObjectType_WALL_H)
+		return false;
+
+	if (graph.graph[pos.row][pos.col] == ObjectType_WALL_V)
+		return false;
+
+	switch (wallType) {
+	case WallType_H:
+		if (graph.graph[pos.row][pos.col + 2] == ObjectType_WALL_H)
+			return false;
+		if (graph.graph[pos.row][pos.col - 2] == ObjectType_WALL_H)
+			return false;
+		break;
+
+	case WallType_V:
+		if (graph.graph[pos.row + 2][pos.col] == ObjectType_WALL_V)
+			return false;
+		if (graph.graph[pos.row - 2][pos.col] == ObjectType_WALL_V)
+			return false;
+		break;
+
+	case WallType_None:
+		cout << "Error---shall never come here" << endl;
+		exit(1);
+		break;
+	}
+
+	return true;
 }
 
 double utility(GameState g, Weights w) {
@@ -110,7 +157,7 @@ double utility(GameState g, Weights w) {
 	int noOfMoves1 = a_star(g.graph, g.players[PlayerNum_P1]);
 	int noOfMoves2 = a_star(g.graph, g.players[PlayerNum_P2]);
 
-	int moves = noOfMoves1 - noOfMoves2;
+	int moves = noOfMoves2 - noOfMoves1;
 
 	return (w.a_0 * moves + w.a_1 * walls);
 }
@@ -196,8 +243,7 @@ void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
 
 	else {
 		GameState new_GS = genChild_gameState(gs);
-		Position new_pos = getNewPositionInDirection(
-				gs.players[gs.turn].position, direction);
+		Position new_pos = getNewPositionInDirection(old_pos, direction);
 		new_GS.players[gs.turn].position = new_pos;
 		new_GS.moveTakenToReach.moveType = MoveType_PLAYER;
 		new_GS.moveTakenToReach.position = new_pos;

@@ -66,50 +66,6 @@ bool isValidMoveForPlayer(Position old_pos, Graph graph, Direction direction) {
 	return isPlayerObstructedByWall(old_pos, graph, direction);
 }
 
-//here pos denotes the middle of the wall
-bool isValidPositionForWall(Position pos, Graph graph, WallType wallType) {
-	if (pos.row % 2 != 0 || pos.col % 2 != 0) //walls can only be at even positions
-		return false;
-
-	if (pos.row <= 1 || pos.col <= 1)
-		return false;
-
-	if (pos.row >= CURRENT_GAME_MAX_POSITION.row - 2 || pos.col
-			>= CURRENT_GAME_MAX_POSITION.col - 2) {
-		//we have subtracted 2 because the pos denotes the middle
-		return false;
-	}
-
-	if (graph.graph[pos.row][pos.col] == ObjectType_WALL_H)
-		return false;
-
-	if (graph.graph[pos.row][pos.col] == ObjectType_WALL_V)
-		return false;
-
-	switch (wallType) {
-	case WallType_H:
-		if (graph.graph[pos.row][pos.col + 2] == ObjectType_WALL_H)
-			return false;
-		if (graph.graph[pos.row][pos.col - 2] == ObjectType_WALL_H)
-			return false;
-		break;
-
-	case WallType_V:
-		if (graph.graph[pos.row + 2][pos.col] == ObjectType_WALL_V)
-			return false;
-		if (graph.graph[pos.row - 2][pos.col] == ObjectType_WALL_V)
-			return false;
-		break;
-
-	case WallType_None:
-		cout << "Error---shall never come here" << endl;
-		exit(1);
-		break;
-	}
-
-	return true;
-}
-
 bool isPosOccupiedByOtherPlayer(GameState gs, Position pos, Direction direction) {
 	ObjectType objectType_opponent;
 	Graph graph = gs.graph;
@@ -161,12 +117,12 @@ bool isGoalPosition(Player p) {
 //a_star specific
 bool nodeGoalPosition(Node n, PlayerNum p_no) {
 	if (p_no == PlayerNum_P1)
-		if (n.pos.row == 1)
+		if (n.pos.row == CURRENT_GAME_MAX_POSITION.row - 2)
 			return true;
 		else
 			return false;
 	else // player number 2
-	if (n.pos.row == CURRENT_GAME_MAX_POSITION.row - 2)
+	if (n.pos.row == 1)
 		return true;
 	else
 		return false;

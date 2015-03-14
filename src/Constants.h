@@ -38,9 +38,6 @@ enum Direction {
 	Direction_UP, Direction_DOWN, Direction_LEFT, Direction_RIGHT
 };
 
-#define MAX_ROW 9
-#define MAX_COL 9
-
 #define CUTOFF_LEVEL 2
 
 #define INFINITY_THAKKAR INT_MAX
