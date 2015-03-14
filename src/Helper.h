@@ -342,6 +342,7 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 			}
 
 			if (alpha >= beta) {
+				//cout << "-----------PRUNED MAX_NODE----------" << endl;
 				node.utilityVal = beta;
 				return node;
 			}
@@ -364,6 +365,7 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 			}
 
 			if (alpha >= beta) {
+				//cout << "-----------PRUNED MIN_NODE----------" << endl;
 				node.utilityVal = alpha;
 				return node;
 			}
