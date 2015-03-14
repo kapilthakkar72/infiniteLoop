@@ -105,7 +105,10 @@ int a_star(Graph g, Player p) {
 }
 
 //here pos denotes the middle of the wall
-bool isValidPositionForWall(Position pos, Graph graph, WallType wallType) {
+bool isValidPositionForWall(Position pos, GameState gs, WallType wallType) {
+
+	Graph graph = gs.graph;
+
 	if (pos.row % 2 != 0 || pos.col % 2 != 0) //walls can only be at even positions
 		return false;
 
@@ -118,11 +121,13 @@ bool isValidPositionForWall(Position pos, Graph graph, WallType wallType) {
 		return false;
 	}
 
-	if (graph.graph[pos.row][pos.col] == ObjectType_WALL_H)
+	if (gs.graph.graph[pos.row][pos.col] == ObjectType_WALL_H)
 		return false;
 
-	if (graph.graph[pos.row][pos.col] == ObjectType_WALL_V)
+	if (gs.graph.graph[pos.row][pos.col] == ObjectType_WALL_V)
 		return false;
+
+	Graph tempGraph = graph;
 
 	switch (wallType) {
 	case WallType_H:
@@ -130,6 +135,8 @@ bool isValidPositionForWall(Position pos, Graph graph, WallType wallType) {
 			return false;
 		if (graph.graph[pos.row][pos.col - 2] == ObjectType_WALL_H)
 			return false;
+
+		tempGraph.graph[pos.row][pos.col] = ObjectType_WALL_H;
 		break;
 
 	case WallType_V:
@@ -137,6 +144,8 @@ bool isValidPositionForWall(Position pos, Graph graph, WallType wallType) {
 			return false;
 		if (graph.graph[pos.row - 2][pos.col] == ObjectType_WALL_V)
 			return false;
+
+		tempGraph.graph[pos.row][pos.col] = ObjectType_WALL_V;
 		break;
 
 	case WallType_None:
@@ -144,6 +153,13 @@ bool isValidPositionForWall(Position pos, Graph graph, WallType wallType) {
 		exit(1);
 		break;
 	}
+
+	//placing a wall shall not block any player
+	if (a_star(tempGraph, gs.players[PlayerNum_P1]) == -1)
+		return false;
+
+	if (a_star(tempGraph, gs.players[PlayerNum_P2]) == -1)
+		return false;
 
 	return true;
 }
@@ -259,7 +275,7 @@ void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
 void helper_placeWall(GameState gs, vector<GameState> & successors,
 		WallType wallType, Position pos) {
 
-	if (!isValidPositionForWall(pos, gs.graph, wallType)) {
+	if (!isValidPositionForWall(pos, gs, wallType)) {
 		return;
 	}
 
@@ -288,7 +304,7 @@ vector<GameState> generateSuccessors(GameState gs) {
 	helper_movePlayer(gs, old_pos, Direction_LEFT, successors);
 	helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
 
-	if (gs.players[whoAmI].wallsRemaining == 0) {
+	if (gs.players[gs.turn].wallsRemaining == 0) {
 		return successors;
 	}
 
