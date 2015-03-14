@@ -84,8 +84,11 @@ int main(int argc, char *argv[]) {
 
 	timeLeft = time_left;
 
-	Wts_final.a_1 = 1.5; //TODO: may be modified later
-	Wts_final.a_0 = 1;
+	Wts_final.a_0 = 8.0; //TODO: may be modified later
+	Wts_final.a_1 = 100.0;
+
+	Wts_changing.a_0 = 5.0;
+	Wts_changing.a_1 = 1.0;
 
 	GameState curr_GS = generateStartGameState(K);
 
@@ -100,7 +103,7 @@ int main(int argc, char *argv[]) {
 	if (player == 1) {
 
 		//----Our Code Start---
-		if (isAI) {
+		if (isAI || IS_TRAINING_MODE) {
 			curr_GS = getMeMove(curr_GS);
 			Move move = curr_GS.moveToBeTaken;
 
@@ -205,7 +208,7 @@ int main(int argc, char *argv[]) {
 		string temp;
 
 		//----Our Code Start---
-		if (isAI) {
+		if (isAI || IS_TRAINING_MODE) {
 			curr_GS = getMeMove(curr_GS);
 			Move move = curr_GS.moveToBeTaken;
 

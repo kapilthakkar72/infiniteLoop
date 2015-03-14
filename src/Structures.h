@@ -63,9 +63,6 @@ struct GameState {
 	PlayerNum turn; //refers to the object of the current player
 	NodeType nodeType;
 
-	double alpha;
-	double beta;
-
 	Graph graph;
 	Move moveTakenToReach;
 	Move moveToBeTaken;

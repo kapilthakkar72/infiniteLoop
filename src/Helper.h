@@ -170,12 +170,20 @@ Utility utility(GameState g, Weights w) {
 	int p1walls = g.players[PlayerNum_P1].wallsRemaining;
 	int p2walls = g.players[PlayerNum_P2].wallsRemaining;
 
-	int walls = p1walls - p2walls;
+	int walls;
+	//if (whoAmI == PlayerNum_P1)
+	walls = p1walls - p2walls;
+	//else
+	//walls = p2walls - p1walls;
 
 	int noOfMoves1 = a_star(g.graph, g.players[PlayerNum_P1]);
 	int noOfMoves2 = a_star(g.graph, g.players[PlayerNum_P2]);
 
-	int moves = noOfMoves2 - noOfMoves1;
+	int moves;
+	//if (whoAmI == PlayerNum_P1)
+	moves = noOfMoves2 - noOfMoves1;
+	//else
+	//moves = noOfMoves1 - noOfMoves2;
 
 	utility.utilityVal = w.a_0 * moves + w.a_1 * walls;
 	utility.moves_diff = moves;
@@ -198,9 +206,6 @@ GameState genChild_gameState(GameState gs) {
 		newGS.nodeType = NodeType_MAX_NODE;
 		newGS.turn = PlayerNum_P1;
 	}
-
-	newGS.alpha = gs.alpha;
-	newGS.beta = gs.beta;
 
 	newGS.graph = gs.graph; //modified at a later stage
 
@@ -328,7 +333,7 @@ vector<GameState> generateSuccessors(GameState gs) {
 	return successors;
 }
 
-GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
+GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 
 	if (node.level == CUTOFF_LEVEL) {
 		node.utility = utility(node, w);
@@ -342,19 +347,19 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 				!= successors.end(); it++) {
 			GameState tempGS = alpha_beta(*it, alpha, beta, w);
 
-			if (alpha < tempGS.utility.utilityVal) {
-				alpha = tempGS.utility.utilityVal;
+			if (alpha.utilityVal < tempGS.utility.utilityVal) {
+				alpha = tempGS.utility;
 				node.moveToBeTaken = tempGS.moveTakenToReach;
 			}
 
-			if (alpha >= beta) {
+			if (alpha.utilityVal >= beta.utilityVal) {
 				//cout << "-----------PRUNED MAX_NODE----------" << endl;
-				node.utility.utilityVal = beta;
+				node.utility = beta;
 				return node;
 			}
 
 		}
-		node.utility.utilityVal = alpha;
+		node.utility = alpha;
 		return node;
 	}
 
@@ -365,24 +370,26 @@ GameState alpha_beta(GameState node, double alpha, double beta, Weights w) {
 				!= successors.end(); it++) {
 			GameState tempGS = alpha_beta(*it, alpha, beta, w);
 
-			if (beta > tempGS.utility.utilityVal) {
-				beta = tempGS.utility.utilityVal;
+			if (beta.utilityVal > tempGS.utility.utilityVal) {
+				beta = tempGS.utility;
 				node.moveToBeTaken = tempGS.moveTakenToReach;
 			}
 
-			if (alpha >= beta) {
+			if (alpha.utilityVal >= beta.utilityVal) {
 				//cout << "-----------PRUNED MIN_NODE----------" << endl;
-				node.utility.utilityVal = alpha;
+				node.utility = alpha;
 				return node;
 			}
 
 		}
-		node.utility.utilityVal = beta;
+		node.utility = beta;
 		return node;
 	}
 }
 
 GameState getMeMove(GameState gs) {
+	gs.turn = whoAmI;
+
 	gs.level = 0;
 
 	gs.moveTakenToReach.moveType = MoveType_NONE;
@@ -397,16 +404,57 @@ GameState getMeMove(GameState gs) {
 
 	gs.utility.utilityVal = MINUS_INFINITY_THAKKAR;
 
-	gs = alpha_beta(gs, MINUS_INFINITY_THAKKAR, INFINITY_THAKKAR, Wts_final);
+	Utility alpha;
+	alpha.utilityVal = MINUS_INFINITY_THAKKAR;
+	alpha.moves_diff = 0;
+	alpha.walls_diff = 0;
+
+	Utility beta;
+	beta.utilityVal = INFINITY_THAKKAR;
+	beta.moves_diff = 0;
+	beta.walls_diff = 0;
+
+	if (!IS_TRAINING_MODE) {
+		gs = alpha_beta(gs, alpha, beta, Wts_final);
+	}
+
+	else {
+		if (whoAmI == PlayerNum_P1) { //player1 is static (not changing wts)
+			gs = alpha_beta(gs, alpha, beta, Wts_final);
+		}
+
+		else { //player2 is dynamic (change weights)
+			Utility myUtility = utility(gs, Wts_changing);
+			gs = alpha_beta(gs, alpha, beta, Wts_changing);
+
+			int moves_diff_diff = gs.utility.moves_diff - myUtility.moves_diff;
+			int walls_diff_diff = gs.utility.walls_diff - myUtility.walls_diff;
+
+			double denominator = abs(moves_diff_diff) + abs(walls_diff_diff);
+
+			if (denominator == 0)
+				return gs;
+
+			Wts_changing.a_0 += moves_diff_diff / denominator;
+			Wts_changing.a_1 += walls_diff_diff / denominator;
+
+			cout << "wts changed --- " << endl;
+			cout << "a_0: " << Wts_changing .a_0 << endl;
+			cout << "a_1: " << Wts_changing .a_1 << endl;
+		}
+	}
+
 	return gs;
 }
 
 GameState generateStartGameState(int maxWalls) {
 	GameState startGS;
-	startGS.alpha = MINUS_INFINITY_THAKKAR;
-	startGS.beta = INFINITY_THAKKAR;
 
-	startGS.nodeType = NodeType_MAX_NODE;
+	if (whoAmI == PlayerNum_P1) {
+		startGS.nodeType = NodeType_MAX_NODE;
+	} else {
+		startGS.nodeType = NodeType_MIN_NODE;
+	}
 
 	Player p1;
 	p1.position.row = 1;
@@ -423,7 +471,7 @@ GameState generateStartGameState(int maxWalls) {
 	startGS.players[PlayerNum_P1] = p1;
 	startGS.players[PlayerNum_P2] = p2;
 
-	startGS.turn = PlayerNum_P1;
+	//startGS.turn = PlayerNum_P1;
 
 	for (int i = 0; i < CURRENT_GAME_MAX_POSITION.row; i++) {
 		for (int j = 0; j < CURRENT_GAME_MAX_POSITION.col; j++) {

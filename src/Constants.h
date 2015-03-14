@@ -38,10 +38,12 @@ enum Direction {
 	Direction_UP, Direction_DOWN, Direction_LEFT, Direction_RIGHT
 };
 
-#define CUTOFF_LEVEL 3
+#define CUTOFF_LEVEL 2
 
 #define INFINITY_THAKKAR INT_MAX
 #define MINUS_INFINITY_THAKKAR INT_MIN
+
+#define IS_TRAINING_MODE false
 
 #endif	/* CONSTANTS_H */
 
