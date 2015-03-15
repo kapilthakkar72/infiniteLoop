@@ -18,6 +18,41 @@ using namespace std;
 
 int N, M, K, time_left, player;
 
+Move AI_processing(GameState &curr_GS, int & m) {
+	curr_GS = getMeMove(curr_GS);
+	Move move = curr_GS.moveToBeTaken;
+
+	if (move.moveType == MoveType_PLAYER) {
+		m = 0;
+		curr_GS.graph.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
+				= ObjectType_EMPTY;
+		curr_GS.graph.graph[move.position.row][move.position.col]
+				= playerNum_to_ObjectType(whoAmI);
+		curr_GS.players[whoAmI].position = move.position;
+	}
+
+	else if (move.wallType == WallType_H) {
+		m = 1;
+		curr_GS.players[whoAmI].wallsRemaining -= 1;
+		curr_GS.graph.graph[move.position.row][move.position.col]
+				= ObjectType_WALL_H;
+	}
+
+	else if (move.wallType == WallType_V) {
+		m = 2;
+		curr_GS.players[whoAmI].wallsRemaining -= 1;
+		curr_GS.graph.graph[move.position.row][move.position.col]
+				= ObjectType_WALL_V;
+	}
+
+	else {
+		DO_I_HAVE_OPTION = false;
+		return AI_processing(curr_GS, m);
+	}
+
+	return move;
+}
+
 int main(int argc, char *argv[]) {
 	cout << "Starting the InfiniteLoop...." << endl;
 
@@ -76,22 +111,25 @@ int main(int argc, char *argv[]) {
 	if (player == 1) {
 		whoAmI = PlayerNum_P1;
 		opponent = PlayerNum_P2;
+		CUT_OFF = CUTOFF_LEVEL_P1;
 
 	} else {
 		whoAmI = PlayerNum_P2;
 		opponent = PlayerNum_P1;
+		CUT_OFF = CUTOFF_LEVEL_P2;
 	}
 
 	timeLeft = time_left;
 
-	Wts_final.a_0 = 8.0; //TODO: may be modified later
-	Wts_final.a_1 = 100.0;
+	Wts_final.a_0 = 1.0; //TODO: may be modified later
+	Wts_final.a_1 = 1.1;
 
-	Wts_changing.a_0 = 5.0;
-	Wts_changing.a_1 = 1.0;
+	Wts_changing.a_0 = 1.0;
+	Wts_changing.a_1 = 1.1;
 
 	GameState curr_GS = generateStartGameState(K);
 
+	DO_I_HAVE_OPTION = true;
 	//------Our Code End----
 
 	float TL;
@@ -123,7 +161,7 @@ int main(int argc, char *argv[]) {
 				m = 1;
 			}
 
-			else { //vertical wall
+			else if (move.wallType == WallType_V) {
 				curr_GS.graph.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_V;
 				curr_GS.players[whoAmI].wallsRemaining -= 1;
@@ -209,33 +247,8 @@ int main(int argc, char *argv[]) {
 
 		//----Our Code Start---
 		if (isAI || IS_TRAINING_MODE) {
-			curr_GS = getMeMove(curr_GS);
-			Move move = curr_GS.moveToBeTaken;
-
-			if (move.moveType == MoveType_PLAYER) {
-				m = 0;
-
-				curr_GS.graph.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
-						= ObjectType_EMPTY;
-				curr_GS.graph.graph[move.position.row][move.position.col]
-						= playerNum_to_ObjectType(whoAmI);
-
-				curr_GS.players[whoAmI].position = move.position;
-			}
-
-			else if (move.wallType == WallType_H) {
-				m = 1;
-				curr_GS.players[whoAmI].wallsRemaining -= 1;
-				curr_GS.graph.graph[move.position.row][move.position.col]
-						= ObjectType_WALL_H;
-			}
-
-			else { //vertical wall
-				m = 2;
-				curr_GS.players[whoAmI].wallsRemaining -= 1;
-				curr_GS.graph.graph[move.position.row][move.position.col]
-						= ObjectType_WALL_V;
-			}
+			DO_I_HAVE_OPTION = true;
+			Move move = AI_processing(curr_GS, m);
 
 			r = move.position.row / 2 + 1;
 			c = move.position.col / 2 + 1;

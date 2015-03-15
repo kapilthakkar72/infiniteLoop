@@ -189,6 +189,16 @@ Utility utility(GameState g, Weights w) {
 	utility.moves_diff = moves;
 	utility.walls_diff = walls;
 
+	if (DO_I_HAVE_OPTION) {
+		//opponent has taken a step to reach the destination
+		if (whoAmI == PlayerNum_P1 && noOfMoves2 == 0) {
+			utility.utilityVal = MINUS_INFINITY_THAKKAR;
+		}
+		if (whoAmI == PlayerNum_P2 && noOfMoves1 == 0) {
+			utility.utilityVal = INFINITY_THAKKAR;
+		}
+	}
+
 	return utility;
 }
 
@@ -303,6 +313,8 @@ void helper_placeWall(GameState gs, vector<GameState> & successors,
 	new_gs.moveTakenToReach.moveType = MoveType_PLACE_WALL;
 	new_gs.moveTakenToReach.position = pos;
 
+	new_gs.players[gs.turn].wallsRemaining -= 1;
+
 	successors.push_back(new_gs);
 }
 
@@ -335,7 +347,7 @@ vector<GameState> generateSuccessors(GameState gs) {
 
 GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 
-	if (node.level == CUTOFF_LEVEL) {
+	if (node.level == CUT_OFF) {
 		node.utility = utility(node, w);
 		return node;
 	}
@@ -414,16 +426,39 @@ GameState getMeMove(GameState gs) {
 	beta.moves_diff = 0;
 	beta.walls_diff = 0;
 
+	//I am just a step away from the destination
+	if (whoAmI == PlayerNum_P1 && gs.players[whoAmI].position.row
+			== CURRENT_GAME_MAX_POSITION.row - 4 && isValidMoveForPlayer(
+			gs.players[whoAmI].position, gs.graph, Direction_DOWN)) {
+		Move move;
+		move.moveType = MoveType_PLAYER;
+		move.position = getNewPositionInDirection(gs.players[whoAmI].position,
+				Direction_DOWN);
+		gs.moveToBeTaken = move;
+		return gs;
+	}
+
+	if (whoAmI == PlayerNum_P2 && gs.players[whoAmI].position.row == 3
+			&& isValidMoveForPlayer(gs.players[whoAmI].position, gs.graph,
+					Direction_UP)) {
+		Move move;
+		move.moveType = MoveType_PLAYER;
+		move.position = getNewPositionInDirection(gs.players[whoAmI].position,
+				Direction_UP);
+		gs.moveToBeTaken = move;
+		return gs;
+	}
+
 	if (!IS_TRAINING_MODE) {
 		gs = alpha_beta(gs, alpha, beta, Wts_final);
 	}
 
 	else {
-		if (whoAmI == PlayerNum_P1) { //player1 is static (not changing wts)
+		if (whoAmI == PlayerNum_P2) { //player2 is static (not changing wts)
 			gs = alpha_beta(gs, alpha, beta, Wts_final);
 		}
 
-		else { //player2 is dynamic (change weights)
+		else { //player1 is dynamic (change weights)
 			Utility myUtility = utility(gs, Wts_changing);
 			gs = alpha_beta(gs, alpha, beta, Wts_changing);
 
@@ -439,8 +474,8 @@ GameState getMeMove(GameState gs) {
 			Wts_changing.a_1 += walls_diff_diff / denominator;
 
 			cout << "wts changed --- " << endl;
-			cout << "a_0: " << Wts_changing .a_0 << endl;
-			cout << "a_1: " << Wts_changing .a_1 << endl;
+			cout << "a_0: " << Wts_changing.a_0 << endl;
+			cout << "a_1: " << Wts_changing.a_1 << endl;
 		}
 	}
 

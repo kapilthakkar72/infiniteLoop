@@ -18,7 +18,11 @@ Position CURRENT_GAME_MAX_POSITION; //initialized in the main
 PlayerNum whoAmI;
 PlayerNum opponent;
 
+int CUT_OFF;
+
 double timeLeft;
+
+bool DO_I_HAVE_OPTION;
 
 #endif	/* GLOBALVARIABLES_H */
 
