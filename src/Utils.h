@@ -31,7 +31,7 @@ ObjectType playerNum_to_ObjectType(PlayerNum p_num) {
 
 string getMePositionKey(Position pos) {
 	stringstream ss;
-	ss >> pos.row >> "|" >> pos.col;
+	ss << pos.row << "|" << pos.col;
 	return ss.str();
 }
 

@@ -37,7 +37,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
 		curr_GS.graph.graph[move.position.row][move.position.col]
 				= ObjectType_WALL_H;
-		//map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+		map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 	}
 
 	else if (move.wallType == WallType_V) {
@@ -45,7 +45,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
 		curr_GS.graph.graph[move.position.row][move.position.col]
 				= ObjectType_WALL_V;
-		//map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+		map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 	}
 
 	else {
