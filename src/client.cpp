@@ -130,6 +130,7 @@ int main(int argc, char *argv[]) {
 	GameState curr_GS = generateStartGameState(K);
 
 	DO_I_HAVE_OPTION = true;
+	IS_FAST_MODE = true;
 	//------Our Code End----
 
 	float TL;

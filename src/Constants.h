@@ -39,7 +39,7 @@ enum Direction {
 };
 
 #define CUTOFF_LEVEL_P1 2
-#define CUTOFF_LEVEL_P2 1
+#define CUTOFF_LEVEL_P2 3
 
 #define INFINITY_THAKKAR INT_MAX
 #define MINUS_INFINITY_THAKKAR INT_MIN

@@ -105,47 +105,57 @@ int a_star(Graph g, Player p) {
 }
 
 //here pos denotes the middle of the wall
-bool isValidPositionForWall(Position pos, GameState gs, WallType wallType) {
+bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) {
 
 	Graph graph = gs.graph;
 
-	if (pos.row % 2 != 0 || pos.col % 2 != 0) //walls can only be at even positions
+	if (wall_pos.row % 2 != 0 || wall_pos.col % 2 != 0) //walls can only be at even positions
 		return false;
 
-	if (pos.row <= 1 || pos.col <= 1)
+	if (IS_FAST_MODE) {
+		Position opp_pos = whereIsMyOpponent(gs);
+
+		if (abs(wall_pos.row - opp_pos.row) > 1)
+			return false;
+
+		if (abs(wall_pos.col - opp_pos.col) > 1)
+			return false;
+	}
+
+	if (wall_pos.row <= 1 || wall_pos.col <= 1)
 		return false;
 
-	if (pos.row >= CURRENT_GAME_MAX_POSITION.row - 2 || pos.col
+	if (wall_pos.row >= CURRENT_GAME_MAX_POSITION.row - 2 || wall_pos.col
 			>= CURRENT_GAME_MAX_POSITION.col - 2) {
 		//we have subtracted 2 because the pos denotes the middle
 		return false;
 	}
 
-	if (gs.graph.graph[pos.row][pos.col] == ObjectType_WALL_H)
+	if (gs.graph.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_H)
 		return false;
 
-	if (gs.graph.graph[pos.row][pos.col] == ObjectType_WALL_V)
+	if (gs.graph.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_V)
 		return false;
 
 	Graph tempGraph = graph;
 
 	switch (wallType) {
 	case WallType_H:
-		if (graph.graph[pos.row][pos.col + 2] == ObjectType_WALL_H)
+		if (graph.graph[wall_pos.row][wall_pos.col + 2] == ObjectType_WALL_H)
 			return false;
-		if (graph.graph[pos.row][pos.col - 2] == ObjectType_WALL_H)
+		if (graph.graph[wall_pos.row][wall_pos.col - 2] == ObjectType_WALL_H)
 			return false;
 
-		tempGraph.graph[pos.row][pos.col] = ObjectType_WALL_H;
+		tempGraph.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_H;
 		break;
 
 	case WallType_V:
-		if (graph.graph[pos.row + 2][pos.col] == ObjectType_WALL_V)
+		if (graph.graph[wall_pos.row + 2][wall_pos.col] == ObjectType_WALL_V)
 			return false;
-		if (graph.graph[pos.row - 2][pos.col] == ObjectType_WALL_V)
+		if (graph.graph[wall_pos.row - 2][wall_pos.col] == ObjectType_WALL_V)
 			return false;
 
-		tempGraph.graph[pos.row][pos.col] = ObjectType_WALL_V;
+		tempGraph.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_V;
 		break;
 
 	case WallType_None:
@@ -294,24 +304,24 @@ void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
 }
 
 void helper_placeWall(GameState gs, vector<GameState> & successors,
-		WallType wallType, Position pos) {
+		WallType wallType, Position wall_pos) {
 
-	if (!isValidPositionForWall(pos, gs, wallType)) {
+	if (!isValidPositionForWall(wall_pos, gs, wallType)) {
 		return;
 	}
 
 	GameState new_gs = genChild_gameState(gs);
 
 	if (wallType == WallType_H) {
-		new_gs.graph.graph[pos.row][pos.col] = ObjectType_WALL_H;
+		new_gs.graph.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_H;
 		new_gs.moveTakenToReach.wallType = WallType_H;
 	} else {
-		new_gs.graph.graph[pos.row][pos.col] = ObjectType_WALL_V;
+		new_gs.graph.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_V;
 		new_gs.moveTakenToReach.wallType = WallType_V;
 	}
 
 	new_gs.moveTakenToReach.moveType = MoveType_PLACE_WALL;
-	new_gs.moveTakenToReach.position = pos;
+	new_gs.moveTakenToReach.position = wall_pos;
 
 	new_gs.players[gs.turn].wallsRemaining -= 1;
 

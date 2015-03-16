@@ -24,5 +24,7 @@ double timeLeft;
 
 bool DO_I_HAVE_OPTION;
 
+bool IS_FAST_MODE;
+
 #endif	/* GLOBALVARIABLES_H */
 

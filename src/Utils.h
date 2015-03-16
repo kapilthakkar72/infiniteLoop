@@ -28,6 +28,19 @@ ObjectType playerNum_to_ObjectType(PlayerNum p_num) {
 	}
 }
 
+Position whereIsMyOpponent(GameState gs) {
+
+	PlayerNum opponent;
+
+	if (gs.turn == PlayerNum_P1)
+		opponent = PlayerNum_P2;
+
+	else
+		opponent = PlayerNum_P1;
+
+	return gs.players[opponent].position;
+}
+
 Position getNewPositionInDirection(Position pos, Direction direction) {
 	Position new_pos;
 
