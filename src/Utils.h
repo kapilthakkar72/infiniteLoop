@@ -9,6 +9,7 @@
 #define	UTILS_H
 
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -26,6 +27,12 @@ ObjectType playerNum_to_ObjectType(PlayerNum p_num) {
 		exit(1);
 		break;
 	}
+}
+
+string getMePositionKey(Position pos) {
+	stringstream ss;
+	ss >> pos.row >> "|" >> pos.col;
+	return ss.str();
 }
 
 Position whereIsMyOpponent(GameState gs) {

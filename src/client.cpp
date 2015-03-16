@@ -17,6 +17,7 @@
 using namespace std;
 
 int N, M, K, time_left, player;
+map<string, int> map_to_check_oscillations;
 
 Move AI_processing(GameState &curr_GS, int & m) {
 	curr_GS = getMeMove(curr_GS);
@@ -36,6 +37,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
 		curr_GS.graph.graph[move.position.row][move.position.col]
 				= ObjectType_WALL_H;
+		//map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 	}
 
 	else if (move.wallType == WallType_V) {
@@ -43,6 +45,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
 		curr_GS.graph.graph[move.position.row][move.position.col]
 				= ObjectType_WALL_V;
+		//map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 	}
 
 	else {
@@ -51,6 +54,28 @@ Move AI_processing(GameState &curr_GS, int & m) {
 	}
 
 	return move;
+}
+
+bool checkIsOscillating(Move move) {
+	//logic to avoid oscillations--start
+	string pos_key = getMePositionKey(move.position);
+
+	map<string, int>::iterator it = map_to_check_oscillations.find(pos_key);
+	if (it != map_to_check_oscillations.end()) {
+		//element found;
+		if (it->second == 1) {
+			//we are reaching to a position for the second time & map has not changed
+			map_to_check_oscillations.clear();
+			oscillating_position_not_take = move.position;
+			return true;
+		}
+	}
+
+	else { //position not found in the map
+		map_to_check_oscillations[pos_key] = 1;
+	}
+
+	return false;
 }
 
 int main(int argc, char *argv[]) {
@@ -226,11 +251,13 @@ int main(int argc, char *argv[]) {
 		else if (om == 1) {
 			curr_GS.graph.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_H;
 			curr_GS.players[opponent].wallsRemaining -= 1;
+			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
 		}
 
 		else {
 			curr_GS.graph.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_V;
 			curr_GS.players[opponent].wallsRemaining -= 1;
+			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
 		}
 
 		//---Our Code End---
@@ -248,11 +275,28 @@ int main(int argc, char *argv[]) {
 
 		//----Our Code Start---
 		if (isAI || IS_TRAINING_MODE) {
-			DO_I_HAVE_OPTION = true;
-			Move move = AI_processing(curr_GS, m);
+			bool have_I_got_a_valid_move = false;
 
-			r = move.position.row / 2 + 1;
-			c = move.position.col / 2 + 1;
+			DO_I_HAVE_OPTION = true;
+
+			Move move;
+			while (!have_I_got_a_valid_move) {
+				have_I_got_a_valid_move = true;
+
+				move = AI_processing(curr_GS, m);
+
+				if (checkIsOscillating(move)) {
+					have_I_got_a_valid_move = false;
+					continue;
+				}
+
+				r = move.position.row / 2 + 1;
+				c = move.position.col / 2 + 1;
+			}
+
+			//resetting the oscillating position
+			oscillating_position_not_take.row = 0;
+			oscillating_position_not_take.col = 0;
 
 			cout << "sending move: " << m << ": " << move.position.row << ","
 					<< move.position.col << endl;

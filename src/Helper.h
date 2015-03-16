@@ -40,9 +40,9 @@ int getHeuristicValue(PlayerNum playerNumber, Position currentPos) {
 
 void helper_a_star(Node & currentNode, Graph & g, Player & p,
 		priority_queue<Node, vector<Node> , CompareNodes> & openList,
-		Direction direction) {
+		Direction direction, PlayerNum turn) {
 
-	if (!isValidMoveForPlayer(currentNode.pos, g, direction)) {
+	if (!isValidMoveForPlayer(currentNode.pos, g, turn, direction)) {
 		return;
 	}
 
@@ -56,7 +56,7 @@ void helper_a_star(Node & currentNode, Graph & g, Player & p,
 }
 
 //returns the path cost (number of steps)
-int a_star(Graph g, Player p) {
+int a_star(Graph g, Player p, PlayerNum turn) {
 
 	priority_queue<Node, vector<Node> , CompareNodes> openList;
 
@@ -90,10 +90,10 @@ int a_star(Graph g, Player p) {
 		// put currentNode in the closed list
 		closeList.push_back(currentNode);
 
-		helper_a_star(currentNode, g, p, openList, Direction_UP);
-		helper_a_star(currentNode, g, p, openList, Direction_DOWN);
-		helper_a_star(currentNode, g, p, openList, Direction_LEFT);
-		helper_a_star(currentNode, g, p, openList, Direction_RIGHT);
+		helper_a_star(currentNode, g, p, openList, Direction_UP, turn);
+		helper_a_star(currentNode, g, p, openList, Direction_DOWN, turn);
+		helper_a_star(currentNode, g, p, openList, Direction_LEFT, turn);
+		helper_a_star(currentNode, g, p, openList, Direction_RIGHT, turn);
 	}
 
 	if (!nodeGoalPosition(currentNode, p.playerNumber)) {
@@ -165,10 +165,10 @@ bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) 
 	}
 
 	//placing a wall shall not block any player
-	if (a_star(tempGraph, gs.players[PlayerNum_P1]) == -1)
+	if (a_star(tempGraph, gs.players[PlayerNum_P1], gs.turn) == -1)
 		return false;
 
-	if (a_star(tempGraph, gs.players[PlayerNum_P2]) == -1)
+	if (a_star(tempGraph, gs.players[PlayerNum_P2], gs.turn) == -1)
 		return false;
 
 	return true;
@@ -186,8 +186,8 @@ Utility utility(GameState g, Weights w) {
 	//else
 	//walls = p2walls - p1walls;
 
-	int noOfMoves1 = a_star(g.graph, g.players[PlayerNum_P1]);
-	int noOfMoves2 = a_star(g.graph, g.players[PlayerNum_P2]);
+	int noOfMoves1 = a_star(g.graph, g.players[PlayerNum_P1], g.turn);
+	int noOfMoves2 = a_star(g.graph, g.players[PlayerNum_P2], g.turn);
 
 	int moves;
 	//if (whoAmI == PlayerNum_P1)
@@ -258,7 +258,7 @@ void playerBehindHandler(GameState gs, Position old_pos, Direction direction,
 		break;
 	}
 
-	if (isValidMoveForPlayer(tmp_pos, gs.graph, direction)) {
+	if (isValidMoveForPlayer(tmp_pos, gs.graph, gs.turn, direction)) {
 		//Move to place behind the opponent
 		helper_movePlayer(gs, tmp_pos, direction, successors);
 		return; //return since no sideways checking here
@@ -279,7 +279,7 @@ void playerBehindHandler(GameState gs, Position old_pos, Direction direction,
 void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
 		vector<GameState> & successors) {
 
-	if (!isValidMoveForPlayer(old_pos, gs.graph, direction)) {
+	if (!isValidMoveForPlayer(old_pos, gs.graph, gs.turn, direction)) {
 		return;
 	}
 
@@ -439,7 +439,7 @@ GameState getMeMove(GameState gs) {
 	//I am just a step away from the destination
 	if (whoAmI == PlayerNum_P1 && gs.players[whoAmI].position.row
 			== CURRENT_GAME_MAX_POSITION.row - 4 && isValidMoveForPlayer(
-			gs.players[whoAmI].position, gs.graph, Direction_DOWN)) {
+			gs.players[whoAmI].position, gs.graph, gs.turn, Direction_DOWN)) {
 		Move move;
 		move.moveType = MoveType_PLAYER;
 		move.position = getNewPositionInDirection(gs.players[whoAmI].position,
@@ -450,7 +450,7 @@ GameState getMeMove(GameState gs) {
 
 	if (whoAmI == PlayerNum_P2 && gs.players[whoAmI].position.row == 3
 			&& isValidMoveForPlayer(gs.players[whoAmI].position, gs.graph,
-					Direction_UP)) {
+					gs.turn, Direction_UP)) {
 		Move move;
 		move.moveType = MoveType_PLAYER;
 		move.position = getNewPositionInDirection(gs.players[whoAmI].position,

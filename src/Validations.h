@@ -48,7 +48,22 @@ bool isPlayerObstructedByWall(Position old_pos, Graph graph,
 
 }
 
-bool isValidMoveForPlayer(Position old_pos, Graph graph, Direction direction) {
+bool isOscillatingPosition(Position new_pos, PlayerNum turn) {
+
+	if (turn != whoAmI)
+		return false;
+
+	if (new_pos.row != oscillating_position_not_take.row)
+		return false;
+
+	if (new_pos.col != oscillating_position_not_take.col)
+		return false;
+
+	return true;
+}
+
+bool isValidMoveForPlayer(Position old_pos, Graph graph, PlayerNum turn,
+		Direction direction) {
 
 	Position new_pos = getNewPositionInDirection(old_pos, direction);
 
@@ -60,6 +75,10 @@ bool isValidMoveForPlayer(Position old_pos, Graph graph, Direction direction) {
 
 	if (new_pos.row >= CURRENT_GAME_MAX_POSITION.row || new_pos.col
 			>= CURRENT_GAME_MAX_POSITION.col) {
+		return false;
+	}
+
+	if (isOscillatingPosition(new_pos, turn)) {
 		return false;
 	}
 

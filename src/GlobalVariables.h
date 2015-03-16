@@ -26,5 +26,7 @@ bool DO_I_HAVE_OPTION;
 
 bool IS_FAST_MODE;
 
+Position oscillating_position_not_take;
+
 #endif	/* GLOBALVARIABLES_H */
 
