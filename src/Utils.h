@@ -13,6 +13,39 @@
 
 using namespace std;
 
+bool haveThePlayerWon(GameState gs, Position old_pos, PlayerNum playerNum) {
+	if (playerNum == PlayerNum_P1 && old_pos.row
+			== CURRENT_GAME_MAX_POSITION.row - 2) {
+		//p1 has won
+		return true;
+	}
+
+	else if (playerNum == PlayerNum_P2 && old_pos.row == 1) {
+		//p2 has won
+		return true;
+	}
+
+	return false;
+}
+
+bool haveIWon(GameState gs) {
+	Position my_pos = gs.players[whoAmI].position;
+	return haveThePlayerWon(gs, my_pos, whoAmI);
+}
+
+bool haveTheOpponentWon(GameState gs) {
+	Position opp_pos = gs.players[opponent].position;
+
+	bool have_opponent_won = haveThePlayerWon(gs, opp_pos, opponent);
+
+	if (have_opponent_won) {
+		//My opponent has no existence for me now
+		gs.graphStruct.graph[opp_pos.row][opp_pos.col] = ObjectType_EMPTY;
+	}
+
+	return have_opponent_won;
+}
+
 ObjectType playerNum_to_ObjectType(PlayerNum p_num) {
 
 	switch (p_num) {

@@ -45,6 +45,14 @@ enum Direction {
 #define MINUS_INFINITY_THAKKAR INT_MIN
 
 #define IS_TRAINING_MODE false
+#define MAX_TIMES_OSCILLATING 3
+#define IS_FAST_MODE_DEFAULT true
+
+#define WTS_FINAL_A0 1.0
+#define WTS_FINAL_A1 1.1
+
+#define WTS_CHANGING_A0 1.0
+#define WTS_CHANGING_A1 1.1
 
 #endif	/* CONSTANTS_H */
 

@@ -13,18 +13,13 @@ import select
 
 # TODO - print graph
 socket_list = [] #Accepting incoming connections
-WON1=0
-WON2=0
-winners=0
-el=1 
+
 class TkBoard():
     # CONSTANTS
-    
     SQUARE_SIZE = 50
     PLAYER_SIZE = SQUARE_SIZE * 0.8
     SQUARE_SPACING = 10
     MARGIN = 20
-    is_redo_m=False
     PANEL_WIDTH = 200
     ICON_MARGIN = 55
     BUTTON_Y_START = 125
@@ -120,14 +115,10 @@ class TkBoard():
         self.gs = self.game_stack.current
 	
     def background_loop(self):
-	global WON1
-	global WON2
-	global winners
-	global el 
 	turn = 0
-	timeout=1200.0
-	trackTime1=1200.0
-	trackTime2=1200.0	
+	timeout=60.0
+	trackTime1=60.0
+	trackTime2=60.0	
 	global message
 	global message2
 	for player in socket_list:
@@ -143,36 +134,18 @@ class TkBoard():
 				trackTime1=trackTime1-(end-start)
 				print trackTime1
 				msg=map(int,message.split(' '))
-				if WON1==1:
-					if msg[1]==0 or (msg[2]==0 and msg[0]==0):
-						socket_list[0].send(message2+" 31")
-						socket_list[1].send("0 0 0 31")
-						print "Player 1 passes. SUCCESS"
-						turn =1
-						success=self.handle_click(msg[0],msg[1],msg[2])
-						continue
 				message2=str(trackTime1)
 				if trackTime1<0:
 					raise socket.timeout
 			except socket.timeout:
-				if WON1==1:
-					print "Timed out"	
-					socket_list[0].send(message2+" 1")
-					socket_list[1].send(message+" 2")
-					print "Player 1 timed out, But player 1 wins"	
-					socket_list[0].close()
-					socket_list[1].close()
-					sys.exit(0)	
-					break	
-				else:	
-					print "Timed out"	
-					socket_list[0].send(message2+" 2")
-					socket_list[1].send(message+" 1")
-					print "Player 1 timed out, Player 2 wins"	
-					socket_list[0].close()
-					socket_list[1].close()
-					sys.exit(0)	
-					break			
+				print "Timed out"	
+				socket_list[0].send(message2+" 2")
+				socket_list[1].send(message+" 1")
+				print "Player 1 timed out, Player 2 wins"	
+				socket_list[0].close()
+				socket_list[1].close()
+				sys.exit(0)	
+				break			
 				
 		else:
 			try:
@@ -182,53 +155,27 @@ class TkBoard():
 				trackTime2=trackTime2-(end-start)
 				print trackTime2
 				msg=map(int,message.split(' '))
-				if WON2==1:
-					if msg[1]==0 or (msg[2]==0 and msg[0]==0):
-						socket_list[1].send(message2+" 32")
-						socket_list[0].send("0 0 0 32")
-						print "Player 2 passes. SUCCESS"
-						turn =0
-						success=self.handle_click(msg[0],msg[1],msg[2])
-						continue
 				message2=str(trackTime2)
 				if trackTime2<0:
 					raise socket.timeout
 			except socket.timeout:
-				if WON2:
-					print "Timed out"	
-					socket_list[1].send(message2+" 1")
-					socket_list[0].send(message+" 2")
-					print "Player 2 timed out, but Player 2 wins"	
-					socket_list[0].close()
-					socket_list[1].close()
-					sys.exit(0)	
-					break
-				else:
-					print "Timed out"	
-					socket_list[1].send(message2+" 2")
-					socket_list[0].send(message+" 1")
-					print "Player 2 timed out, Player 1 wins"	
-					socket_list[0].close()
-					socket_list[1].close()
-					sys.exit(0)	
-					break
+				print "Timed out"	
+				socket_list[1].send(message2+" 2")
+				socket_list[0].send(message+" 1")
+				print "Player 2 timed out, Player 1 wins"	
+				socket_list[0].close()
+				socket_list[1].close()
+				sys.exit(0)	
+				break
 				
 
 		success=self.handle_click(msg[0],msg[1],msg[2])
 		if success==0: 
-			if turn==0 and WON1==1:
-				socket_list[0].send(message2+" 1")
-				socket_list[1].send(message+" 2")
-				print "Player 1 made invalid move, But, Player 1 wins"
-			elif turn==0 and WON1==0:
+			if turn==0:
 				socket_list[0].send(message2+" 2")
 				socket_list[1].send(message+" 1")
 				print "Player 1 made invalid move, Player 2 wins"
-			elif turn==1 and WON2==1:
-				socket_list[1].send(message2+" 1")
-				socket_list[0].send(message+" 2")
-				print "Player 2 made invalid move, But, Player 2 wins"
-			elif turn==1 and WON2==0:
+			if turn==1:
 				socket_list[1].send(message2+" 2")
 				socket_list[0].send(message+" 1")
 				print "Player 2 made invalid move, Player 1 wins"
@@ -237,24 +184,14 @@ class TkBoard():
 			sys.exit(0)
 			break
 		if success==2: 
-			if WON1==1:
-				if turn==0:
-					socket_list[0].send(message2+" 1")
-					socket_list[1].send(message+" 2")
-					print "Player 1 wins"
-				if turn==1:
-					socket_list[0].send(message+" 1")
-					socket_list[1].send(message2+" 2")
-					print "Player 1 wins"
-			if WON2==1:
-				if turn==1:
-					socket_list[1].send(message2+" 1")
-					socket_list[0].send(message+" 2")
-					print "Player 2 wins"
-				if turn==0:
-					socket_list[1].send(message+" 1")
-					socket_list[0].send(message2+" 2")
-					print "Player 2 wins"
+			if turn==0:
+				socket_list[0].send(message2+" 1")
+				socket_list[1].send(message+" 2")
+				print "Player 1 wins"
+			if turn==1:
+				socket_list[1].send(message2+" 1")
+				socket_list[0].send(message+" 2")
+				print "Player 2 wins"
 			socket_list[0].close()
 			socket_list[1].close()
 			sys.exit(0)
@@ -266,20 +203,6 @@ class TkBoard():
 			if turn == 1:
 				socket_list[1].send(message2+" 3")
 				socket_list[0].send(message+" 3")
-		if success==31:
-			if turn==0 :
-				socket_list[0].send(message2+" 31")
-				socket_list[1].send(message+" 31")
-			if turn == 1:
-				socket_list[1].send(message2+" 31")
-				socket_list[0].send(message+" 31")
-		if success==32:
-			if turn==0 :
-				socket_list[0].send(message2+" 32")
-				socket_list[1].send(message+" 32")
-			if turn == 1:
-				socket_list[1].send(message2+" 32")
-				socket_list[0].send(message+" 32")
 		print "here: ",success
             	if self.thread_kill:
                 	break
@@ -451,7 +374,7 @@ class TkBoard():
     def handle_click(self,m,xi,yi):
 	x=10
 	y=20
-        print self.gs.current_player.position[0]
+       
         for b in self.buttons:
             (x0, y0, x1, y1), callback = b
             if (x0 <= x <= x1) and (y0 <= y <= y1):
@@ -462,16 +385,8 @@ class TkBoard():
             return
         print self.moveType    
         # check for turn execution
-	global is_redo_m
-	is_redo_m=False
-        if WON1==1 and self.gs.current_player_num==1 and m==0:
-		grid=self.gs.current_player.position
-		is_redo_m=True
-	elif WON2==1 and self.gs.current_player_num==2 and m==0:
-		grid=self.gs.current_player.position
-		is_redo_m=True
-	else:
-		grid=(xi,yi)
+        
+	grid=(xi,yi)
 	if m == 1 :
 		self.moveType="wall"
 	elif m == 2 :
@@ -537,54 +452,23 @@ class TkBoard():
             self.wall_on(self.active_wall, active_error)
 
     def exec_wrapper(self, turn_str, from_ai=False):
-	global WON1
-	global WON2
-	global winners
-	global el
-	global is_redo_m
         is_ai = self.gs.current_player.ai is not None
         if from_ai != is_ai:
             return 0
         print "EXECUTING %s TURN" % ("AI" if is_ai else "HUMAN")
-	success = self.game_stack.execute_turn(turn_str,is_redo_m)
-	print success
-	is_redo_m=False
+        success = self.game_stack.execute_turn(turn_str)
         self.update_gs()
         if success == 1:
-	        if WON1==1:
-		    print "\tSUCCESS_1"
-		    self.moveType = "move"
-		    self.refresh(False)
-		    return 31
-	        if WON2==1:
-		    print "\tSUCCESS_2"
-		    self.moveType = "move"
-		    self.refresh(False)
-		    return 32
-		print "\tSUCCESS"
-		self.moveType = "move"
-		self.refresh(False)
-		if WON1==1:
-			return 31
-		if WON2==1:
-			return 32
-		return 1
+            print "\tSUCCESS"
+            self.moveType = "move"
+            self.refresh(False)
+            return 1
         elif success == 2:
             # winner!
             print "Winner!!"
-            winners=winners+1
             print "Player", self.gs.current_player_num
-            if winners==1:
-		el=0
-                if self.gs.current_player_num==2:
-			WON1=1
-			return 31
-		else:
-			WON2=1
-			return 32
-	    if winners==2:
-            	self.game_over = True
-            	return 2
+            self.game_over = True
+            return 2
         print "\tFAILED"
         return 0
 
@@ -773,8 +657,8 @@ if __name__ == "__main__":
             break
 	# 1st client will be in socket_list[0] and 2nd will be socket_list[1]
 
-    socket_list[0].send('1 9 9 10 1200')
-    socket_list[1].send('2 9 9 10 1200')
+    socket_list[0].send('1 9 9 10 60')
+    socket_list[1].send('2 9 9 10 60')
     tkb = TkBoard(n, ai)
     
     

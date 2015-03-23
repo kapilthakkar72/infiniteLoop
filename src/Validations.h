@@ -87,7 +87,7 @@ bool isValidMoveForPlayer(Position old_pos, Graph graph, PlayerNum turn,
 
 bool isPosOccupiedByOtherPlayer(GameState gs, Position pos, Direction direction) {
 	ObjectType objectType_opponent;
-	Graph graph = gs.graph;
+	Graph graph = gs.graphStruct;
 
 	if (gs.turn == PlayerNum_P1) {
 		objectType_opponent = ObjectType_PLAYER2;

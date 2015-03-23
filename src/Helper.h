@@ -107,7 +107,7 @@ int a_star(Graph g, Player p, PlayerNum turn) {
 //here pos denotes the middle of the wall
 bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) {
 
-	Graph graph = gs.graph;
+	Graph graph = gs.graphStruct;
 
 	if (wall_pos.row % 2 != 0 || wall_pos.col % 2 != 0) //walls can only be at even positions
 		return false;
@@ -131,10 +131,10 @@ bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) 
 		return false;
 	}
 
-	if (gs.graph.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_H)
+	if (gs.graphStruct.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_H)
 		return false;
 
-	if (gs.graph.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_V)
+	if (gs.graphStruct.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_V)
 		return false;
 
 	Graph tempGraph = graph;
@@ -186,8 +186,26 @@ Utility utility(GameState g, Weights w) {
 	//else
 	//walls = p2walls - p1walls;
 
-	int noOfMoves1 = a_star(g.graph, g.players[PlayerNum_P1], g.turn);
-	int noOfMoves2 = a_star(g.graph, g.players[PlayerNum_P2], g.turn);
+	//int noOfMoves1 = -1;
+	//int noOfMoves2 = -1;
+
+	/*if (whoAmI == PlayerNum_P1 && HAVE_OPPONENT_WON)
+	 noOfMoves2 = 0;
+
+	 if (whoAmI == PlayerNum_P1 && HAVE_I_WON)
+	 noOfMoves1 = 0;
+
+	 if (whoAmI == PlayerNum_P2 && HAVE_OPPONENT_WON)
+	 noOfMoves1 = 0;
+
+	 if (whoAmI == PlayerNum_P2 && HAVE_I_WON)
+	 noOfMoves2 = 0;*/
+
+	//if (noOfMoves1 != -1)
+	int noOfMoves1 = a_star(g.graphStruct, g.players[PlayerNum_P1], g.turn);
+
+	//if (noOfMoves2 != -1)
+	int noOfMoves2 = a_star(g.graphStruct, g.players[PlayerNum_P2], g.turn);
 
 	int moves;
 	//if (whoAmI == PlayerNum_P1)
@@ -195,15 +213,22 @@ Utility utility(GameState g, Weights w) {
 	//else
 	//moves = noOfMoves1 - noOfMoves2;
 
+	//utility.utilityVal = w.a_0 * moves + w.a_1 * walls;
+
 	utility.utilityVal = w.a_0 * moves + w.a_1 * walls;
+
+	//if (!HAVE_OPPONENT_WON)
+	//utility.utilityVal += w.a_1 * walls; //TODO: may be -- think later if req
+
 	utility.moves_diff = moves;
 	utility.walls_diff = walls;
 
-	if (DO_I_HAVE_OPTION) {
-		//opponent has taken a step to reach the destination
+	if (DO_I_HAVE_OPTION && !HAVE_OPPONENT_WON) {
+
 		if (whoAmI == PlayerNum_P1 && noOfMoves2 == 0) {
 			utility.utilityVal = MINUS_INFINITY_THAKKAR;
 		}
+
 		if (whoAmI == PlayerNum_P2 && noOfMoves1 == 0) {
 			utility.utilityVal = INFINITY_THAKKAR;
 		}
@@ -227,7 +252,7 @@ GameState genChild_gameState(GameState gs) {
 		newGS.turn = PlayerNum_P1;
 	}
 
-	newGS.graph = gs.graph; //modified at a later stage
+	newGS.graphStruct = gs.graphStruct; //modified at a later stage
 
 	newGS.level = gs.level + 1;
 	return newGS;
@@ -258,7 +283,7 @@ void playerBehindHandler(GameState gs, Position old_pos, Direction direction,
 		break;
 	}
 
-	if (isValidMoveForPlayer(tmp_pos, gs.graph, gs.turn, direction)) {
+	if (isValidMoveForPlayer(tmp_pos, gs.graphStruct, gs.turn, direction)) {
 		//Move to place behind the opponent
 		helper_movePlayer(gs, tmp_pos, direction, successors);
 		return; //return since no sideways checking here
@@ -279,7 +304,7 @@ void playerBehindHandler(GameState gs, Position old_pos, Direction direction,
 void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
 		vector<GameState> & successors) {
 
-	if (!isValidMoveForPlayer(old_pos, gs.graph, gs.turn, direction)) {
+	if (!isValidMoveForPlayer(old_pos, gs.graphStruct, gs.turn, direction)) {
 		return;
 	}
 
@@ -294,9 +319,9 @@ void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
 		new_GS.players[gs.turn].position = new_pos;
 		new_GS.moveTakenToReach.moveType = MoveType_PLAYER;
 		new_GS.moveTakenToReach.position = new_pos;
-		new_GS.graph.graph[new_pos.row][new_pos.col] = playerNum_to_ObjectType(
+		new_GS.graphStruct.graph[new_pos.row][new_pos.col] = playerNum_to_ObjectType(
 				gs.turn); //new position of player
-		new_GS.graph.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col]
+		new_GS.graphStruct.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col]
 				= ObjectType_EMPTY; //the previous position is of-course empty
 
 		successors.push_back(new_GS);
@@ -313,10 +338,10 @@ void helper_placeWall(GameState gs, vector<GameState> & successors,
 	GameState new_gs = genChild_gameState(gs);
 
 	if (wallType == WallType_H) {
-		new_gs.graph.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_H;
+		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_H;
 		new_gs.moveTakenToReach.wallType = WallType_H;
 	} else {
-		new_gs.graph.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_V;
+		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_V;
 		new_gs.moveTakenToReach.wallType = WallType_V;
 	}
 
@@ -332,10 +357,15 @@ vector<GameState> generateSuccessors(GameState gs) {
 	vector<GameState> successors;
 
 	Position old_pos = gs.players[gs.turn].position;
-	helper_movePlayer(gs, old_pos, Direction_UP, successors);
-	helper_movePlayer(gs, old_pos, Direction_DOWN, successors);
-	helper_movePlayer(gs, old_pos, Direction_LEFT, successors);
-	helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
+
+	bool haveCurrentTurnWon = haveThePlayerWon(gs, old_pos, gs.turn);
+
+	if (!haveCurrentTurnWon) {
+		helper_movePlayer(gs, old_pos, Direction_UP, successors);
+		helper_movePlayer(gs, old_pos, Direction_DOWN, successors);
+		helper_movePlayer(gs, old_pos, Direction_LEFT, successors);
+		helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
+	}
 
 	if (gs.players[gs.turn].wallsRemaining == 0) {
 		return successors;
@@ -439,7 +469,7 @@ GameState getMeMove(GameState gs) {
 	//I am just a step away from the destination
 	if (whoAmI == PlayerNum_P1 && gs.players[whoAmI].position.row
 			== CURRENT_GAME_MAX_POSITION.row - 4 && isValidMoveForPlayer(
-			gs.players[whoAmI].position, gs.graph, gs.turn, Direction_DOWN)) {
+			gs.players[whoAmI].position, gs.graphStruct, gs.turn, Direction_DOWN)) {
 		Move move;
 		move.moveType = MoveType_PLAYER;
 		move.position = getNewPositionInDirection(gs.players[whoAmI].position,
@@ -449,7 +479,7 @@ GameState getMeMove(GameState gs) {
 	}
 
 	if (whoAmI == PlayerNum_P2 && gs.players[whoAmI].position.row == 3
-			&& isValidMoveForPlayer(gs.players[whoAmI].position, gs.graph,
+			&& isValidMoveForPlayer(gs.players[whoAmI].position, gs.graphStruct,
 					gs.turn, Direction_UP)) {
 		Move move;
 		move.moveType = MoveType_PLAYER;
@@ -497,8 +527,10 @@ GameState generateStartGameState(int maxWalls) {
 
 	if (whoAmI == PlayerNum_P1) {
 		startGS.nodeType = NodeType_MAX_NODE;
+		startGS.turn = PlayerNum_P1;
 	} else {
 		startGS.nodeType = NodeType_MIN_NODE;
+		startGS.turn = PlayerNum_P2;
 	}
 
 	Player p1;
@@ -516,16 +548,14 @@ GameState generateStartGameState(int maxWalls) {
 	startGS.players[PlayerNum_P1] = p1;
 	startGS.players[PlayerNum_P2] = p2;
 
-	//startGS.turn = PlayerNum_P1;
-
 	for (int i = 0; i < CURRENT_GAME_MAX_POSITION.row; i++) {
 		for (int j = 0; j < CURRENT_GAME_MAX_POSITION.col; j++) {
-			startGS.graph.graph[i][j] = ObjectType_EMPTY;
+			startGS.graphStruct.graph[i][j] = ObjectType_EMPTY;
 		}
 	}
 
-	startGS.graph.graph[p1.position.row][p1.position.col] = ObjectType_PLAYER1;
-	startGS.graph.graph[p2.position.row][p2.position.col] = ObjectType_PLAYER2;
+	startGS.graphStruct.graph[p1.position.row][p1.position.col] = ObjectType_PLAYER1;
+	startGS.graphStruct.graph[p2.position.row][p2.position.col] = ObjectType_PLAYER2;
 
 	return startGS;
 }

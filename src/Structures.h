@@ -45,6 +45,7 @@ struct Move {
 	MoveType moveType;
 	Position position;
 	WallType wallType; //makes sense only if the movetype is placing wall
+	bool isValid;
 };
 
 struct Graph {
@@ -63,7 +64,7 @@ struct GameState {
 	PlayerNum turn; //refers to the object of the current player
 	NodeType nodeType;
 
-	Graph graph;
+	Graph graphStruct;
 	Move moveTakenToReach;
 	Move moveToBeTaken;
 

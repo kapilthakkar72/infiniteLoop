@@ -19,15 +19,59 @@ using namespace std;
 int N, M, K, time_left, player;
 map<string, int> map_to_check_oscillations;
 
+bool checkIsOscillating(Move move) {
+	//logic to avoid oscillations--start
+
+	if (move.position.row == 0 && move.position.col == 0) {//this takes care of default scenario
+		return false;
+	}
+
+	string pos_key = getMePositionKey(move.position);
+
+	map<string, int>::iterator it = map_to_check_oscillations.find(pos_key);
+	if (it != map_to_check_oscillations.end()) {
+		//element found;
+		if (it->second == MAX_TIMES_OSCILLATING) {
+			//we are reaching to a position for the third time & map has not changed
+			map_to_check_oscillations.clear();
+			oscillating_position_not_take = move.position;
+			cout << "got a oscillating position.." << move.position.row << ","
+					<< move.position.col << endl;
+			return true;
+		}
+
+		else {
+			cout << "it->second" << it->second << endl; //TODO: remo
+			map_to_check_oscillations[pos_key] = it->second + 1;
+			cout << "visiting " << pos_key << " the second time" << endl; //TODO: remove
+		}
+	}
+
+	else { //position not found in the map
+		map_to_check_oscillations[pos_key] = 1;
+		//cout << "added " << pos_key << " to the map" << endl; //TODO: remove
+		//cout << "map size:" << map_to_check_oscillations.size() << endl;//TODO: remove
+	}
+
+	return false;
+}
+
 Move AI_processing(GameState &curr_GS, int & m) {
 	curr_GS = getMeMove(curr_GS);
 	Move move = curr_GS.moveToBeTaken;
 
+	move.isValid = true;
+
+	if (checkIsOscillating(move)) {
+		move.isValid = false;
+		return move;
+	}
+
 	if (move.moveType == MoveType_PLAYER) {
 		m = 0;
-		curr_GS.graph.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
+		curr_GS.graphStruct.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
 				= ObjectType_EMPTY;
-		curr_GS.graph.graph[move.position.row][move.position.col]
+		curr_GS.graphStruct.graph[move.position.row][move.position.col]
 				= playerNum_to_ObjectType(whoAmI);
 		curr_GS.players[whoAmI].position = move.position;
 	}
@@ -35,7 +79,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 	else if (move.wallType == WallType_H) {
 		m = 1;
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
-		curr_GS.graph.graph[move.position.row][move.position.col]
+		curr_GS.graphStruct.graph[move.position.row][move.position.col]
 				= ObjectType_WALL_H;
 		map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 	}
@@ -43,39 +87,26 @@ Move AI_processing(GameState &curr_GS, int & m) {
 	else if (move.wallType == WallType_V) {
 		m = 2;
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
-		curr_GS.graph.graph[move.position.row][move.position.col]
+		curr_GS.graphStruct.graph[move.position.row][move.position.col]
 				= ObjectType_WALL_V;
 		map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 	}
 
 	else {
-		DO_I_HAVE_OPTION = false;
-		return AI_processing(curr_GS, m);
-	}
+		curr_GS.turn = whoAmI;
 
-	return move;
-}
+		if (HAVE_I_WON) {
+			cout << "--pass---" << endl;
+			m = 0;
+		}
 
-bool checkIsOscillating(Move move) {
-	//logic to avoid oscillations--start
-	string pos_key = getMePositionKey(move.position);
-
-	map<string, int>::iterator it = map_to_check_oscillations.find(pos_key);
-	if (it != map_to_check_oscillations.end()) {
-		//element found;
-		if (it->second == 1) {
-			//we are reaching to a position for the second time & map has not changed
-			map_to_check_oscillations.clear();
-			oscillating_position_not_take = move.position;
-			return true;
+		else {
+			DO_I_HAVE_OPTION = false;
+			return AI_processing(curr_GS, m);
 		}
 	}
 
-	else { //position not found in the map
-		map_to_check_oscillations[pos_key] = 1;
-	}
-
-	return false;
+	return move;
 }
 
 int main(int argc, char *argv[]) {
@@ -146,16 +177,19 @@ int main(int argc, char *argv[]) {
 
 	timeLeft = time_left;
 
-	Wts_final.a_0 = 1.0; //TODO: may be modified later
-	Wts_final.a_1 = 1.1;
+	Wts_final.a_0 = WTS_FINAL_A0;
+	Wts_final.a_1 = WTS_FINAL_A1;
 
-	Wts_changing.a_0 = 1.0;
-	Wts_changing.a_1 = 1.1;
+	Wts_changing.a_0 = WTS_CHANGING_A0;
+	Wts_changing.a_1 = WTS_CHANGING_A1;
 
 	GameState curr_GS = generateStartGameState(K);
 
 	DO_I_HAVE_OPTION = true;
-	IS_FAST_MODE = true;
+	IS_FAST_MODE = IS_FAST_MODE_DEFAULT;
+
+	HAVE_OPPONENT_WON = false;
+	HAVE_I_WON = false;
 	//------Our Code End----
 
 	float TL;
@@ -173,22 +207,22 @@ int main(int argc, char *argv[]) {
 
 			if (move.moveType == MoveType_PLAYER) {
 				m = 0;
-				curr_GS.graph.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
+				curr_GS.graphStruct.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
 						= ObjectType_EMPTY;
-				curr_GS.graph.graph[move.position.row][move.position.col]
+				curr_GS.graphStruct.graph[move.position.row][move.position.col]
 						= ObjectType_PLAYER1;
 				curr_GS.players[whoAmI].position = move.position;
 			}
 
 			else if (move.wallType == WallType_H) {
-				curr_GS.graph.graph[move.position.row][move.position.col]
+				curr_GS.graphStruct.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_H;
 				curr_GS.players[opponent].wallsRemaining -= 1;
 				m = 1;
 			}
 
 			else if (move.wallType == WallType_V) {
-				curr_GS.graph.graph[move.position.row][move.position.col]
+				curr_GS.graphStruct.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_V;
 				curr_GS.players[whoAmI].wallsRemaining -= 1;
 				m = 2;
@@ -197,8 +231,8 @@ int main(int argc, char *argv[]) {
 			r = move.position.row / 2 + 1;
 			c = move.position.col / 2 + 1;
 
-			cout << "sending move: " << m << ": " << move.position.row << ","
-					<< move.position.col << endl;
+			/*cout << "sending move: " << m << ": " << move.position.row << ","
+			 << move.position.col << endl;*/
 		} else {
 			cin >> m >> r >> c;
 		}
@@ -215,7 +249,7 @@ int main(int argc, char *argv[]) {
 		n = read(sockfd, recvBuff, sizeof(recvBuff) - 1);
 		recvBuff[n] = 0;
 		sscanf(recvBuff, "%f %d", &TL, &d);
-		cout << TL << " " << d << endl;
+		//cout << TL << " " << d << endl;
 		if (d == 1) {
 			cout << "You win!! Yayee!! :D ";
 			x = 0;
@@ -230,18 +264,30 @@ int main(int argc, char *argv[]) {
 		n = read(sockfd, recvBuff, sizeof(recvBuff) - 1);
 		recvBuff[n] = 0;
 		sscanf(recvBuff, "%d %d %d %d", &om, &oro, &oc, &d);
-		cout << om << " " << oro << " " << oc << " " << d << endl;
+		//cout << om << " " << oro << " " << oc << " " << d << endl;
 
 		//----Our Code Start---
 
-		if (om == 0) {
-			curr_GS.graph.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
+		if (!HAVE_OPPONENT_WON) {
+			HAVE_OPPONENT_WON = haveTheOpponentWon(curr_GS);
+			if (HAVE_OPPONENT_WON)
+				cout << ":( :( :( ... OPPONENT WON .... :( :( :(" << endl;
+		}
+
+		if (!HAVE_I_WON) {
+			HAVE_I_WON = haveIWon(curr_GS);
+			if (HAVE_I_WON)
+				cout << ":) :) :) ... I WON .... :) :) :)" << endl;
+		}
+
+		if (om == 0 && !HAVE_OPPONENT_WON) {
+			curr_GS.graphStruct.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
 					= ObjectType_EMPTY;
 
 			curr_GS.players[opponent].position.row = oro * 2 - 1;
 			curr_GS.players[opponent].position.col = oc * 2 - 1;
 
-			curr_GS.graph.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
+			curr_GS.graphStruct.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
 					= playerNum_to_ObjectType(opponent);
 
 			cout << "opponent moved to: " << oro * 2 - 1 << "," << oc * 2 - 1
@@ -249,13 +295,13 @@ int main(int argc, char *argv[]) {
 		}
 
 		else if (om == 1) {
-			curr_GS.graph.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_H;
+			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_H;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
 		}
 
-		else {
-			curr_GS.graph.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_V;
+		else if (om == 2) {
+			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_V;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
 		}
@@ -285,13 +331,18 @@ int main(int argc, char *argv[]) {
 
 				move = AI_processing(curr_GS, m);
 
-				if (checkIsOscillating(move)) {
+				if (!move.isValid) {
 					have_I_got_a_valid_move = false;
 					continue;
 				}
 
 				r = move.position.row / 2 + 1;
 				c = move.position.col / 2 + 1;
+
+				if (move.position.row == 0 && move.position.col == 0) {
+					r = 0;
+					c = 0;
+				}
 			}
 
 			//resetting the oscillating position
@@ -316,7 +367,7 @@ int main(int argc, char *argv[]) {
 		n = read(sockfd, recvBuff, sizeof(recvBuff) - 1);
 		recvBuff[n] = 0;
 		sscanf(recvBuff, "%f %d", &TL, &d);//d=3 indicates game continues.. d=2 indicates lost game, d=1 means game won.
-		cout << TL << " " << d << endl;
+		//cout << TL << " " << d << endl;
 		if (d == 1) {
 			cout << "You win!! Yayee!! :D ";
 			break;
