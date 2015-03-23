@@ -32,19 +32,23 @@ bool checkIsOscillating(Move move) {
 	if (it != map_to_check_oscillations.end()) {
 		//element found;
 		if (it->second == MAX_TIMES_OSCILLATING) {
-			//we are reaching to a position for the third time & map has not changed
+			//we are reaching to a position for the MAX_TIMES_OSCILLATING time & map has not changed
+			/*map_to_check_oscillations.clear();
+			 oscillating_position_not_take = move.position;
+			 cout << "got a oscillating position.." << move.position.row << ","
+			 << move.position.col << endl;
+			 return true;*/
 			map_to_check_oscillations.clear();
-			oscillating_position_not_take = move.position;
-			cout << "got a oscillating position.." << move.position.row << ","
-					<< move.position.col << endl;
-			return true;
 		}
 
 		else {
-			cout << "it->second" << it->second << endl; //TODO: remo
+			// cout << "it->second" << it->second << endl; //TODO: remo
 			map_to_check_oscillations[pos_key] = it->second + 1;
-			cout << "visiting " << pos_key << " the second time" << endl; //TODO: remove
+			//cout << "visiting " << pos_key << " the second time" << endl; //TODO: remove
 		}
+
+		cout << "visiting " << pos_key << " the second time" << endl;
+		return true;
 	}
 
 	else { //position not found in the map
@@ -62,10 +66,106 @@ Move AI_processing(GameState &curr_GS, int & m) {
 
 	move.isValid = true;
 
-	/*if (checkIsOscillating(move)) { //TODO: commented
-		move.isValid = false;
-		return move;
-	}*/
+	if (checkIsOscillating(move)) {
+		//move.isValid = false;
+
+		bool found_random_fine = false;
+		while (!found_random_fine) {
+			srand(time(NULL));
+			int randomVal = (rand() % 4);
+
+			switch (randomVal) {
+			case 0:
+				if (isValidMoveForPlayer(curr_GS.players[whoAmI].position,
+						curr_GS.graphStruct, whoAmI, Direction_UP)) {
+
+					Position new_pos = getNewPositionInDirection(
+							curr_GS.players[whoAmI].position, Direction_UP);
+					//Move tmp_mov;
+					move.position = new_pos;
+					//tmp_mov.isValid = true;
+					move.moveType = MoveType_PLAYER;
+					if (!checkIsOscillating(move)) {
+						map_to_check_oscillations.clear();
+						string pos_key = getMePositionKey(move.position);
+						map_to_check_oscillations[pos_key] = 1;
+						cout << "found a random valid move :"
+								<< move.position.row << ","
+								<< move.position.col << endl;
+						found_random_fine = true;
+					}
+				}
+				break;
+
+			case 1:
+				if (isValidMoveForPlayer(curr_GS.players[whoAmI].position,
+						curr_GS.graphStruct, whoAmI, Direction_DOWN)) {
+
+					Position new_pos = getNewPositionInDirection(
+							curr_GS.players[whoAmI].position, Direction_DOWN);
+					//Move tmp_mov;
+					move.position = new_pos;
+					//tmp_mov.isValid = true;
+					move.moveType = MoveType_PLAYER;
+					if (!checkIsOscillating(move)) {
+						map_to_check_oscillations.clear();
+						string pos_key = getMePositionKey(move.position);
+						map_to_check_oscillations[pos_key] = 1;
+						cout << "found a random valid move :"
+								<< move.position.row << ","
+								<< move.position.col << endl;
+						found_random_fine = true;
+					}
+				}
+				break;
+
+			case 2:
+				if (isValidMoveForPlayer(curr_GS.players[whoAmI].position,
+						curr_GS.graphStruct, whoAmI, Direction_RIGHT)) {
+
+					Position new_pos = getNewPositionInDirection(
+							curr_GS.players[whoAmI].position, Direction_RIGHT);
+					//Move tmp_mov;
+					move.position = new_pos;
+					//tmp_mov.isValid = true;
+					move.moveType = MoveType_PLAYER;
+					if (!checkIsOscillating(move)) {
+						map_to_check_oscillations.clear();
+						string pos_key = getMePositionKey(move.position);
+						map_to_check_oscillations[pos_key] = 1;
+						cout << "found a random valid move :"
+								<< move.position.row << ","
+								<< move.position.col << endl;
+						found_random_fine = true;
+					}
+				}
+				break;
+
+			case 3:
+				if (isValidMoveForPlayer(curr_GS.players[whoAmI].position,
+						curr_GS.graphStruct, whoAmI, Direction_LEFT)) {
+
+					Position new_pos = getNewPositionInDirection(
+							curr_GS.players[whoAmI].position, Direction_LEFT);
+					//Move tmp_mov;
+					move.position = new_pos;
+					//tmp_mov.isValid = true;
+					move.moveType = MoveType_PLAYER;
+					if (!checkIsOscillating(move)) {
+						map_to_check_oscillations.clear();
+						string pos_key = getMePositionKey(move.position);
+						map_to_check_oscillations[pos_key] = 1;
+						cout << "found a random valid move :"
+								<< move.position.row << ","
+								<< move.position.col << endl;
+						found_random_fine = true;
+					}
+				}
+				break;
+			}
+
+		}
+	}
 
 	if (move.moveType == MoveType_PLAYER) {
 		m = 0;
