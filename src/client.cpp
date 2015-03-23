@@ -62,10 +62,10 @@ Move AI_processing(GameState &curr_GS, int & m) {
 
 	move.isValid = true;
 
-	if (checkIsOscillating(move)) {
+	/*if (checkIsOscillating(move)) { //TODO: commented
 		move.isValid = false;
 		return move;
-	}
+	}*/
 
 	if (move.moveType == MoveType_PLAYER) {
 		m = 0;
@@ -295,13 +295,15 @@ int main(int argc, char *argv[]) {
 		}
 
 		else if (om == 1) {
-			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_H;
+			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2]
+					= ObjectType_WALL_H;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
 		}
 
 		else if (om == 2) {
-			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2] = ObjectType_WALL_V;
+			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2]
+					= ObjectType_WALL_V;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
 		}

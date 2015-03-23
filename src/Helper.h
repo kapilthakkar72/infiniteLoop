@@ -225,11 +225,11 @@ Utility utility(GameState g, Weights w) {
 
 	if (DO_I_HAVE_OPTION && !HAVE_OPPONENT_WON) {
 
-		if (whoAmI == PlayerNum_P1 && noOfMoves2 == 0) {
+		if (whoAmI == PlayerNum_P1 && noOfMoves2 == 0 && p1walls != 0) {
 			utility.utilityVal = MINUS_INFINITY_THAKKAR;
 		}
 
-		if (whoAmI == PlayerNum_P2 && noOfMoves1 == 0) {
+		if (whoAmI == PlayerNum_P2 && noOfMoves1 == 0 && p2walls != 0) {
 			utility.utilityVal = INFINITY_THAKKAR;
 		}
 	}
@@ -319,8 +319,8 @@ void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
 		new_GS.players[gs.turn].position = new_pos;
 		new_GS.moveTakenToReach.moveType = MoveType_PLAYER;
 		new_GS.moveTakenToReach.position = new_pos;
-		new_GS.graphStruct.graph[new_pos.row][new_pos.col] = playerNum_to_ObjectType(
-				gs.turn); //new position of player
+		new_GS.graphStruct.graph[new_pos.row][new_pos.col]
+				= playerNum_to_ObjectType(gs.turn); //new position of player
 		new_GS.graphStruct.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col]
 				= ObjectType_EMPTY; //the previous position is of-course empty
 
@@ -338,10 +338,12 @@ void helper_placeWall(GameState gs, vector<GameState> & successors,
 	GameState new_gs = genChild_gameState(gs);
 
 	if (wallType == WallType_H) {
-		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_H;
+		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col]
+				= ObjectType_WALL_H;
 		new_gs.moveTakenToReach.wallType = WallType_H;
 	} else {
-		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col] = ObjectType_WALL_V;
+		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col]
+				= ObjectType_WALL_V;
 		new_gs.moveTakenToReach.wallType = WallType_V;
 	}
 
@@ -466,10 +468,40 @@ GameState getMeMove(GameState gs) {
 	beta.moves_diff = 0;
 	beta.walls_diff = 0;
 
+	//opponent has won & it has got no walls
+	if (HAVE_OPPONENT_WON && gs.players[opponent].wallsRemaining == 0) {
+		vector<GameState> successors;
+		Position old_pos = gs.players[gs.turn].position;
+
+		helper_movePlayer(gs, old_pos, Direction_UP, successors);
+		helper_movePlayer(gs, old_pos, Direction_DOWN, successors);
+		helper_movePlayer(gs, old_pos, Direction_LEFT, successors);
+		helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
+
+		int min_steps = INFINITY_THAKKAR;
+		for (vector<GameState>::iterator it = successors.begin(); it
+				!= successors.end(); it++) {
+			int tmp = a_star((*it).graphStruct, (*it).players[whoAmI], whoAmI);
+
+			if (min_steps > tmp) {
+				cout << "updating minSteps to :" << tmp << endl;
+				min_steps = tmp;
+				gs.moveToBeTaken.isValid = true;
+				gs.moveToBeTaken.moveType = MoveType_PLAYER;
+				gs.moveToBeTaken.wallType = WallType_None;
+				gs.moveToBeTaken.position = (*it).players[whoAmI].position;
+			}
+		}
+
+		cout << "returning " << min_steps << endl;
+		return gs;
+	}
+
 	//I am just a step away from the destination
 	if (whoAmI == PlayerNum_P1 && gs.players[whoAmI].position.row
 			== CURRENT_GAME_MAX_POSITION.row - 4 && isValidMoveForPlayer(
-			gs.players[whoAmI].position, gs.graphStruct, gs.turn, Direction_DOWN)) {
+			gs.players[whoAmI].position, gs.graphStruct, gs.turn,
+			Direction_DOWN)) {
 		Move move;
 		move.moveType = MoveType_PLAYER;
 		move.position = getNewPositionInDirection(gs.players[whoAmI].position,
@@ -479,8 +511,8 @@ GameState getMeMove(GameState gs) {
 	}
 
 	if (whoAmI == PlayerNum_P2 && gs.players[whoAmI].position.row == 3
-			&& isValidMoveForPlayer(gs.players[whoAmI].position, gs.graphStruct,
-					gs.turn, Direction_UP)) {
+			&& isValidMoveForPlayer(gs.players[whoAmI].position,
+					gs.graphStruct, gs.turn, Direction_UP)) {
 		Move move;
 		move.moveType = MoveType_PLAYER;
 		move.position = getNewPositionInDirection(gs.players[whoAmI].position,
@@ -554,8 +586,10 @@ GameState generateStartGameState(int maxWalls) {
 		}
 	}
 
-	startGS.graphStruct.graph[p1.position.row][p1.position.col] = ObjectType_PLAYER1;
-	startGS.graphStruct.graph[p2.position.row][p2.position.col] = ObjectType_PLAYER2;
+	startGS.graphStruct.graph[p1.position.row][p1.position.col]
+			= ObjectType_PLAYER1;
+	startGS.graphStruct.graph[p2.position.row][p2.position.col]
+			= ObjectType_PLAYER2;
 
 	return startGS;
 }
