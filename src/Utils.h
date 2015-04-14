@@ -33,7 +33,7 @@ bool haveIWon(GameState gs) {
 	return haveThePlayerWon(gs, my_pos, whoAmI);
 }
 
-bool haveTheOpponentWon(GameState gs) {
+bool haveTheOpponentWon(GameState &gs) {
 	Position opp_pos = gs.players[opponent].position;
 
 	bool have_opponent_won = haveThePlayerWon(gs, opp_pos, opponent);
