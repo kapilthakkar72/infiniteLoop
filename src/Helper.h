@@ -441,6 +441,32 @@ GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 	}
 }
 
+GameState getGS_for_ShortestMove(GameState gs) {
+	vector<GameState> successors;
+	Position old_pos = gs.players[gs.turn].position;
+
+	helper_movePlayer(gs, old_pos, Direction_UP, successors);
+	helper_movePlayer(gs, old_pos, Direction_DOWN, successors);
+	helper_movePlayer(gs, old_pos, Direction_LEFT, successors);
+	helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
+
+	int min_steps = INFINITY_THAKKAR;
+	for (vector<GameState>::iterator it = successors.begin(); it
+			!= successors.end(); it++) {
+		int tmp = a_star((*it).graphStruct, (*it).players[whoAmI], whoAmI);
+
+		if (min_steps > tmp) {
+			cout << "updating minSteps to :" << tmp << endl;
+			min_steps = tmp;
+			gs.moveToBeTaken.isValid = true;
+			gs.moveToBeTaken.moveType = MoveType_PLAYER;
+			gs.moveToBeTaken.wallType = WallType_None;
+			gs.moveToBeTaken.position = (*it).players[whoAmI].position;
+		}
+	}
+	return gs;
+}
+
 GameState getMeMove(GameState gs) {
 	gs.turn = whoAmI;
 
@@ -470,31 +496,7 @@ GameState getMeMove(GameState gs) {
 
 	//opponent has won & it has got no walls
 	if (HAVE_OPPONENT_WON && gs.players[opponent].wallsRemaining == 0) {
-		vector<GameState> successors;
-		Position old_pos = gs.players[gs.turn].position;
-
-		helper_movePlayer(gs, old_pos, Direction_UP, successors);
-		helper_movePlayer(gs, old_pos, Direction_DOWN, successors);
-		helper_movePlayer(gs, old_pos, Direction_LEFT, successors);
-		helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
-
-		int min_steps = INFINITY_THAKKAR;
-		for (vector<GameState>::iterator it = successors.begin(); it
-				!= successors.end(); it++) {
-			int tmp = a_star((*it).graphStruct, (*it).players[whoAmI], whoAmI);
-
-			if (min_steps > tmp) {
-				cout << "updating minSteps to :" << tmp << endl;
-				min_steps = tmp;
-				gs.moveToBeTaken.isValid = true;
-				gs.moveToBeTaken.moveType = MoveType_PLAYER;
-				gs.moveToBeTaken.wallType = WallType_None;
-				gs.moveToBeTaken.position = (*it).players[whoAmI].position;
-			}
-		}
-
-		cout << "returning " << min_steps << endl;
-		return gs;
+		return getGS_for_ShortestMove(gs);
 	}
 
 	//I am just a step away from the destination

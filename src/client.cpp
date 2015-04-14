@@ -67,104 +67,8 @@ Move AI_processing(GameState &curr_GS, int & m) {
 	move.isValid = true;
 
 	if (checkIsOscillating(move)) {
-		//move.isValid = false;
-
-		bool found_random_fine = false;
-		while (!found_random_fine) {
-			srand(time(NULL));
-			int randomVal = (rand() % 4);
-
-			switch (randomVal) {
-			case 0:
-				if (isValidMoveForPlayer(curr_GS.players[whoAmI].position,
-						curr_GS.graphStruct, whoAmI, Direction_UP)) {
-
-					Position new_pos = getNewPositionInDirection(
-							curr_GS.players[whoAmI].position, Direction_UP);
-					//Move tmp_mov;
-					move.position = new_pos;
-					//tmp_mov.isValid = true;
-					move.moveType = MoveType_PLAYER;
-					if (!checkIsOscillating(move)) {
-						map_to_check_oscillations.clear();
-						string pos_key = getMePositionKey(move.position);
-						map_to_check_oscillations[pos_key] = 1;
-						cout << "found a random valid move :"
-								<< move.position.row << ","
-								<< move.position.col << endl;
-						found_random_fine = true;
-					}
-				}
-				break;
-
-			case 1:
-				if (isValidMoveForPlayer(curr_GS.players[whoAmI].position,
-						curr_GS.graphStruct, whoAmI, Direction_DOWN)) {
-
-					Position new_pos = getNewPositionInDirection(
-							curr_GS.players[whoAmI].position, Direction_DOWN);
-					//Move tmp_mov;
-					move.position = new_pos;
-					//tmp_mov.isValid = true;
-					move.moveType = MoveType_PLAYER;
-					if (!checkIsOscillating(move)) {
-						map_to_check_oscillations.clear();
-						string pos_key = getMePositionKey(move.position);
-						map_to_check_oscillations[pos_key] = 1;
-						cout << "found a random valid move :"
-								<< move.position.row << ","
-								<< move.position.col << endl;
-						found_random_fine = true;
-					}
-				}
-				break;
-
-			case 2:
-				if (isValidMoveForPlayer(curr_GS.players[whoAmI].position,
-						curr_GS.graphStruct, whoAmI, Direction_RIGHT)) {
-
-					Position new_pos = getNewPositionInDirection(
-							curr_GS.players[whoAmI].position, Direction_RIGHT);
-					//Move tmp_mov;
-					move.position = new_pos;
-					//tmp_mov.isValid = true;
-					move.moveType = MoveType_PLAYER;
-					if (!checkIsOscillating(move)) {
-						map_to_check_oscillations.clear();
-						string pos_key = getMePositionKey(move.position);
-						map_to_check_oscillations[pos_key] = 1;
-						cout << "found a random valid move :"
-								<< move.position.row << ","
-								<< move.position.col << endl;
-						found_random_fine = true;
-					}
-				}
-				break;
-
-			case 3:
-				if (isValidMoveForPlayer(curr_GS.players[whoAmI].position,
-						curr_GS.graphStruct, whoAmI, Direction_LEFT)) {
-
-					Position new_pos = getNewPositionInDirection(
-							curr_GS.players[whoAmI].position, Direction_LEFT);
-					//Move tmp_mov;
-					move.position = new_pos;
-					//tmp_mov.isValid = true;
-					move.moveType = MoveType_PLAYER;
-					if (!checkIsOscillating(move)) {
-						map_to_check_oscillations.clear();
-						string pos_key = getMePositionKey(move.position);
-						map_to_check_oscillations[pos_key] = 1;
-						cout << "found a random valid move :"
-								<< move.position.row << ","
-								<< move.position.col << endl;
-						found_random_fine = true;
-					}
-				}
-				break;
-			}
-
-		}
+		move = getGS_for_ShortestMove(curr_GS).moveToBeTaken;
+		map_to_check_oscillations.clear();
 	}
 
 	if (move.moveType == MoveType_PLAYER) {
@@ -218,7 +122,7 @@ int main(int argc, char *argv[]) {
 	char sendBuff[1025];
 	struct sockaddr_in serv_addr;
 
-	if (argc != 4) {
+	if (argc < 3) {
 		printf("\n Usage: %s <ip of server> <port no> \n", argv[0]);
 		return 1;
 	}
@@ -234,7 +138,9 @@ int main(int argc, char *argv[]) {
 	serv_addr.sin_port = htons(atoi(argv[2]));
 
 	//----Our Code Start---
-	bool isAI = atoi(argv[3]);
+	bool isAI = true;
+	if (argc == 4)
+		isAI = atoi(argv[3]);
 	//----Our Code End---
 
 	if (inet_pton(AF_INET, argv[1], &serv_addr.sin_addr) <= 0) {
