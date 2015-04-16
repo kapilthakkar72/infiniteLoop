@@ -61,9 +61,20 @@ bool checkIsOscillating(Move move) {
 }
 
 Move AI_processing(GameState &curr_GS, int & m) {
-	curr_GS = getMeMove(curr_GS);
-	Move move = curr_GS.moveToBeTaken;
 
+	Move move;
+
+	if (!DO_I_HAVE_WALLS_LEFT && HAVE_I_WON) {//TODO: I have changed without discussing
+		move.isValid = true;
+		move.position.row = 0;
+		move.position.col = 0;
+		cout << "--pass---" << endl;
+		m = 0;
+		return move;
+	}
+
+	curr_GS = getMeMove(curr_GS);
+	move = curr_GS.moveToBeTaken;
 	move.isValid = true;
 
 	if (checkIsOscillating(move)) {
@@ -80,7 +91,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 		curr_GS.players[whoAmI].position = move.position;
 	}
 
-	else if (move.wallType == WallType_H) {
+	else if (move.moveType==MoveType_PLACE_WALL && move.wallType == WallType_H) {
 		m = 1;
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
 		curr_GS.graphStruct.graph[move.position.row][move.position.col]
@@ -88,7 +99,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 		map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 	}
 
-	else if (move.wallType == WallType_V) {
+	else if (move.moveType==MoveType_PLACE_WALL && move.wallType == WallType_V) {
 		m = 2;
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
 		curr_GS.graphStruct.graph[move.position.row][move.position.col]
@@ -196,6 +207,7 @@ int main(int argc, char *argv[]) {
 
 	HAVE_OPPONENT_WON = false;
 	HAVE_I_WON = false;
+	DO_I_HAVE_WALLS_LEFT = true;//TODO: I have changed without discussing
 	//------Our Code End----
 
 	float TL;
@@ -224,6 +236,7 @@ int main(int argc, char *argv[]) {
 				curr_GS.graphStruct.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_H;
 				curr_GS.players[opponent].wallsRemaining -= 1;
+
 				m = 1;
 			}
 
@@ -231,6 +244,7 @@ int main(int argc, char *argv[]) {
 				curr_GS.graphStruct.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_V;
 				curr_GS.players[whoAmI].wallsRemaining -= 1;
+
 				m = 2;
 			}
 
@@ -364,6 +378,12 @@ int main(int argc, char *argv[]) {
 		else {
 			cin >> m >> r >> c;
 		}
+
+		if (curr_GS.players[whoAmI].wallsRemaining == 0 && DO_I_HAVE_WALLS_LEFT) {//TODO: chNGED by me without discussing
+			cout << "-------------I am out of walls------------" << endl;
+			DO_I_HAVE_WALLS_LEFT = false;
+		}
+
 		//-----Our Code End---
 
 

@@ -29,6 +29,8 @@ bool IS_FAST_MODE;
 bool HAVE_OPPONENT_WON;
 bool HAVE_I_WON;
 
+bool DO_I_HAVE_WALLS_LEFT;
+
 Position oscillating_position_not_take;
 
 #endif	/* GLOBALVARIABLES_H */

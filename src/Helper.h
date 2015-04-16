@@ -115,11 +115,18 @@ bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) 
 	if (IS_FAST_MODE) {
 		Position opp_pos = whereIsMyOpponent(gs);
 
-		if (abs(wall_pos.row - opp_pos.row) > 1)
+		if (abs(wall_pos.row - opp_pos.row) > WALL_OPPONENT_MAX_GAP)
 			return false;
 
-		if (abs(wall_pos.col - opp_pos.col) > 1)
+		if (abs(wall_pos.col - opp_pos.col) > WALL_OPPONENT_MAX_GAP)
 			return false;
+
+		//TODO: changing the logic for now..see if fine
+
+		/*if (abs(wall_pos.row - opp_pos.row) > WALL_OPPONENT_MAX_GAP && abs(
+		 wall_pos.col - opp_pos.col) > WALL_OPPONENT_MAX_GAP)
+		 return false;*/
+
 	}
 
 	if (wall_pos.row <= 1 || wall_pos.col <= 1)
@@ -215,7 +222,11 @@ Utility utility(GameState g, Weights w) {
 
 	//utility.utilityVal = w.a_0 * moves + w.a_1 * walls;
 
-	utility.utilityVal = w.a_0 * moves + w.a_1 * walls;
+	utility.utilityVal = w.a_0 * moves;
+
+	//if (!HAVE_I_WON) {//TODO: changed...discuss with kapil ::: may be -- think later if req
+	utility.utilityVal += w.a_1 * walls;
+	//	}
 
 	//if (!HAVE_OPPONENT_WON)
 	//utility.utilityVal += w.a_1 * walls; //TODO: may be -- think later if req
@@ -369,6 +380,22 @@ vector<GameState> generateSuccessors(GameState gs) {
 		helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
 	}
 
+	else {//current turn won
+		//TODO: chkk..........the below is written...not confirmed..discuss with kapil
+		GameState new_GS = genChild_gameState(gs);
+		//new_GS.players[gs.turn].position = gs.players[gs.turn].position;
+		new_GS.moveTakenToReach.moveType = MoveType_PASS;
+		new_GS.moveTakenToReach.position.row = 0;
+		new_GS.moveTakenToReach.position.col = 0;
+		//new_GS.moveTakenToReach.position = new_pos;
+		//new_GS.graphStruct.graph[new_pos.row][new_pos.col]
+		//	= playerNum_to_ObjectType(gs.turn); //new position of player
+		//new_GS.graphStruct.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col]
+		//	= ObjectType_EMPTY; //the previous position is of-course empty
+
+		successors.push_back(new_GS);
+	}
+
 	if (gs.players[gs.turn].wallsRemaining == 0) {
 		return successors;
 	}
@@ -512,6 +539,7 @@ GameState getMeMove(GameState gs) {
 		return gs;
 	}
 
+	//I am just a step away from the destination
 	if (whoAmI == PlayerNum_P2 && gs.players[whoAmI].position.row == 3
 			&& isValidMoveForPlayer(gs.players[whoAmI].position,
 					gs.graphStruct, gs.turn, Direction_UP)) {

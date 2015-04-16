@@ -19,7 +19,8 @@ enum WallType {
 };
 
 enum MoveType {
-	MoveType_PLAYER, MoveType_PLACE_WALL, MoveType_NONE
+	MoveType_PLAYER, MoveType_PLACE_WALL, MoveType_NONE, MoveType_PASS
+//TODO: moveType pass abi ke liye..remove if not required
 };
 
 enum NodeType {
@@ -54,6 +55,9 @@ enum Direction {
 
 #define WTS_CHANGING_A0 1.0
 #define WTS_CHANGING_A1 1.1
+
+//shall be odd //TODO: discuss with kapil..
+#define WALL_OPPONENT_MAX_GAP 3
 
 #endif	/* CONSTANTS_H */
 
