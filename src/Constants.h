@@ -60,6 +60,8 @@ enum Direction {
 #define WTS_CHANGING_A1 1.1
 
 #define APPLY_RUSH_MOVE true  // TODO: make it false
+#define REED_OPENING_P1 true  // Opening Move
+#define REED_OPENING_P2 false
 
 #define ALLOWED_WALLS_ADJACENT_OPPONENT 1
 #define WALL_OPPONENT_MAX_GAP ((ALLOWED_WALLS_ADJACENT_OPPONENT - 1) * 2) + 1

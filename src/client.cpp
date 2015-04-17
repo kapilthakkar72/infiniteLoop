@@ -248,44 +248,67 @@ int main(int argc, char *argv[])
 	int x = 1;
 	if (player == 1)
 	{
-		noOfMoves++; // Will be used for opening moves and rush move
+
 		//----Our Code Start---
 		if (isAI || IS_TRAINING_MODE)
 		{
-			curr_GS = getMeMove(curr_GS);
-			Move move = curr_GS.moveToBeTaken;
+			Move move;
 
-			if (move.moveType == MoveType_PLAYER)
+			if (REED_OPENING_P1 && noOfMoves == 0 && player == 1
+					&& curr_GS.players[whoAmI].position.row == 1
+					&& curr_GS.players[whoAmI].position.col == 9)
 			{
-				m = 0;
-				curr_GS.graphStruct.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
-						= ObjectType_EMPTY;
-				curr_GS.graphStruct.graph[move.position.row][move.position.col]
-						= ObjectType_PLAYER1;
-				curr_GS.players[whoAmI].position = move.position;
-			}
+				cout << "##Applying The REED Opening Move...\n\n";
+				move.isValid = true;
+				move.moveType = MoveType_PLACE_WALL;
+				move.wallType = WallType_H;
+				move.position.row = 12; //TODO: Doubt about row, 3rd row matlab yahi ki below this?
+				move.position.col = 6;
+				m = 1;
 
-			else if (move.wallType == WallType_H)
-			{
+				// Changing current Game Position
+				curr_GS.players[whoAmI].wallsRemaining -= 1;
 				curr_GS.graphStruct.graph[move.position.row][move.position.col]
 						= ObjectType_WALL_H;
-				curr_GS.players[opponent].wallsRemaining -= 1;
-
-				m = 1;
+				map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 			}
-
-			else if (move.wallType == WallType_V)
+			else
 			{
-				curr_GS.graphStruct.graph[move.position.row][move.position.col]
-						= ObjectType_WALL_V;
-				curr_GS.players[whoAmI].wallsRemaining -= 1;
+				curr_GS = getMeMove(curr_GS);
+				move = curr_GS.moveToBeTaken;
 
-				m = 2;
+				if (move.moveType == MoveType_PLAYER)
+				{
+					m = 0;
+					curr_GS.graphStruct.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
+							= ObjectType_EMPTY;
+					curr_GS.graphStruct.graph[move.position.row][move.position.col]
+							= ObjectType_PLAYER1;
+					curr_GS.players[whoAmI].position = move.position;
+				}
+
+				else if (move.wallType == WallType_H)
+				{
+					curr_GS.graphStruct.graph[move.position.row][move.position.col]
+							= ObjectType_WALL_H;
+					curr_GS.players[opponent].wallsRemaining -= 1;
+
+					m = 1;
+				}
+
+				else if (move.wallType == WallType_V)
+				{
+					curr_GS.graphStruct.graph[move.position.row][move.position.col]
+							= ObjectType_WALL_V;
+					curr_GS.players[whoAmI].wallsRemaining -= 1;
+
+					m = 2;
+				}
 			}
 
 			r = move.position.row / 2 + 1;
 			c = move.position.col / 2 + 1;
-
+			noOfMoves++; // Will be used for opening moves and rush move
 			/*cout << "sending move: " << m << ": " << move.position.row << ","
 			 << move.position.col << endl;*/
 		}
@@ -421,17 +444,17 @@ int main(int argc, char *argv[])
 				have_I_got_a_valid_move = true;
 
 				// Apply Move only when APPLY_RUSH_MOVE is true and I am player 1
-				cout<<"Player:"<<player<<endl;
-				if (player == 1)
-				{
-					cout << "Number of Moves:" << noOfMoves << endl;
-					cout << "My Position: "
-							<< curr_GS.players[whoAmI].position.row << " "
-							<< curr_GS.players[whoAmI].position.col << endl;
-					cout << "My Opp Position: "
-							<< curr_GS.players[opponent].position.row << " "
-							<< curr_GS.players[opponent].position.col << endl;
-				}
+				//				cout<<"Player:"<<player<<endl;
+				//				if (player == 1)
+				//				{
+				//					cout << "Number of Moves:" << noOfMoves << endl;
+				//					cout << "My Position: "
+				//							<< curr_GS.players[whoAmI].position.row << " "
+				//							<< curr_GS.players[whoAmI].position.col << endl;
+				//					cout << "My Opp Position: "
+				//							<< curr_GS.players[opponent].position.row << " "
+				//							<< curr_GS.players[opponent].position.col << endl;
+				//				}
 				if (APPLY_RUSH_MOVE && player == 1 && noOfMoves == 3
 						&& curr_GS.players[whoAmI].position.row == 7
 						&& curr_GS.players[whoAmI].position.col == 9
@@ -461,6 +484,50 @@ int main(int argc, char *argv[])
 					{
 						move = AI_processing(curr_GS, m);
 					}
+				}
+				else if (REED_OPENING_P1 && noOfMoves == 1 && player == 1
+						&& curr_GS.players[whoAmI].position.row == 1
+						&& curr_GS.players[whoAmI].position.col == 9)
+				{
+					cout << "##Applying The REED Opening Move...\n\n";
+					move.isValid = true;
+					move.moveType = MoveType_PLACE_WALL;
+					move.wallType = WallType_H;
+					move.position.row = 12;
+					move.position.col = 12;
+					m = 1;
+
+					// Changing current Game Position
+					curr_GS.players[whoAmI].wallsRemaining -= 1;
+					curr_GS.graphStruct.graph[move.position.row][move.position.col]
+							= ObjectType_WALL_H;
+					map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+				}
+				else if (REED_OPENING_P2 && noOfMoves <= 1 && player == 2
+						&& curr_GS.players[whoAmI].position.row == 17
+						&& curr_GS.players[whoAmI].position.col == 9)
+				{
+					cout << "##Applying The REED Opening Move...\n\n";
+					move.isValid = true;
+					move.moveType = MoveType_PLACE_WALL;
+					move.wallType = WallType_H;
+					if (noOfMoves == 0)
+					{
+						move.position.row = 6;
+						move.position.col = 6;
+					}
+					else
+					{
+						move.position.row = 6;
+						move.position.col = 12;
+					}
+					m = 1;
+
+					// Changing current Game Position
+					curr_GS.players[whoAmI].wallsRemaining -= 1;
+					curr_GS.graphStruct.graph[move.position.row][move.position.col]
+							= ObjectType_WALL_H;
+					map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 				}
 				else
 				{
