@@ -50,6 +50,8 @@ enum Direction {
 #define MAX_TIMES_OSCILLATING 3
 #define IS_FAST_MODE_DEFAULT true
 #define IS_SUPER_FAST_MODE_DEFAULT false //TODO: this shall be false
+#define NUM_OF_WALLS_FIRST_ALARM 2
+#define NUM_OF_WALLS_SECOND_ALARM 5
 
 #define WTS_FINAL_A0 1.0
 #define WTS_FINAL_A1 1.1
@@ -60,7 +62,7 @@ enum Direction {
 #define ALLOWED_WALLS_ADJACENT_OPPONENT 1
 #define WALL_OPPONENT_MAX_GAP ((ALLOWED_WALLS_ADJACENT_OPPONENT - 1) * 2) + 1
 
-#define BUFFER_SUPER_FAST_MODE 20
+#define BUFFER_SUPER_FAST_MODE 5 //remaining time(sec) to start superFast mode
 
 #endif	/* CONSTANTS_H */
 

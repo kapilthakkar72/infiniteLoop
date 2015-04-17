@@ -182,6 +182,7 @@ int main(int argc, char *argv[]) {
 	//Setting game specific max position
 	CURRENT_GAME_MAX_POSITION.row = N * 2 + 1;
 	CURRENT_GAME_MAX_POSITION.col = M * 2 + 1;
+	CURRENT_GAME_MAX_WALLS = K;
 
 	if (player == 1) {
 		whoAmI = PlayerNum_P1;
@@ -212,6 +213,9 @@ int main(int argc, char *argv[]) {
 	HAVE_OPPONENT_WON = false;
 	HAVE_I_WON = false;
 	DO_I_HAVE_WALLS_LEFT = true;//TODO: I have changed without discussing
+
+	IS_FIRST_ALARM_RAISED = false;
+	IS_SECOND_ALARM_RAISED = false;
 	//------Our Code End----
 
 	float TL;
@@ -284,6 +288,22 @@ int main(int argc, char *argv[]) {
 	}
 
 	while (x) {
+
+		//----Our Code Start---
+		if (getNumberOfWallsPlaced(curr_GS) >= NUM_OF_WALLS_FIRST_ALARM
+				&& !IS_FIRST_ALARM_RAISED) {
+			cout << "------Attention: First Alarm raised for walls" << endl;
+			IS_FIRST_ALARM_RAISED = true;
+		}
+
+		if (getNumberOfWallsPlaced(curr_GS) >= NUM_OF_WALLS_SECOND_ALARM
+				&& !IS_SECOND_ALARM_RAISED) {
+			cout << "------Attention: Second Alarm raised for walls" << endl;
+			IS_SECOND_ALARM_RAISED = true;
+		}
+
+		//---Our Code End---
+
 		memset(recvBuff, '0', sizeof(recvBuff));
 		n = read(sockfd, recvBuff, sizeof(recvBuff) - 1);
 		recvBuff[n] = 0;

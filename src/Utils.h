@@ -118,5 +118,16 @@ Position getNewPositionInDirection(Position pos, Direction direction) {
 	return new_pos;
 }
 
+int getTotalRemaningWalls(GameState gs) {
+	int totalWallsLeft = 0;
+	totalWallsLeft += gs.players[0].wallsRemaining;
+	totalWallsLeft += gs.players[1].wallsRemaining;
+	return totalWallsLeft;
+}
+
+int getNumberOfWallsPlaced(GameState gs) {
+	return (CURRENT_GAME_MAX_WALLS * 2) - getTotalRemaningWalls(gs);
+}
+
 #endif	/* UTILS_H */
 
