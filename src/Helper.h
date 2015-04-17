@@ -114,18 +114,93 @@ bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) 
 
 	if (IS_FAST_MODE) {
 		Position opp_pos = whereIsMyOpponent(gs);
+		Position my_pos = whereAmI(gs);
 
-		if (abs(wall_pos.row - opp_pos.row) > WALL_OPPONENT_MAX_GAP)
+		bool isValid_in_fastMode = false;
+
+		if (abs(wall_pos.row - opp_pos.row) <= WALL_OPPONENT_MAX_GAP && abs(
+				wall_pos.col - opp_pos.col) <= WALL_OPPONENT_MAX_GAP)
+			isValid_in_fastMode = true;
+
+		//Placing a wall in the player surroundings is also valid
+		if (abs(wall_pos.row - my_pos.row) <= WALL_OPPONENT_MAX_GAP && abs(
+				wall_pos.col - my_pos.col) <= WALL_OPPONENT_MAX_GAP)
+			isValid_in_fastMode = true;
+
+		if (!IS_SUPER_FAST_MODE) {
+			//The below switch-case allows placing new walls adjacent to the existing walls
+			switch (wallType) {
+			case WallType_H:
+				if (graph.graph[wall_pos.row + 2][wall_pos.col + 2]
+						== ObjectType_WALL_V)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row - 2][wall_pos.col - 2]
+						== ObjectType_WALL_V)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row + 2][wall_pos.col - 2]
+						== ObjectType_WALL_V)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row - 2][wall_pos.col + 2]
+						== ObjectType_WALL_V)
+					isValid_in_fastMode = true;
+
+				//TODO: the below two may be commented.thinko & discusso
+				if (graph.graph[wall_pos.row][wall_pos.col + 2]
+						== ObjectType_WALL_V)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row][wall_pos.col - 2]
+						== ObjectType_WALL_V)
+					isValid_in_fastMode = true;
+
+				if (graph.graph[wall_pos.row][wall_pos.col + 4]
+						== ObjectType_WALL_H)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row][wall_pos.col - 4]
+						== ObjectType_WALL_H)
+					isValid_in_fastMode = true;
+
+				break;
+
+			case WallType_V:
+				if (graph.graph[wall_pos.row + 2][wall_pos.col + 2]
+						== ObjectType_WALL_H)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row - 2][wall_pos.col - 2]
+						== ObjectType_WALL_H)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row - 2][wall_pos.col + 2]
+						== ObjectType_WALL_H)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row + 2][wall_pos.col - 2]
+						== ObjectType_WALL_H)
+					isValid_in_fastMode = true;
+
+				//TODO: the below two may be commented.thinko & discusso
+				if (graph.graph[wall_pos.row - 2][wall_pos.col]
+						== ObjectType_WALL_H)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row + 2][wall_pos.col]
+						== ObjectType_WALL_H)
+					isValid_in_fastMode = true;
+
+				if (graph.graph[wall_pos.row + 4][wall_pos.col]
+						== ObjectType_WALL_V)
+					isValid_in_fastMode = true;
+				if (graph.graph[wall_pos.row - 4][wall_pos.col]
+						== ObjectType_WALL_V)
+					isValid_in_fastMode = true;
+
+				break;
+
+			case WallType_None:
+				cout << "Error---shall never come here" << endl;
+				exit(1);
+				break;
+			}
+		}
+		//If not valid in fastMode : no need to check further
+		if (!isValid_in_fastMode)
 			return false;
-
-		if (abs(wall_pos.col - opp_pos.col) > WALL_OPPONENT_MAX_GAP)
-			return false;
-
-		//TODO: changing the logic for now..see if fine
-
-		/*if (abs(wall_pos.row - opp_pos.row) > WALL_OPPONENT_MAX_GAP && abs(
-		 wall_pos.col - opp_pos.col) > WALL_OPPONENT_MAX_GAP)
-		 return false;*/
 
 	}
 

@@ -25,6 +25,7 @@ double timeLeft;
 bool DO_I_HAVE_OPTION;
 
 bool IS_FAST_MODE;
+bool IS_SUPER_FAST_MODE;
 
 bool HAVE_OPPONENT_WON;
 bool HAVE_I_WON;

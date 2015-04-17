@@ -81,6 +81,11 @@ Position whereIsMyOpponent(GameState gs) {
 	return gs.players[opponent].position;
 }
 
+Position whereAmI(GameState gs) {
+
+	return gs.players[gs.turn].position;
+}
+
 Position getNewPositionInDirection(Position pos, Direction direction) {
 	Position new_pos;
 

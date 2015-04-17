@@ -91,7 +91,8 @@ Move AI_processing(GameState &curr_GS, int & m) {
 		curr_GS.players[whoAmI].position = move.position;
 	}
 
-	else if (move.moveType==MoveType_PLACE_WALL && move.wallType == WallType_H) {
+	else if (move.moveType == MoveType_PLACE_WALL && move.wallType
+			== WallType_H) {
 		m = 1;
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
 		curr_GS.graphStruct.graph[move.position.row][move.position.col]
@@ -99,7 +100,8 @@ Move AI_processing(GameState &curr_GS, int & m) {
 		map_to_check_oscillations.clear();//clearing the map since I am changing the state now
 	}
 
-	else if (move.moveType==MoveType_PLACE_WALL && move.wallType == WallType_V) {
+	else if (move.moveType == MoveType_PLACE_WALL && move.wallType
+			== WallType_V) {
 		m = 2;
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
 		curr_GS.graphStruct.graph[move.position.row][move.position.col]
@@ -185,8 +187,9 @@ int main(int argc, char *argv[]) {
 		whoAmI = PlayerNum_P1;
 		opponent = PlayerNum_P2;
 		CUT_OFF = CUTOFF_LEVEL_P1;
+	}
 
-	} else {
+	else {
 		whoAmI = PlayerNum_P2;
 		opponent = PlayerNum_P1;
 		CUT_OFF = CUTOFF_LEVEL_P2;
@@ -204,6 +207,7 @@ int main(int argc, char *argv[]) {
 
 	DO_I_HAVE_OPTION = true;
 	IS_FAST_MODE = IS_FAST_MODE_DEFAULT;
+	IS_SUPER_FAST_MODE = IS_SUPER_FAST_MODE_DEFAULT;
 
 	HAVE_OPPONENT_WON = false;
 	HAVE_I_WON = false;
@@ -395,7 +399,15 @@ int main(int argc, char *argv[]) {
 		n = read(sockfd, recvBuff, sizeof(recvBuff) - 1);
 		recvBuff[n] = 0;
 		sscanf(recvBuff, "%f %d", &TL, &d);//d=3 indicates game continues.. d=2 indicates lost game, d=1 means game won.
-		//cout << TL << " " << d << endl;
+		cout << TL << " " << d << endl;
+
+		if (TL < BUFFER_SUPER_FAST_MODE && !IS_SUPER_FAST_MODE) {
+			cout
+					<< "------------------NEED TO HURRY = = = = SUPER_FAST_MODE=>ON--------------------"
+					<< endl;
+			IS_SUPER_FAST_MODE = true;
+		}
+
 		if (d == 1) {
 			cout << "You win!! Yayee!! :D ";
 			break;
