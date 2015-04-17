@@ -37,6 +37,8 @@ bool DO_I_HAVE_WALLS_LEFT;
 bool IS_FIRST_ALARM_RAISED;
 bool IS_SECOND_ALARM_RAISED;
 
+int noOfMoves=0;
+
 Position oscillating_position_not_take;
 
 #endif	/* GLOBALVARIABLES_H */

@@ -59,6 +59,8 @@ enum Direction {
 #define WTS_CHANGING_A0 1.0
 #define WTS_CHANGING_A1 1.1
 
+#define APPLY_RUSH_MOVE true  // TODO: make it false
+
 #define ALLOWED_WALLS_ADJACENT_OPPONENT 1
 #define WALL_OPPONENT_MAX_GAP ((ALLOWED_WALLS_ADJACENT_OPPONENT - 1) * 2) + 1
 
