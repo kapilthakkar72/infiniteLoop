@@ -1,0 +1,68 @@
+Starting the InfiniteLoop....
+Quoridor will start...
+Player 1
+Time 60
+Board size 9x9 :10
+opponent moved to: 17,7
+sending move: 0: 5,9
+opponent moved to: 17,9
+sending move: 0: 7,9
+opponent moved to: 15,9
+sending move: 0: 9,9
+opponent moved to: 13,9
+sending move: 0: 11,9
+opponent moved to: 13,7
+sending move: 0: 13,9
+opponent moved to: 15,7
+sending move: 0: 15,9
+opponent moved to: 17,7
+sending move: 0: 17,9
+:) :) :) ... I WON .... :) :) :)
+opponent moved to: 15,7
+sending move: 1: 14,6
+opponent moved to: 15,9
+sending move: 1: 14,10
+opponent moved to: 15,11
+sending move: 2: 16,10
+opponent moved to: 15,13
+sending move: 1: 14,14
+opponent moved to: 15,15
+sending move: 2: 14,16
+opponent moved to: 17,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 17,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 15,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,17
+sending move: 1: 12,16
+opponent moved to: 9,17
+sending move: 1: 8,16
+opponent moved to: 9,15
+sending move: 2: 10,16
+opponent moved to: 9,13
+sending move: 1: 8,12
+opponent moved to: 9,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,9
+You win!! Yayee!! :D 
+The End

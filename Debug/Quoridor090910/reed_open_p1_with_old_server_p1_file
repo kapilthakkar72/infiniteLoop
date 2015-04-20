@@ -1,0 +1,1070 @@
+Starting the InfiniteLoop....
+Quoridor will start...
+Player 1
+Time 30
+Board size 9x9 :10
+##Applying The REED Opening Move...
+
+opponent moved to: 15,9
+##Applying The REED Opening Move...
+
+sending move: 1: 12,12
+1800 3
+------Attention: First Alarm raised for walls
+opponent moved to: 13,9
+sending move: 0: 3,9
+1799.45 3
+opponent moved to: 11,9
+sending move: 0: 5,9
+1798.53 3
+opponent moved to: 9,9
+sending move: 0: 7,9
+1797.74 3
+opponent moved to: 5,9
+sending move: 0: 9,9
+1797.29 3
+sending move: 0: 9,11
+1796.45 3
+opponent moved to: 3,9
+sending move: 1: 2,8
+1795.91 3
+opponent moved to: 3,11
+sending move: 1: 2,12
+1795.37 3
+------Attention: Second Alarm raised for walls
+sending move: 0: 7,11
+1794.62 3
+opponent moved to: 3,9
+sending move: 0: 7,9
+1793.44 3
+sending move: 2: 2,10
+1791.82 3
+sending move: 0: 5,9
+1791.23 3
+sending move: 0: 5,7
+1790.48 3
+opponent moved to: 3,7
+sending move: 2: 4,6
+1789.45 3
+opponent moved to: 7,7
+sending move: 0: 9,7
+1789.12 3
+sending move: 1: 6,6
+1788.73 3
+opponent moved to: 7,5
+sending move: 2: 6,4
+1788.5 3
+opponent moved to: 9,5
+sending move: 1: 8,4
+1788.25 3
+opponent moved to: 9,3
+sending move: 0: 9,5
+1788.2 3
+opponent moved to: 9,1
+sending move: 0: 9,3
+1788.15 3
+opponent moved to: 7,1
+sending move: 0: 9,1
+1788.09 3
+opponent moved to: 5,1
+sending move: 0: 11,1
+1788 3
+opponent moved to: 3,1
+sending move: 1: 2,2
+-------------I am out of walls------------
+1787.9 3
+opponent moved to: 3,3
+sending move: 0: 11,3
+1787.87 3
+opponent moved to: 3,5
+sending move: 0: 11,5
+1787.84 3
+opponent moved to: 1,5
+sending move: 0: 11,7
+1787.79 32
+:( :( :( ... OPPONENT WON .... :( :( :(
+sending move: 0: 11,9
+1787.79 32
+sending move: 0: 13,9
+1787.79 32
+sending move: 0: 13,7
+1787.78 32
+sending move: 0: 13,5
+1787.78 32
+sending move: 0: 13,7
+1787.76 32
+sending move: 0: 13,9
+1787.74 32
+sending move: 0: 13,11
+1787.72 32
+sending move: 0: 13,9
+1787.7 32
+sending move: 0: 11,9
+1787.68 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1787.65 32
+sending move: 0: 11,9
+1787.63 32
+sending move: 0: 13,9
+1787.59 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1787.57 32
+sending move: 0: 13,9
+1787.54 32
+sending move: 0: 11,9
+1787.51 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1787.48 32
+sending move: 0: 11,9
+1787.46 32
+sending move: 0: 13,9
+1787.43 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1787.4 32
+sending move: 0: 13,9
+1787.38 32
+sending move: 0: 11,9
+1787.35 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1787.32 32
+sending move: 0: 11,9
+1787.29 32
+sending move: 0: 13,9
+1787.26 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1787.23 32
+sending move: 0: 13,9
+1787.2 32
+sending move: 0: 11,9
+1787.17 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1787.14 32
+sending move: 0: 11,9
+1787.11 32
+sending move: 0: 13,9
+1787.08 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1787.05 32
+sending move: 0: 13,9
+1787.02 32
+sending move: 0: 11,9
+1786.99 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1786.96 32
+sending move: 0: 11,9
+1786.93 32
+sending move: 0: 13,9
+1786.9 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1786.87 32
+sending move: 0: 13,9
+1786.84 32
+sending move: 0: 11,9
+1786.81 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1786.78 32
+sending move: 0: 11,9
+1786.75 32
+sending move: 0: 13,9
+1786.72 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1786.69 32
+sending move: 0: 13,9
+1786.66 32
+sending move: 0: 11,9
+1786.63 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1786.6 32
+sending move: 0: 11,9
+1786.57 32
+sending move: 0: 13,9
+1786.54 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1786.51 32
+sending move: 0: 13,9
+1786.48 32
+sending move: 0: 11,9
+1786.45 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1786.42 32
+sending move: 0: 11,9
+1786.39 32
+sending move: 0: 13,9
+1786.36 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1786.33 32
+sending move: 0: 13,9
+1786.3 32
+sending move: 0: 11,9
+1786.28 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1786.25 32
+sending move: 0: 11,9
+1786.22 32
+sending move: 0: 13,9
+1786.19 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1786.16 32
+sending move: 0: 13,9
+1786.14 32
+sending move: 0: 11,9
+1786.11 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1786.09 32
+sending move: 0: 11,9
+1786.05 32
+sending move: 0: 13,9
+1786.02 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1785.99 32
+sending move: 0: 13,9
+1785.96 32
+sending move: 0: 11,9
+1785.93 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1785.9 32
+sending move: 0: 11,9
+1785.86 32
+sending move: 0: 13,9
+1785.83 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1785.81 32
+sending move: 0: 13,9
+1785.78 32
+sending move: 0: 11,9
+1785.75 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1785.73 32
+sending move: 0: 11,9
+1785.7 32
+sending move: 0: 13,9
+1785.67 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1785.65 32
+sending move: 0: 13,9
+1785.62 32
+sending move: 0: 11,9
+1785.59 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1785.56 32
+sending move: 0: 11,9
+1785.54 32
+sending move: 0: 13,9
+1785.51 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1785.48 32
+sending move: 0: 13,9
+1785.45 32
+sending move: 0: 11,9
+1785.42 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1785.39 32
+sending move: 0: 11,9
+1785.35 32
+sending move: 0: 13,9
+1785.32 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1785.29 32
+sending move: 0: 13,9
+1785.26 32
+sending move: 0: 11,9
+1785.23 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1785.2 32
+sending move: 0: 11,9
+1785.18 32
+sending move: 0: 13,9
+1785.15 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1785.11 32
+sending move: 0: 13,9
+1785.08 32
+sending move: 0: 11,9
+1785.06 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1785.02 32
+sending move: 0: 11,9
+1785 32
+sending move: 0: 13,9
+1784.97 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1784.95 32
+sending move: 0: 13,9
+1784.92 32
+sending move: 0: 11,9
+1784.89 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1784.86 32
+sending move: 0: 11,9
+1784.83 32
+sending move: 0: 13,9
+1784.81 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1784.78 32
+sending move: 0: 13,9
+1784.75 32
+sending move: 0: 11,9
+1784.72 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1784.69 32
+sending move: 0: 11,9
+1784.66 32
+sending move: 0: 13,9
+1784.63 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1784.61 32
+sending move: 0: 13,9
+1784.58 32
+sending move: 0: 11,9
+1784.54 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1784.51 32
+sending move: 0: 11,9
+1784.48 32
+sending move: 0: 13,9
+1784.45 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1784.42 32
+sending move: 0: 13,9
+1784.39 32
+sending move: 0: 11,9
+1784.36 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1784.33 32
+sending move: 0: 11,9
+1784.3 32
+sending move: 0: 13,9
+1784.28 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1784.25 32
+sending move: 0: 13,9
+1784.22 32
+sending move: 0: 11,9
+1784.19 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1784.16 32
+sending move: 0: 11,9
+1784.13 32
+sending move: 0: 13,9
+1784.1 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1784.08 32
+sending move: 0: 13,9
+1784.05 32
+sending move: 0: 11,9
+1784.02 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1783.99 32
+sending move: 0: 11,9
+1783.96 32
+sending move: 0: 13,9
+1783.94 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1783.91 32
+sending move: 0: 13,9
+1783.88 32
+sending move: 0: 11,9
+1783.85 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1783.82 32
+sending move: 0: 11,9
+1783.79 32
+sending move: 0: 13,9
+1783.76 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1783.73 32
+sending move: 0: 13,9
+1783.7 32
+sending move: 0: 11,9
+1783.67 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1783.64 32
+sending move: 0: 11,9
+1783.6 32
+sending move: 0: 13,9
+1783.58 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1783.55 32
+sending move: 0: 13,9
+1783.52 32
+sending move: 0: 11,9
+1783.48 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1783.46 32
+sending move: 0: 11,9
+1783.43 32
+sending move: 0: 13,9
+1783.4 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1783.36 32
+sending move: 0: 13,9
+1783.33 32
+sending move: 0: 11,9
+1783.31 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1783.27 32
+sending move: 0: 11,9
+1783.24 32
+sending move: 0: 13,9
+1783.22 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1783.18 32
+sending move: 0: 13,9
+1783.15 32
+sending move: 0: 11,9
+1783.13 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1783.1 32
+sending move: 0: 11,9
+1783.07 32
+sending move: 0: 13,9
+1783.05 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1783.02 32
+sending move: 0: 13,9
+1782.99 32
+sending move: 0: 11,9
+1782.96 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1782.93 32
+sending move: 0: 11,9
+1782.9 32
+sending move: 0: 13,9
+1782.87 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1782.85 32
+sending move: 0: 13,9
+1782.82 32
+sending move: 0: 11,9
+1782.79 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1782.76 32
+sending move: 0: 11,9
+1782.73 32
+sending move: 0: 13,9
+1782.7 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1782.67 32
+sending move: 0: 13,9
+1782.64 32
+sending move: 0: 11,9
+1782.61 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1782.58 32
+sending move: 0: 11,9
+1782.55 32
+sending move: 0: 13,9
+1782.52 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1782.49 32
+sending move: 0: 13,9
+1782.45 32
+sending move: 0: 11,9
+1782.42 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1782.39 32
+sending move: 0: 11,9
+1782.36 32
+sending move: 0: 13,9
+1782.33 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1782.3 32
+sending move: 0: 13,9
+1782.27 32
+sending move: 0: 11,9
+1782.25 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1782.21 32
+sending move: 0: 11,9
+1782.18 32
+sending move: 0: 13,9
+1782.15 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1782.13 32
+sending move: 0: 13,9
+1782.09 32
+sending move: 0: 11,9
+1782.06 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1782.03 32
+sending move: 0: 11,9
+1782 32
+sending move: 0: 13,9
+1781.97 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1781.94 32
+sending move: 0: 13,9
+1781.91 32
+sending move: 0: 11,9
+1781.88 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1781.85 32
+sending move: 0: 11,9
+1781.82 32
+sending move: 0: 13,9
+1781.79 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1781.77 32
+sending move: 0: 13,9
+1781.74 32
+sending move: 0: 11,9
+1781.71 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1781.68 32
+sending move: 0: 11,9
+1781.65 32
+sending move: 0: 13,9
+1781.62 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1781.59 32
+sending move: 0: 13,9
+1781.56 32
+sending move: 0: 11,9
+1781.53 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1781.51 32
+sending move: 0: 11,9
+1781.47 32
+sending move: 0: 13,9
+1781.44 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1781.42 32
+sending move: 0: 13,9
+1781.39 32
+sending move: 0: 11,9
+1781.36 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1781.34 32
+sending move: 0: 11,9
+1781.31 32
+sending move: 0: 13,9
+1781.29 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1781.26 32
+sending move: 0: 13,9
+1781.24 32
+sending move: 0: 11,9
+1781.21 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1781.18 32
+sending move: 0: 11,9
+1781.16 32
+sending move: 0: 13,9
+1781.13 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1781.1 32
+sending move: 0: 13,9
+1781.07 32
+sending move: 0: 11,9
+1781.04 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1781.01 32
+sending move: 0: 11,9
+1780.98 32
+sending move: 0: 13,9
+1780.95 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1780.92 32
+sending move: 0: 13,9
+1780.89 32
+sending move: 0: 11,9
+1780.87 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1780.84 32
+sending move: 0: 11,9
+1780.82 32
+sending move: 0: 13,9
+1780.79 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1780.76 32
+sending move: 0: 13,9
+1780.73 32
+sending move: 0: 11,9
+1780.7 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1780.67 32
+sending move: 0: 11,9
+1780.64 32
+sending move: 0: 13,9
+1780.61 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1780.58 32
+sending move: 0: 13,9
+1780.56 32
+sending move: 0: 11,9
+1780.54 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1780.51 32
+sending move: 0: 11,9
+1780.48 32
+sending move: 0: 13,9
+1780.45 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1780.42 32
+sending move: 0: 13,9
+1780.39 32
+sending move: 0: 11,9
+1780.36 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1780.33 32
+sending move: 0: 11,9
+1780.29 32
+sending move: 0: 13,9
+1780.26 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1780.23 32
+sending move: 0: 13,9
+1780.2 32
+sending move: 0: 11,9
+1780.17 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1780.14 32
+sending move: 0: 11,9
+1780.11 32
+sending move: 0: 13,9
+1780.08 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1780.05 32
+sending move: 0: 13,9
+1780.01 32
+sending move: 0: 11,9
+1779.98 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1779.95 32
+sending move: 0: 11,9
+1779.91 32
+sending move: 0: 13,9
+1779.89 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1779.87 32
+sending move: 0: 13,9
+1779.84 32
+sending move: 0: 11,9
+1779.81 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1779.79 32
+sending move: 0: 11,9
+1779.76 32
+sending move: 0: 13,9
+1779.73 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1779.7 32
+sending move: 0: 13,9
+1779.67 32
+sending move: 0: 11,9
+1779.64 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1779.61 32
+sending move: 0: 11,9
+1779.59 32
+sending move: 0: 13,9
+1779.56 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1779.54 32
+sending move: 0: 13,9
+1779.51 32
+sending move: 0: 11,9
+1779.49 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1779.46 32
+sending move: 0: 11,9
+1779.44 32
+sending move: 0: 13,9
+1779.41 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1779.38 32
+sending move: 0: 13,9
+1779.35 32
+sending move: 0: 11,9
+1779.32 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1779.29 32
+sending move: 0: 11,9
+1779.26 32
+sending move: 0: 13,9
+1779.23 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1779.2 32
+sending move: 0: 13,9
+1779.17 32
+sending move: 0: 11,9
+1779.14 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1779.11 32
+sending move: 0: 11,9
+1779.08 32
+sending move: 0: 13,9
+1779.05 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1779.02 32
+sending move: 0: 13,9
+1778.99 32
+sending move: 0: 11,9
+1778.96 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1778.94 32
+sending move: 0: 11,9
+1778.9 32
+sending move: 0: 13,9
+1778.88 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1778.85 32
+sending move: 0: 13,9
+1778.82 32
+sending move: 0: 11,9
+1778.8 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1778.77 32
+sending move: 0: 11,9
+1778.74 32
+sending move: 0: 13,9
+1778.71 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1778.68 32
+sending move: 0: 13,9
+1778.64 32
+sending move: 0: 11,9
+1778.61 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1778.58 32
+sending move: 0: 11,9
+1778.55 32
+sending move: 0: 13,9
+1778.52 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11
+1778.5 32
+sending move: 0: 13,9
+1778.47 32
+sending move: 0: 11,9
+1778.45 32
+visiting 13|9 the second time
+updating minSteps to :5
+sending move: 0: 13,9
+1778.42 32
+sending move: 0: 11,9
+1778.39 32
+sending move: 0: 13,9
+1778.37 32
+visiting 11|9 the second time
+updating minSteps to :6
+updating minSteps to :5
+updating minSteps to :4
+sending move: 0: 13,11

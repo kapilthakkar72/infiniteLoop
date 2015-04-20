@@ -1,0 +1,102 @@
+Starting the InfiniteLoop....
+Quoridor will start...
+Player 2
+Time 60
+Board size 9x9 :10
+opponent moved to: 3,9
+sending move: 0: 15,9
+opponent moved to: 5,9
+sending move: 0: 13,9
+opponent moved to: 7,9
+sending move: 0: 11,9
+sending move: 0: 11,11
+sending move: 0: 13,11
+sending move: 0: 13,13
+opponent moved to: 9,9
+sending move: 0: 13,15
+opponent moved to: 9,7
+sending move: 2: 8,6
+sending move: 0: 13,17
+opponent moved to: 7,7
+sending move: 1: 6,8
+opponent moved to: 9,7
+sending move: 0: 11,17
+sending move: 0: 13,17
+opponent moved to: 7,7
+sending move: 0: 11,17
+sending move: 0: 13,17
+opponent moved to: 7,9
+sending move: 2: 6,10
+opponent moved to: 9,9
+sending move: 0: 15,17
+opponent moved to: 9,11
+sending move: 0: 15,15
+sending move: 0: 15,13
+opponent moved to: 7,11
+sending move: 0: 15,11
+opponent moved to: 5,11
+sending move: 1: 4,12
+opponent moved to: 5,13
+sending move: 2: 6,14
+sending move: 0: 15,9
+opponent moved to: 7,13
+sending move: 1: 8,14
+opponent moved to: 7,11
+sending move: 0: 15,7
+opponent moved to: 9,11
+sending move: 0: 13,7
+opponent moved to: 9,13
+sending move: 0: 13,5
+opponent moved to: 9,15
+sending move: 0: 11,5
+sending move: 0: 11,3
+opponent moved to: 9,17
+sending move: 0: 11,1
+opponent moved to: 7,17
+sending move: 0: 9,1
+opponent moved to: 5,17
+sending move: 0: 7,1
+opponent moved to: 3,17
+sending move: 0: 5,1
+opponent moved to: 3,15
+sending move: 0: 3,1
+sending move: 0: 3,3
+opponent moved to: 3,13
+sending move: 0: 3,5
+opponent moved to: 3,11
+sending move: 0: 1,5
+:) :) :) ... I WON .... :) :) :)
+opponent moved to: 3,9
+sending move: 1: 4,8
+opponent moved to: 3,7
+sending move: 1: 2,6
+opponent moved to: 3,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,1
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,1
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,1
+--pass---
+sending move: 0: 0,0
+opponent moved to: 15,1
+--pass---
+sending move: 0: 0,0
+opponent moved to: 17,1
+You win!! Yayee!! :D 
+The End

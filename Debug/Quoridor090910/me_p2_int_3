@@ -1,0 +1,49 @@
+Starting the InfiniteLoop....
+Quoridor will start...
+Player 2
+Time 60
+Board size 9x9 :10
+opponent moved to: 3,9
+sending move: 0: 15,9
+opponent moved to: 3,11
+sending move: 0: 13,9
+opponent moved to: 3,9
+sending move: 0: 11,9
+opponent moved to: 3,11
+sending move: 0: 9,9
+opponent moved to: 5,11
+sending move: 0: 7,9
+opponent moved to: 7,11
+sending move: 0: 5,9
+opponent moved to: 5,11
+sending move: 1: 6,10
+opponent moved to: 5,13
+sending move: 1: 6,14
+opponent moved to: 5,11
+sending move: 0: 3,9
+opponent moved to: 5,9
+sending move: 0: 1,9
+:) :) :) ... I WON .... :) :) :)
+opponent moved to: 5,7
+sending move: 1: 6,6
+opponent moved to: 5,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,3
+sending move: 2: 4,4
+opponent moved to: 7,3
+sending move: 2: 8,4
+opponent moved to: 9,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,3
+sending move: 2: 12,4
+opponent moved to: 13,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 15,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 17,3
+You win!! Yayee!! :D 
+The End

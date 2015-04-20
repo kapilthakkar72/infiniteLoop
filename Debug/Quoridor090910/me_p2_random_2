@@ -1,0 +1,446 @@
+Starting the InfiniteLoop....
+Quoridor will start...
+Player 2
+Time 60
+Board size 9x9 :10
+opponent moved to: 1,11
+sending move: 0: 15,9
+opponent moved to: 1,13
+sending move: 0: 13,9
+opponent moved to: 1,15
+sending move: 0: 11,9
+opponent moved to: 1,17
+sending move: 0: 9,9
+opponent moved to: 3,17
+sending move: 0: 7,9
+opponent moved to: 5,17
+sending move: 1: 6,16
+opponent moved to: 5,15
+sending move: 2: 4,14
+opponent moved to: 3,15
+sending move: 1: 2,14
+opponent moved to: 3,17
+sending move: 0: 5,9
+opponent moved to: 5,17
+sending move: 0: 3,9
+opponent moved to: 3,17
+sending move: 0: 1,9
+:) :) :) ... I WON .... :) :) :)
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,9
+sending move: 1: 2,8
+opponent moved to: 5,9
+sending move: 1: 6,10
+opponent moved to: 5,11
+sending move: 2: 6,12
+opponent moved to: 5,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,9
+sending move: 2: 2,10
+opponent moved to: 3,7
+sending move: 1: 4,6
+opponent moved to: 3,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 1,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 3,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 15,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,3
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,5
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 15,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 15,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,7
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,9
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,11
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 5,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 7,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 9,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,17
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,15
+--pass---
+sending move: 0: 0,0
+opponent moved to: 11,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 13,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 15,13
+--pass---
+sending move: 0: 0,0
+opponent moved to: 17,13
+You win!! Yayee!! :D 
+The End
