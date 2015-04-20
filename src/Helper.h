@@ -222,6 +222,8 @@ bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) 
 	if (gs.graphStruct.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_H)
 		return false;
 
+	cout <<"Checking wall on "<<wall_pos.row<<" "<<wall_pos.col<<" "<< gs.graphStruct.graph[wall_pos.row][wall_pos.col] << endl;
+
 	if (gs.graphStruct.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_V)
 		return false;
 
@@ -564,7 +566,7 @@ GameState getGS_for_ShortestMove(GameState gs) {
 		int tmp = a_star((*it).graphStruct, (*it).players[whoAmI], whoAmI);
 
 		if (min_steps > tmp) {
-			cout << "updating minSteps to :" << tmp << endl;
+			//cout << "updating minSteps to :" << tmp << endl;
 			min_steps = tmp;
 			gs.moveToBeTaken.isValid = true;
 			gs.moveToBeTaken.moveType = MoveType_PLAYER;
@@ -604,6 +606,12 @@ GameState getMeMove(GameState gs) {
 
 	//opponent has won & it has got no walls
 	if (HAVE_OPPONENT_WON && gs.players[opponent].wallsRemaining == 0) {
+		return getGS_for_ShortestMove(gs);
+	}
+
+	if(gs.players[whoAmI].wallsRemaining == 0) // TODO : Ask Harinder chalega?
+	{
+		// I have no walls left, just follow the shortest path
 		return getGS_for_ShortestMove(gs);
 	}
 
