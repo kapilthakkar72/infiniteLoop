@@ -389,17 +389,6 @@ int main(int argc, char *argv[]) {
 				have_I_got_a_valid_move = true;
 
 				// Apply Move only when APPLY_RUSH_MOVE is true and I am player 1
-				//				cout<<"Player:"<<player<<endl;
-				//				if (player == 1)
-				//				{
-				//					cout << "Number of Moves:" << noOfMoves << endl;
-				//					cout << "My Position: "
-				//							<< curr_GS.players[whoAmI].position.row << " "
-				//							<< curr_GS.players[whoAmI].position.col << endl;
-				//					cout << "My Opp Position: "
-				//							<< curr_GS.players[opponent].position.row << " "
-				//							<< curr_GS.players[opponent].position.col << endl;
-				//				}
 				if (APPLY_RUSH_MOVE && player == 1 && noOfMoves == 3
 						&& curr_GS.players[whoAmI].position.row == 7
 						&& curr_GS.players[whoAmI].position.col == 9
