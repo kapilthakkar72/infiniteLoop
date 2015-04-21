@@ -322,17 +322,7 @@ int main(int argc, char *argv[]) {
 
 		//----Our Code Start---
 
-		if (!HAVE_OPPONENT_WON) {
-			HAVE_OPPONENT_WON = haveTheOpponentWon(curr_GS);
-			if (HAVE_OPPONENT_WON)
-				cout << ":( :( :( ... OPPONENT WON .... :( :( :(" << endl;
-		}
 
-		if (!HAVE_I_WON) {
-			HAVE_I_WON = haveIWon(curr_GS);
-			if (HAVE_I_WON)
-				cout << ":) :) :) ... I WON .... :) :) :)" << endl;
-		}
 
 		cout << "om :" << om << " oro:" << oro << " oc:" << oc << endl;
 
@@ -365,6 +355,18 @@ int main(int argc, char *argv[]) {
 			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
 			cout << "Oppo Placed a vertical wall" << endl;
 		}
+
+		if (!HAVE_OPPONENT_WON) {
+					HAVE_OPPONENT_WON = haveTheOpponentWon(curr_GS);
+					if (HAVE_OPPONENT_WON)
+						cout << ":( :( :( ... OPPONENT WON .... :( :( :(" << endl;
+				}
+
+				if (!HAVE_I_WON) {
+					HAVE_I_WON = haveIWon(curr_GS);
+					if (HAVE_I_WON)
+						cout << ":) :) :) ... I WON .... :) :) :)" << endl;
+				}
 
 		//---Our Code End---
 
