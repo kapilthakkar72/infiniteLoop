@@ -127,9 +127,9 @@ class TkBoard():
 	global winners
 	global el 
 	turn = 0
-	timeout=120.0
-	trackTime1=120.0
-	trackTime2=120.0
+	timeout=180.0
+	trackTime1=180.0
+	trackTime2=180.0
 	global message
 	global message2
 	for player in socket_list:
@@ -747,8 +747,8 @@ if __name__ == "__main__":
             break
 	# 1st client will be in socket_list[0] and 2nd will be socket_list[1]
 
-    socket_list[0].send('1 11 11 12 120')
-    socket_list[1].send('2 11 11 12 120')
+    socket_list[0].send('1 11 11 12 180')
+    socket_list[1].send('2 11 11 12 180')
     tkb = TkBoard(n, ai)
     
     
