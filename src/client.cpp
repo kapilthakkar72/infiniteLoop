@@ -22,7 +22,7 @@ map<string, int> map_to_check_oscillations;
 bool checkIsOscillating(Move move) {
 	//logic to avoid oscillations--start
 
-	if (move.position.row == 0 && move.position.col == 0) {//this takes care of default scenario
+	if (move.position.row == 0 && move.position.col == 0) { //this takes care of default scenario
 		return false;
 	}
 
@@ -74,29 +74,29 @@ Move AI_processing(GameState &curr_GS, int & m) {
 
 	if (move.moveType == MoveType_PLAYER) {
 		m = 0;
-		curr_GS.graphStruct.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
-				= ObjectType_EMPTY;
-		curr_GS.graphStruct.graph[move.position.row][move.position.col]
-				= playerNum_to_ObjectType(whoAmI);
+		curr_GS.graphStruct.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col] =
+				ObjectType_EMPTY;
+		curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+				playerNum_to_ObjectType(whoAmI);
 		curr_GS.players[whoAmI].position = move.position;
 	}
 
-	else if (move.moveType == MoveType_PLACE_WALL && move.wallType
-			== WallType_H) {
+	else if (move.moveType == MoveType_PLACE_WALL
+			&& move.wallType == WallType_H) {
 		m = 1;
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
-		curr_GS.graphStruct.graph[move.position.row][move.position.col]
-				= ObjectType_WALL_H;
-		map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+		curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+				ObjectType_WALL_H;
+		map_to_check_oscillations.clear(); //clearing the map since I am changing the state now
 	}
 
-	else if (move.moveType == MoveType_PLACE_WALL && move.wallType
-			== WallType_V) {
+	else if (move.moveType == MoveType_PLACE_WALL
+			&& move.wallType == WallType_V) {
 		m = 2;
 		curr_GS.players[whoAmI].wallsRemaining -= 1;
-		curr_GS.graphStruct.graph[move.position.row][move.position.col]
-				= ObjectType_WALL_V;
-		map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+		curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+				ObjectType_WALL_V;
+		map_to_check_oscillations.clear(); //clearing the map since I am changing the state now
 	}
 
 	else {
@@ -151,7 +151,8 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+	if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr))
+			< 0) {
 		printf("\n Error : Connect Failed \n");
 		return 1;
 	}
@@ -221,8 +222,8 @@ int main(int argc, char *argv[]) {
 
 			if (REED_OPENING_P1 && noOfMoves == 0 && player == 1
 					&& curr_GS.players[whoAmI].position.row == 1
-					&& curr_GS.players[whoAmI].position.col == 9 && N == 9 && M
-					== 9) {
+					&& curr_GS.players[whoAmI].position.col == 9 && N == 9
+					&& M == 9) {
 				cout << "##Applying The REED Opening Move...\n\n";
 				move.isValid = true;
 				move.moveType = MoveType_PLACE_WALL;
@@ -233,33 +234,33 @@ int main(int argc, char *argv[]) {
 
 				// Changing current Game Position
 				curr_GS.players[whoAmI].wallsRemaining -= 1;
-				curr_GS.graphStruct.graph[move.position.row][move.position.col]
-						= ObjectType_WALL_H;
-				map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+				curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+						ObjectType_WALL_H;
+				map_to_check_oscillations.clear(); //clearing the map since I am changing the state now
 			} else {
 				curr_GS = getMeMove(curr_GS);
 				move = curr_GS.moveToBeTaken;
 
 				if (move.moveType == MoveType_PLAYER) {
 					m = 0;
-					curr_GS.graphStruct.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col]
-							= ObjectType_EMPTY;
-					curr_GS.graphStruct.graph[move.position.row][move.position.col]
-							= ObjectType_PLAYER1;
+					curr_GS.graphStruct.graph[curr_GS.players[whoAmI].position.row][curr_GS.players[whoAmI].position.col] =
+							ObjectType_EMPTY;
+					curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+							ObjectType_PLAYER1;
 					curr_GS.players[whoAmI].position = move.position;
 				}
 
 				else if (move.wallType == WallType_H) {
-					curr_GS.graphStruct.graph[move.position.row][move.position.col]
-							= ObjectType_WALL_H;
+					curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+							ObjectType_WALL_H;
 					curr_GS.players[opponent].wallsRemaining -= 1;
 
 					m = 1;
 				}
 
 				else if (move.wallType == WallType_V) {
-					curr_GS.graphStruct.graph[move.position.row][move.position.col]
-							= ObjectType_WALL_V;
+					curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+							ObjectType_WALL_V;
 					curr_GS.players[whoAmI].wallsRemaining -= 1;
 
 					m = 2;
@@ -324,32 +325,32 @@ int main(int argc, char *argv[]) {
 		cout << "om :" << om << " oro:" << oro << " oc:" << oc << endl;
 
 		if (om == 0 && !HAVE_OPPONENT_WON) {
-			curr_GS.graphStruct.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
-					= ObjectType_EMPTY;
+			curr_GS.graphStruct.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col] =
+					ObjectType_EMPTY;
 
 			curr_GS.players[opponent].position.row = oro * 2 - 1;
 			curr_GS.players[opponent].position.col = oc * 2 - 1;
 
-			curr_GS.graphStruct.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
-					= playerNum_to_ObjectType(opponent);
+			curr_GS.graphStruct.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col] =
+					playerNum_to_ObjectType(opponent);
 
 			cout << "opponent moved to: " << oro * 2 - 1 << "," << oc * 2 - 1
 					<< endl;
 		}
 
 		else if (om == 1) {
-			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2]
-					= ObjectType_WALL_H;
+			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2] =
+					ObjectType_WALL_H;
 			curr_GS.players[opponent].wallsRemaining -= 1;
-			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
+			map_to_check_oscillations.clear(); //clearing the map since opponent has placed a wall
 			cout << "Oppo Placed a horizontal wall" << endl;
 		}
 
 		else if (om == 2) {
-			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2]
-					= ObjectType_WALL_V;
+			curr_GS.graphStruct.graph[oro * 2 - 2][oc * 2 - 2] =
+					ObjectType_WALL_V;
 			curr_GS.players[opponent].wallsRemaining -= 1;
-			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
+			map_to_check_oscillations.clear(); //clearing the map since opponent has placed a wall
 			cout << "Oppo Placed a vertical wall" << endl;
 		}
 
@@ -366,7 +367,6 @@ int main(int argc, char *argv[]) {
 		}
 
 		//---Our Code End---
-
 
 		if (d == 1) {
 			cout << "You win!! Yayee!! :D ";
@@ -393,8 +393,8 @@ int main(int argc, char *argv[]) {
 						&& curr_GS.players[whoAmI].position.row == 7
 						&& curr_GS.players[whoAmI].position.col == 9
 						&& curr_GS.players[opponent].position.row == 11
-						&& curr_GS.players[opponent].position.col == 9 && N
-						== 9 && M == 9) {
+						&& curr_GS.players[opponent].position.col == 9 && N == 9
+						&& M == 9) {
 					Position temp;
 					temp.row = 10;
 					temp.col = 8;
@@ -409,9 +409,9 @@ int main(int argc, char *argv[]) {
 
 						// Changing current Game Position
 						curr_GS.players[whoAmI].wallsRemaining -= 1;
-						curr_GS.graphStruct.graph[move.position.row][move.position.col]
-								= ObjectType_WALL_V;
-						map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+						curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+								ObjectType_WALL_V;
+						map_to_check_oscillations.clear(); //clearing the map since I am changing the state now
 					} else {
 						move = AI_processing(curr_GS, m);
 					}
@@ -429,9 +429,9 @@ int main(int argc, char *argv[]) {
 
 					// Changing current Game Position
 					curr_GS.players[whoAmI].wallsRemaining -= 1;
-					curr_GS.graphStruct.graph[move.position.row][move.position.col]
-							= ObjectType_WALL_H;
-					map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+					curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+							ObjectType_WALL_H;
+					map_to_check_oscillations.clear(); //clearing the map since I am changing the state now
 				} else if (REED_OPENING_P2 && noOfMoves <= 1 && player == 2
 						&& curr_GS.players[whoAmI].position.row == 17
 						&& curr_GS.players[whoAmI].position.col == 9 && N == 9
@@ -451,9 +451,9 @@ int main(int argc, char *argv[]) {
 
 					// Changing current Game Position
 					curr_GS.players[whoAmI].wallsRemaining -= 1;
-					curr_GS.graphStruct.graph[move.position.row][move.position.col]
-							= ObjectType_WALL_H;
-					map_to_check_oscillations.clear();//clearing the map since I am changing the state now
+					curr_GS.graphStruct.graph[move.position.row][move.position.col] =
+							ObjectType_WALL_H;
+					map_to_check_oscillations.clear(); //clearing the map since I am changing the state now
 				} else {
 					move = AI_processing(curr_GS, m);
 				}
@@ -485,13 +485,13 @@ int main(int argc, char *argv[]) {
 			cin >> m >> r >> c;
 		}
 
-		if (curr_GS.players[whoAmI].wallsRemaining == 0 && DO_I_HAVE_WALLS_LEFT) {
+		if (curr_GS.players[whoAmI].wallsRemaining == 0
+				&& DO_I_HAVE_WALLS_LEFT) {
 			cout << "-------------I am out of walls------------" << endl;
 			DO_I_HAVE_WALLS_LEFT = false;
 		}
 
 		//-----Our Code End---
-
 
 		//cin >> m >> r >> c;
 		snprintf(sendBuff, sizeof(sendBuff), "%d %d %d", m, r, c);
@@ -500,7 +500,7 @@ int main(int argc, char *argv[]) {
 		memset(recvBuff, '0', sizeof(recvBuff));
 		n = read(sockfd, recvBuff, sizeof(recvBuff) - 1);
 		recvBuff[n] = 0;
-		sscanf(recvBuff, "%f %d", &TL, &d);//d=3 indicates game continues.. d=2 indicates lost game, d=1 means game won.
+		sscanf(recvBuff, "%f %d", &TL, &d); //d=3 indicates game continues.. d=2 indicates lost game, d=1 means game won.
 		cout << TL << " " << d << endl;
 
 		if (TL < BUFFER_SUPER_FAST_MODE && !IS_SUPER_FAST_MODE) {
@@ -508,6 +508,14 @@ int main(int argc, char *argv[]) {
 					<< "------------------NEED TO HURRY = = = = SUPER_FAST_MODE=>ON--------------------"
 					<< endl;
 			IS_SUPER_FAST_MODE = true;
+		}
+
+		if (TL < BUFFER_SUPER_SUPER_FAST_MODE && !IS_SUPER_SUPER_FAST_MODE) {
+			cout
+					<< "------------------NEED TO HURRY = = = = SUPER_SUPER_FAST_MODE=>ON--------------------"
+					<< endl;
+			CUTOFF_MOVE = 1;
+			IS_SUPER_SUPER_FAST_MODE = true;
 		}
 
 		if (d == 1) {

@@ -38,9 +38,7 @@ enum Direction {
 	Direction_UP, Direction_DOWN, Direction_LEFT, Direction_RIGHT
 };
 
-#define CUTOFF_MOVE 2
-#define CUTOFF_LEVEL_P1 CUTOFF_MOVE*2
-#define CUTOFF_LEVEL_P2 CUTOFF_LEVEL_P1+1
+
 
 #define INFINITY_THAKKAR INT_MAX
 #define MINUS_INFINITY_THAKKAR INT_MIN
@@ -67,6 +65,7 @@ enum Direction {
 #define ALLOWED_WALLS_ADJACENT_OPPONENT 1
 #define WALL_OPPONENT_MAX_GAP ((ALLOWED_WALLS_ADJACENT_OPPONENT - 1) * 2) + 1
 
-#define BUFFER_SUPER_FAST_MODE 25 //remaining time(sec) to start superFast mode
+#define BUFFER_SUPER_FAST_MODE 30 //remaining time(sec) to start superFast mode
+#define BUFFER_SUPER_SUPER_FAST_MODE 15
 #endif	/* CONSTANTS_H */
 
