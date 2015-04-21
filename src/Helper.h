@@ -39,7 +39,7 @@ int getHeuristicValue(PlayerNum playerNumber, Position currentPos) {
 }
 
 void helper_a_star(Node & currentNode, Graph & g, Player & p,
-		priority_queue<Node, vector<Node> , CompareNodes> & openList,
+		priority_queue<Node, vector<Node>, CompareNodes> & openList,
 		Direction direction, PlayerNum turn) {
 
 	if (!isValidMoveForPlayer(currentNode.pos, g, turn, direction)) {
@@ -58,7 +58,7 @@ void helper_a_star(Node & currentNode, Graph & g, Player & p,
 //returns the path cost (number of steps)
 int a_star(Graph g, Player p, PlayerNum turn) {
 
-	priority_queue<Node, vector<Node> , CompareNodes> openList;
+	priority_queue<Node, vector<Node>, CompareNodes> openList;
 
 	vector<Node> closeList;
 
@@ -105,12 +105,22 @@ int a_star(Graph g, Player p, PlayerNum turn) {
 }
 
 //here pos denotes the middle of the wall
-bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) {
+bool isValidPositionForWall(Position wall_pos, GameState gs,
+		WallType wallType) {
 
 	Graph graph = gs.graphStruct;
 
 	if (wall_pos.row % 2 != 0 || wall_pos.col % 2 != 0) //walls can only be at even positions
 		return false;
+
+	if (wall_pos.row <= 1 || wall_pos.col <= 1)
+		return false;
+
+	if (wall_pos.row >= CURRENT_GAME_MAX_POSITION.row - 2
+			|| wall_pos.col >= CURRENT_GAME_MAX_POSITION.col - 2) {
+		//we have subtracted 2 because the pos denotes the middle
+		return false;
+	}
 
 	if (IS_FAST_MODE) {
 		Position opp_pos = whereIsMyOpponent(gs);
@@ -118,14 +128,14 @@ bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) 
 
 		bool isValid_in_fastMode = false;
 
-		if (abs(wall_pos.row - opp_pos.row) <= WALL_OPPONENT_MAX_GAP && abs(
-				wall_pos.col - opp_pos.col) <= WALL_OPPONENT_MAX_GAP)
+		if (abs(wall_pos.row - opp_pos.row) <= WALL_OPPONENT_MAX_GAP
+				&& abs(wall_pos.col - opp_pos.col) <= WALL_OPPONENT_MAX_GAP)
 			isValid_in_fastMode = true;
 
 		if (!IS_SUPER_FAST_MODE) {
 			//Placing a wall in the player surroundings is also valid
-			if (abs(wall_pos.row - my_pos.row) <= WALL_OPPONENT_MAX_GAP && abs(
-					wall_pos.col - my_pos.col) <= WALL_OPPONENT_MAX_GAP)
+			if (abs(wall_pos.row - my_pos.row) <= WALL_OPPONENT_MAX_GAP
+					&& abs(wall_pos.col - my_pos.col) <= WALL_OPPONENT_MAX_GAP)
 				isValid_in_fastMode = true;
 
 			//The below switch-case allows placing new walls adjacent to the existing walls
@@ -208,15 +218,6 @@ bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) 
 		if (!isValid_in_fastMode)
 			return false;
 
-	}
-
-	if (wall_pos.row <= 1 || wall_pos.col <= 1)
-		return false;
-
-	if (wall_pos.row >= CURRENT_GAME_MAX_POSITION.row - 2 || wall_pos.col
-			>= CURRENT_GAME_MAX_POSITION.col - 2) {
-		//we have subtracted 2 because the pos denotes the middle
-		return false;
 	}
 
 	if (gs.graphStruct.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_H)
@@ -411,10 +412,10 @@ void helper_movePlayer(GameState gs, Position old_pos, Direction direction,
 		new_GS.players[gs.turn].position = new_pos;
 		new_GS.moveTakenToReach.moveType = MoveType_PLAYER;
 		new_GS.moveTakenToReach.position = new_pos;
-		new_GS.graphStruct.graph[new_pos.row][new_pos.col]
-				= playerNum_to_ObjectType(gs.turn); //new position of player
-		new_GS.graphStruct.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col]
-				= ObjectType_EMPTY; //the previous position is of-course empty
+		new_GS.graphStruct.graph[new_pos.row][new_pos.col] =
+				playerNum_to_ObjectType(gs.turn); //new position of player
+		new_GS.graphStruct.graph[gs.players[gs.turn].position.row][gs.players[gs.turn].position.col] =
+				ObjectType_EMPTY; //the previous position is of-course empty
 
 		successors.push_back(new_GS);
 	}
@@ -430,12 +431,12 @@ void helper_placeWall(GameState gs, vector<GameState> & successors,
 	GameState new_gs = genChild_gameState(gs);
 
 	if (wallType == WallType_H) {
-		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col]
-				= ObjectType_WALL_H;
+		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col] =
+				ObjectType_WALL_H;
 		new_gs.moveTakenToReach.wallType = WallType_H;
 	} else {
-		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col]
-				= ObjectType_WALL_V;
+		new_gs.graphStruct.graph[wall_pos.row][wall_pos.col] =
+				ObjectType_WALL_V;
 		new_gs.moveTakenToReach.wallType = WallType_V;
 	}
 
@@ -461,7 +462,7 @@ vector<GameState> generateSuccessors(GameState gs) {
 		helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
 	}
 
-	else {//current turn won
+	else { //current turn won
 		GameState new_GS = genChild_gameState(gs);
 		//new_GS.players[gs.turn].position = gs.players[gs.turn].position;
 		new_GS.moveTakenToReach.moveType = MoveType_PASS;
@@ -504,8 +505,8 @@ GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 	if (node.nodeType == NodeType_MAX_NODE) {
 		vector<GameState> successors = generateSuccessors(node);
 
-		for (vector<GameState>::iterator it = successors.begin(); it
-				!= successors.end(); it++) {
+		for (vector<GameState>::iterator it = successors.begin();
+				it != successors.end(); it++) {
 			GameState tempGS = alpha_beta(*it, alpha, beta, w);
 
 			if (alpha.utilityVal < tempGS.utility.utilityVal) {
@@ -527,8 +528,8 @@ GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 	else { //MIN_NODE
 		vector<GameState> successors = generateSuccessors(node);
 
-		for (vector<GameState>::iterator it = successors.begin(); it
-				!= successors.end(); it++) {
+		for (vector<GameState>::iterator it = successors.begin();
+				it != successors.end(); it++) {
 			GameState tempGS = alpha_beta(*it, alpha, beta, w);
 
 			if (beta.utilityVal > tempGS.utility.utilityVal) {
@@ -558,8 +559,8 @@ GameState getGS_for_ShortestMove(GameState gs) {
 	helper_movePlayer(gs, old_pos, Direction_RIGHT, successors);
 
 	int min_steps = INFINITY_THAKKAR;
-	for (vector<GameState>::iterator it = successors.begin(); it
-			!= successors.end(); it++) {
+	for (vector<GameState>::iterator it = successors.begin();
+			it != successors.end(); it++) {
 		int tmp = a_star((*it).graphStruct, (*it).players[whoAmI], whoAmI);
 
 		if (min_steps > tmp) {
@@ -613,10 +614,11 @@ GameState getMeMove(GameState gs) {
 	}
 
 	//I am just a step away from the destination
-	if (whoAmI == PlayerNum_P1 && gs.players[whoAmI].position.row
-			== CURRENT_GAME_MAX_POSITION.row - 4 && isValidMoveForPlayer(
-			gs.players[whoAmI].position, gs.graphStruct, gs.turn,
-			Direction_DOWN)) {
+	if (whoAmI == PlayerNum_P1
+			&& gs.players[whoAmI].position.row
+					== CURRENT_GAME_MAX_POSITION.row - 4
+			&& isValidMoveForPlayer(gs.players[whoAmI].position, gs.graphStruct,
+					gs.turn, Direction_DOWN)) {
 		Move move;
 		move.moveType = MoveType_PLAYER;
 		move.position = getNewPositionInDirection(gs.players[whoAmI].position,
@@ -627,8 +629,8 @@ GameState getMeMove(GameState gs) {
 
 	//I am just a step away from the destination
 	if (whoAmI == PlayerNum_P2 && gs.players[whoAmI].position.row == 3
-			&& isValidMoveForPlayer(gs.players[whoAmI].position,
-					gs.graphStruct, gs.turn, Direction_UP)) {
+			&& isValidMoveForPlayer(gs.players[whoAmI].position, gs.graphStruct,
+					gs.turn, Direction_UP)) {
 		Move move;
 		move.moveType = MoveType_PLAYER;
 		move.position = getNewPositionInDirection(gs.players[whoAmI].position,
@@ -702,10 +704,10 @@ GameState generateStartGameState(int maxWalls) {
 		}
 	}
 
-	startGS.graphStruct.graph[p1.position.row][p1.position.col]
-			= ObjectType_PLAYER1;
-	startGS.graphStruct.graph[p2.position.row][p2.position.col]
-			= ObjectType_PLAYER2;
+	startGS.graphStruct.graph[p1.position.row][p1.position.col] =
+			ObjectType_PLAYER1;
+	startGS.graphStruct.graph[p2.position.row][p2.position.col] =
+			ObjectType_PLAYER2;
 
 	return startGS;
 }
