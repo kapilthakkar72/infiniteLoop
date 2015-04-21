@@ -32,19 +32,11 @@ bool checkIsOscillating(Move move) {
 	if (it != map_to_check_oscillations.end()) {
 		//element found;
 		if (it->second == MAX_TIMES_OSCILLATING) {
-			//we are reaching to a position for the MAX_TIMES_OSCILLATING time & map has not changed
-			/*map_to_check_oscillations.clear();
-			 oscillating_position_not_take = move.position;
-			 cout << "got a oscillating position.." << move.position.row << ","
-			 << move.position.col << endl;
-			 return true;*/
 			map_to_check_oscillations.clear();
 		}
 
 		else {
-			// cout << "it->second" << it->second << endl; //TODO: remo
 			map_to_check_oscillations[pos_key] = it->second + 1;
-			//cout << "visiting " << pos_key << " the second time" << endl; //TODO: remove
 		}
 
 		cout << "visiting " << pos_key << " the second time" << endl;
@@ -53,8 +45,6 @@ bool checkIsOscillating(Move move) {
 
 	else { //position not found in the map
 		map_to_check_oscillations[pos_key] = 1;
-		//cout << "added " << pos_key << " to the map" << endl; //TODO: remove
-		//cout << "map size:" << map_to_check_oscillations.size() << endl;//TODO: remove
 	}
 
 	return false;
@@ -64,7 +54,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 
 	Move move;
 
-	if (!DO_I_HAVE_WALLS_LEFT && HAVE_I_WON) {//TODO: I have changed without discussing
+	if (!DO_I_HAVE_WALLS_LEFT && HAVE_I_WON) {
 		move.isValid = true;
 		move.position.row = 0;
 		move.position.col = 0;
@@ -212,7 +202,7 @@ int main(int argc, char *argv[]) {
 
 	HAVE_OPPONENT_WON = false;
 	HAVE_I_WON = false;
-	DO_I_HAVE_WALLS_LEFT = true;//TODO: I have changed without discussing
+	DO_I_HAVE_WALLS_LEFT = true;
 
 	IS_FIRST_ALARM_RAISED = false;
 	IS_SECOND_ALARM_RAISED = false;
@@ -237,7 +227,7 @@ int main(int argc, char *argv[]) {
 				move.isValid = true;
 				move.moveType = MoveType_PLACE_WALL;
 				move.wallType = WallType_H;
-				move.position.row = 12; //TODO: Doubt about row, 3rd row matlab yahi ki below this?
+				move.position.row = 12; //TODO:(less priority) Doubt about row, 3rd row matlab yahi ki below this?
 				move.position.col = 6;
 				m = 1;
 
@@ -344,7 +334,7 @@ int main(int argc, char *argv[]) {
 				cout << ":) :) :) ... I WON .... :) :) :)" << endl;
 		}
 
-		cout << "om :" <<om<<" oro:"<<oro<<" oc:"<<oc<<endl;
+		cout << "om :" << om << " oro:" << oro << " oc:" << oc << endl;
 
 		if (om == 0 && !HAVE_OPPONENT_WON) {
 			curr_GS.graphStruct.graph[curr_GS.players[opponent].position.row][curr_GS.players[opponent].position.col]
@@ -372,7 +362,7 @@ int main(int argc, char *argv[]) {
 					= ObjectType_WALL_V;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
-			cout<<"Oppo Placed a horizontal wall"<<endl;
+			cout << "Oppo Placed a horizontal wall" << endl;
 		}
 
 		//---Our Code End---
@@ -506,7 +496,7 @@ int main(int argc, char *argv[]) {
 			cin >> m >> r >> c;
 		}
 
-		if (curr_GS.players[whoAmI].wallsRemaining == 0 && DO_I_HAVE_WALLS_LEFT) {//TODO: chNGED by me without discussing
+		if (curr_GS.players[whoAmI].wallsRemaining == 0 && DO_I_HAVE_WALLS_LEFT) {
 			cout << "-------------I am out of walls------------" << endl;
 			DO_I_HAVE_WALLS_LEFT = false;
 		}

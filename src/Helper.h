@@ -222,8 +222,6 @@ bool isValidPositionForWall(Position wall_pos, GameState gs, WallType wallType) 
 	if (gs.graphStruct.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_H)
 		return false;
 
-	cout <<"Checking wall on "<<wall_pos.row<<" "<<wall_pos.col<<" "<< gs.graphStruct.graph[wall_pos.row][wall_pos.col] << endl;
-
 	if (gs.graphStruct.graph[wall_pos.row][wall_pos.col] == ObjectType_WALL_V)
 		return false;
 
@@ -307,7 +305,7 @@ Utility utility(GameState g, Weights w) {
 
 	utility.utilityVal = w.a_0 * moves;
 
-	//if (!HAVE_I_WON) {//TODO: changed...discuss with kapil ::: may be -- think later if req
+	//if (!HAVE_I_WON) {//TODO: may be -- think later if req
 	utility.utilityVal += w.a_1 * walls;
 	//	}
 
@@ -464,7 +462,6 @@ vector<GameState> generateSuccessors(GameState gs) {
 	}
 
 	else {//current turn won
-		//TODO: chkk..........the below is written...not confirmed..discuss with kapil
 		GameState new_GS = genChild_gameState(gs);
 		//new_GS.players[gs.turn].position = gs.players[gs.turn].position;
 		new_GS.moveTakenToReach.moveType = MoveType_PASS;
@@ -609,9 +606,9 @@ GameState getMeMove(GameState gs) {
 		return getGS_for_ShortestMove(gs);
 	}
 
-	if(gs.players[whoAmI].wallsRemaining == 0) // TODO : Ask Harinder chalega?
-	{
+	if (gs.players[whoAmI].wallsRemaining == 0) {
 		// I have no walls left, just follow the shortest path
+		//this is added to handle oscillation scenarios
 		return getGS_for_ShortestMove(gs);
 	}
 

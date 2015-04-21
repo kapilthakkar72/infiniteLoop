@@ -20,7 +20,6 @@ enum WallType {
 
 enum MoveType {
 	MoveType_PLAYER, MoveType_PLACE_WALL, MoveType_NONE, MoveType_PASS
-//TODO: moveType pass abi ke liye..remove if not required
 };
 
 enum NodeType {
@@ -49,7 +48,7 @@ enum Direction {
 #define IS_TRAINING_MODE false
 #define MAX_TIMES_OSCILLATING 3
 #define IS_FAST_MODE_DEFAULT true
-#define IS_SUPER_FAST_MODE_DEFAULT false //TODO: this shall be false
+#define IS_SUPER_FAST_MODE_DEFAULT false//this shall be false
 #define NUM_OF_WALLS_FIRST_ALARM 2
 #define NUM_OF_WALLS_SECOND_ALARM 5
 
@@ -59,14 +58,15 @@ enum Direction {
 #define WTS_CHANGING_A0 1.0
 #define WTS_CHANGING_A1 1.1
 
-#define APPLY_RUSH_MOVE true  // TODO: make it false
-#define REED_OPENING_P1 true  // Opening Move
+//let the below be false for now..doesn't seem to help
+//moreover these are only for 9X9
+#define APPLY_RUSH_MOVE false
+#define REED_OPENING_P1 false
 #define REED_OPENING_P2 false
 
 #define ALLOWED_WALLS_ADJACENT_OPPONENT 1
 #define WALL_OPPONENT_MAX_GAP ((ALLOWED_WALLS_ADJACENT_OPPONENT - 1) * 2) + 1
 
 #define BUFFER_SUPER_FAST_MODE 5 //remaining time(sec) to start superFast mode
-
 #endif	/* CONSTANTS_H */
 
