@@ -321,9 +321,6 @@ int main(int argc, char *argv[]) {
 		//cout << om << " " << oro << " " << oc << " " << d << endl;
 
 		//----Our Code Start---
-
-
-
 		cout << "om :" << om << " oro:" << oro << " oc:" << oc << endl;
 
 		if (om == 0 && !HAVE_OPPONENT_WON) {
@@ -357,16 +354,16 @@ int main(int argc, char *argv[]) {
 		}
 
 		if (!HAVE_OPPONENT_WON) {
-					HAVE_OPPONENT_WON = haveTheOpponentWon(curr_GS);
-					if (HAVE_OPPONENT_WON)
-						cout << ":( :( :( ... OPPONENT WON .... :( :( :(" << endl;
-				}
+			HAVE_OPPONENT_WON = haveTheOpponentWon(curr_GS);
+			if (HAVE_OPPONENT_WON)
+				cout << ":( :( :( ... OPPONENT WON .... :( :( :(" << endl;
+		}
 
-				if (!HAVE_I_WON) {
-					HAVE_I_WON = haveIWon(curr_GS);
-					if (HAVE_I_WON)
-						cout << ":) :) :) ... I WON .... :) :) :)" << endl;
-				}
+		if (!HAVE_I_WON) {
+			HAVE_I_WON = haveIWon(curr_GS);
+			if (HAVE_I_WON)
+				cout << ":) :) :) ... I WON .... :) :) :)" << endl;
+		}
 
 		//---Our Code End---
 
