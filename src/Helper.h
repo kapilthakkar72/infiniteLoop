@@ -696,8 +696,8 @@ GameState generateStartGameState(int maxWalls) {
 	startGS.players[PlayerNum_P1] = p1;
 	startGS.players[PlayerNum_P2] = p2;
 
-	for (int i = 0; i < CURRENT_GAME_MAX_POSITION.row; i++) {
-		for (int j = 0; j < CURRENT_GAME_MAX_POSITION.col; j++) {
+	for (int i = 0; i < (13 * 2 + 1); i++) {
+		for (int j = 0; j < (13 * 2 + 1); j++) {
 			startGS.graphStruct.graph[i][j] = ObjectType_EMPTY;
 		}
 	}

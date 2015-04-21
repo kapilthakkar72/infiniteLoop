@@ -67,6 +67,6 @@ enum Direction {
 #define ALLOWED_WALLS_ADJACENT_OPPONENT 1
 #define WALL_OPPONENT_MAX_GAP ((ALLOWED_WALLS_ADJACENT_OPPONENT - 1) * 2) + 1
 
-#define BUFFER_SUPER_FAST_MODE 15 //remaining time(sec) to start superFast mode
+#define BUFFER_SUPER_FAST_MODE 20 //remaining time(sec) to start superFast mode
 #endif	/* CONSTANTS_H */
 

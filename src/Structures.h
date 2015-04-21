@@ -49,7 +49,7 @@ struct Move {
 };
 
 struct Graph {
-	ObjectType graph[9 * 2 + 1][9 * 2 + 1];
+	ObjectType graph[13 * 2 + 1][13 * 2 + 1];
 };
 
 struct Utility {
