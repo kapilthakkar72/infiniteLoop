@@ -19,8 +19,10 @@ winners=0
 el=1 
 class TkBoard():
     # CONSTANTS
-    
-    SQUARE_SIZE = 50
+    N=13
+    M=13
+    K=14
+    SQUARE_SIZE = 20
     PLAYER_SIZE = SQUARE_SIZE * 0.8
     SQUARE_SPACING = 10
     MARGIN = 20
@@ -32,7 +34,7 @@ class TkBoard():
     BUTTON_HEIGHT = 30
     BUTTON_MARGIN = 10
     LABEL_Y_START = 330
-    LABEL_FONT_SIZE = 26
+    LABEL_FONT_SIZE = 12
     LABEL_SPACING = 10
     LABEL_TEXT = lambda s, n, c: ("%-"+str(n+7)+"s") % ("walls: "+"I"*c)  # lambda c: "Walls: {0}".format(c)
     DEFAULT_COLORS = {'bg': '#FFFFFF',
@@ -53,7 +55,7 @@ class TkBoard():
     player_ghost = None
     icon = None
     ai_label = None
-    squares = [[0]*9]*9
+    squares = [[0]*13]*13
     wall_labels = []
     grid = None
     canvas_dims = (0,0)
@@ -94,7 +96,7 @@ class TkBoard():
         self.time_stats = []
     
         # margin - space/2 - square - space - square - ... - square - space/2 - margin - panel
-        total_height = 9*self.SQUARE_SIZE + 9*self.SQUARE_SPACING + 2*self.MARGIN
+        total_height = 13*self.SQUARE_SIZE + 13*self.SQUARE_SPACING + 2*self.MARGIN
         total_width = total_height + self.PANEL_WIDTH
         self.canvas_dims = (total_width, total_height)
     
@@ -125,9 +127,9 @@ class TkBoard():
 	global winners
 	global el 
 	turn = 0
-	timeout=1800.0
-	trackTime1=1800.0
-	trackTime2=1800.0
+	timeout=120.0
+	trackTime1=120.0
+	trackTime2=120.0
 	global message
 	global message2
 	for player in socket_list:
@@ -306,36 +308,8 @@ class TkBoard():
         self.redraw_walls(False)
         self.draw_current_player_icon()
         self.draw_wall_counts()
-        if check_ai:
-            self.get_ai_move()
-       
-    def get_ai_move(self, verbose=True):
-        ai = self.gs.current_player.ai
-        if ai:
-            if verbose:
-                print "ai exists for player", self.gs.current_player_num,
-            if ai.thread_started:
-                if verbose:
-                    print "and thread",
-                turn, time = ai.get_threaded_move()
-                if turn:
-                    self.time_stats.append(time)
-                    if verbose:
-                        print "is done!"
-                    if not self.exec_wrapper(turn, True):
-                        print "\n################"
-                        print   "### AI ERROR ###"
-                        print   "################\n"
-                        self.handle_quit()
-                    else:
-                        self.refresh()
-                elif verbose:
-                    print "has started but hasn't finished yet"
-            else:
-                if verbose:
-                    print "but thread hasn't started. starting now."
-                ai.get_move_thread_start(self.game_stack.duplicate())
-    
+        
+           
     def draw_current_player_icon(self):
         width, height = self.canvas_dims
         midx = width - self.PANEL_WIDTH/2
@@ -349,7 +323,7 @@ class TkBoard():
         self.icon = oval
         text = None
         if self.gs.current_player.ai:
-            text = self.tk_canv.create_text((midx, self.ICON_MARGIN), text="AI", font=("Arial", 14, "bold"))
+            text = self.tk_canv.create_text((midx, self.ICON_MARGIN), text="AI", font=("Arial", 10, "bold"))
         if self.ai_label:
             self.tk_canv.delete(self.ai_label)
         self.ai_label = text
@@ -359,7 +333,7 @@ class TkBoard():
         self.tk_canv.create_rectangle(x0, y0, x1, y1, fill=fill, activefill=hover_lighten, outline="")
         midx = (x0 + x1) / 2
         midy = (y0 + y1) / 2
-        self.tk_canv.create_text((midx, midy), text=text, font=("Arial", 14, "bold"))
+        self.tk_canv.create_text((midx, midy), text=text, font=("Arial", 10, "bold"))
         self.buttons.append(((x0, y0, x1, y1), callback))
     
     def set_movetype(self, type):
@@ -590,8 +564,8 @@ class TkBoard():
 
     def draw_squares(self):
         import random
-        for r in range(9):
-            for c in range(9):
+        for r in range(13):
+            for c in range(13):
                 x = self.MARGIN + self.SQUARE_SPACING/2 + (self.SQUARE_SIZE+self.SQUARE_SPACING)*c
                 y = self.MARGIN + self.SQUARE_SPACING/2 + (self.SQUARE_SIZE+self.SQUARE_SPACING)*r
                 color = self.DEFAULT_COLORS['square']
@@ -673,7 +647,7 @@ class TkBoard():
         oval = self.tk_canv.create_oval(x-radius, y-radius, x+radius, y+radius, fill=c, outline="")
         text = None
         if self.gs.players[num].ai:
-            text = self.tk_canv.create_text((x, y), text="AI", font=("Arial", 14, "bold"))
+            text = self.tk_canv.create_text((x, y), text="AI", font=("Arial", 11, "bold"))
         if not ghost:
             self.players[num] = (oval, text)
         else:
@@ -689,7 +663,7 @@ class TkBoard():
         
         If not a valid grid point, return None"""
         r, c = grid_pt
-        if (1 <= r <= 9) and (1 <= c <= 9):
+        if (1 <= r <= 13) and (1 <= c <= 13):
             x = self.MARGIN + self.SQUARE_SPACING/2 + (self.SQUARE_SIZE+self.SQUARE_SPACING)*(c-1)
             y = self.MARGIN + self.SQUARE_SPACING/2 + (self.SQUARE_SIZE+self.SQUARE_SPACING)*(r-1)
             halfsquare = self.SQUARE_SIZE/2
@@ -707,7 +681,7 @@ class TkBoard():
         full_space = self.SQUARE_SIZE + self.SQUARE_SPACING
         r = int(floor(y / full_space) + 1)
         c = int(floor(x / full_space) + 1)
-        if (1 <= r <= 9) and (1 <= c <= 9):
+        if (1 <= r <= 13) and (1 <= c <= 13):
             return (r, c)
         else:
             return None
@@ -773,8 +747,8 @@ if __name__ == "__main__":
             break
 	# 1st client will be in socket_list[0] and 2nd will be socket_list[1]
 
-    socket_list[0].send('1 9 9 10 30')
-    socket_list[1].send('2 9 9 10 30')
+    socket_list[0].send('1 13 13 14 120')
+    socket_list[1].send('2 13 13 14 120')
     tkb = TkBoard(n, ai)
     
     
