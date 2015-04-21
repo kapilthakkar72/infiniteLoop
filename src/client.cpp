@@ -355,6 +355,7 @@ int main(int argc, char *argv[]) {
 					= ObjectType_WALL_H;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
+			cout << "Oppo Placed a horizontal wall" << endl;
 		}
 
 		else if (om == 2) {
@@ -362,7 +363,7 @@ int main(int argc, char *argv[]) {
 					= ObjectType_WALL_V;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear();//clearing the map since opponent has placed a wall
-			cout << "Oppo Placed a horizontal wall" << endl;
+			cout << "Oppo Placed a vertical wall" << endl;
 		}
 
 		//---Our Code End---
