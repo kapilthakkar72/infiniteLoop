@@ -38,15 +38,17 @@ enum Direction {
 	Direction_UP, Direction_DOWN, Direction_LEFT, Direction_RIGHT
 };
 
-
-
 #define INFINITY_THAKKAR INT_MAX
 #define MINUS_INFINITY_THAKKAR INT_MIN
 
 #define IS_TRAINING_MODE false
 #define MAX_TIMES_OSCILLATING 3
 #define IS_FAST_MODE_DEFAULT true
+
 #define IS_SUPER_FAST_MODE_DEFAULT false//this shall be false
+#define IS_SUPER_SUPER_FAST_MODE_DEFAULT false//this shall be false
+#define IS_SUPER_SUPER_SUPER_FAST_MODE_DEFAULT false//this shall be false
+
 #define NUM_OF_WALLS_FIRST_ALARM 2
 #define NUM_OF_WALLS_SECOND_ALARM 5
 
@@ -65,7 +67,9 @@ enum Direction {
 #define ALLOWED_WALLS_ADJACENT_OPPONENT 1
 #define WALL_OPPONENT_MAX_GAP ((ALLOWED_WALLS_ADJACENT_OPPONENT - 1) * 2) + 1
 
-#define BUFFER_SUPER_FAST_MODE 30 //remaining time(sec) to start superFast mode
-#define BUFFER_SUPER_SUPER_FAST_MODE 15
+#define BUFFER_SUPER_1_FAST_MODE 30 //remaining time(sec) to start superFast mode
+#define BUFFER_SUPER_2_FAST_MODE 15
+#define BUFFER_SUPER_3_FAST_MODE 2
+
 #endif	/* CONSTANTS_H */
 

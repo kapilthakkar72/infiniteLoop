@@ -132,7 +132,7 @@ bool isValidPositionForWall(Position wall_pos, GameState gs,
 				&& abs(wall_pos.col - opp_pos.col) <= WALL_OPPONENT_MAX_GAP)
 			isValid_in_fastMode = true;
 
-		if (!IS_SUPER_FAST_MODE) {
+		if (!IS_SUPER_1_FAST_MODE) {
 			//Placing a wall in the player surroundings is also valid
 			if (abs(wall_pos.row - my_pos.row) <= WALL_OPPONENT_MAX_GAP
 					&& abs(wall_pos.col - my_pos.col) <= WALL_OPPONENT_MAX_GAP)
@@ -502,19 +502,27 @@ GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 
 	float elapsed_time = difftime(curr_time, start_time);
 
-	if (server_time - elapsed_time <= BUFFER_SUPER_FAST_MODE
-			&& !IS_SUPER_FAST_MODE) {
+	if (server_time - elapsed_time <= BUFFER_SUPER_1_FAST_MODE
+			&& !IS_SUPER_1_FAST_MODE) {
 		cout << "-------_Turning SuperFast Mode in between alpha_beta---"
 				<< endl;
-		IS_SUPER_FAST_MODE = true;
+		IS_SUPER_1_FAST_MODE = true;
 	}
 
-	if (server_time - elapsed_time <= BUFFER_SUPER_SUPER_FAST_MODE
-			&& !IS_SUPER_SUPER_FAST_MODE) {
+	if (server_time - elapsed_time <= BUFFER_SUPER_2_FAST_MODE
+			&& !IS_SUPER_2_FAST_MODE) {
 		cout
 				<< "===========_Turning SuperSUPERFast Mode in between alpha_beta========="
 				<< endl;
-		IS_SUPER_SUPER_FAST_MODE = true;
+		IS_SUPER_2_FAST_MODE = true;
+	}
+
+	if (server_time - elapsed_time <= BUFFER_SUPER_3_FAST_MODE
+			&& !IS_SUPER_3_FAST_MODE) {
+		cout
+				<< "===========_Turning SuperSUPER_SUPERFast Mode in between alpha_beta========="
+				<< endl;
+		IS_SUPER_3_FAST_MODE = true;
 	}
 
 	if (node.level == CUT_OFF) {
