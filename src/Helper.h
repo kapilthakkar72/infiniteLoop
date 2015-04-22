@@ -504,9 +504,6 @@ GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 
 	if (server_time - elapsed_time <= BUFFER_SUPER_FAST_MODE
 			&& !IS_SUPER_FAST_MODE) {
-
-		cout<<"Server Tme:"<<server_time << " elapsed time:"<<elapsed_time << " Difference:"<<(server_time - elapsed_time)<<endl;
-
 		cout << "-------_Turning SuperFast Mode in between alpha_beta---"
 				<< endl;
 		IS_SUPER_FAST_MODE = true;
@@ -514,8 +511,6 @@ GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 
 	if (server_time - elapsed_time <= BUFFER_SUPER_SUPER_FAST_MODE
 			&& !IS_SUPER_SUPER_FAST_MODE) {
-
-		cout<<"Server Tme:"<<server_time << " elapsed time:"<<elapsed_time << " Difference:"<<(server_time - elapsed_time)<<endl;
 		cout
 				<< "===========_Turning SuperSUPERFast Mode in between alpha_beta========="
 				<< endl;

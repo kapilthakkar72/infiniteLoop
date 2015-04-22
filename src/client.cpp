@@ -67,6 +67,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 	move = curr_GS.moveToBeTaken;
 	move.isValid = true;
 
+
 	if (checkIsOscillating(move)) {
 		move = getGS_for_ShortestMove(curr_GS).moveToBeTaken;
 		map_to_check_oscillations.clear();
