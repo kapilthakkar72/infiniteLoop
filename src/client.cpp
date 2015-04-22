@@ -187,7 +187,7 @@ int main(int argc, char *argv[]) {
 		CUT_OFF = CUTOFF_LEVEL_P2;
 	}
 
-	timeLeft = time_left;
+	server_time = time_left;
 
 	Wts_final.a_0 = WTS_FINAL_A0;
 	Wts_final.a_1 = WTS_FINAL_A1;
@@ -216,7 +216,9 @@ int main(int argc, char *argv[]) {
 	//char s[100];
 	int x = 1;
 	if (player == 1) {
+
 		//----Our Code Start---
+		time(&start_time);
 		if (isAI || IS_TRAINING_MODE) {
 			Move move;
 
@@ -300,11 +302,15 @@ int main(int argc, char *argv[]) {
 
 	while (x) {
 
+
+
 		memset(recvBuff, '0', sizeof(recvBuff));
 		n = read(sockfd, recvBuff, sizeof(recvBuff) - 1);
 		recvBuff[n] = 0;
 		sscanf(recvBuff, "%d %d %d %d", &om, &oro, &oc, &d);
 		//cout << om << " " << oro << " " << oc << " " << d << endl;
+
+		time(&start_time);
 
 		//----Our Code Start---
 		cout << "om :" << om << " oro:" << oro << " oc:" << oc << endl;
@@ -497,6 +503,8 @@ int main(int argc, char *argv[]) {
 		recvBuff[n] = 0;
 		sscanf(recvBuff, "%f %d", &TL, &d); //d=3 indicates game continues.. d=2 indicates lost game, d=1 means game won.
 		cout << TL << " " << d << endl;
+
+		server_time = TL;
 
 		if (TL < BUFFER_SUPER_FAST_MODE && !IS_SUPER_FAST_MODE) {
 			cout

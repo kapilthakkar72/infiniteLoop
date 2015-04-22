@@ -21,8 +21,6 @@ PlayerNum opponent;
 
 int CUT_OFF;
 
-double timeLeft;
-
 bool DO_I_HAVE_OPTION;
 
 bool IS_FAST_MODE;
@@ -38,14 +36,16 @@ bool DO_I_HAVE_WALLS_LEFT;
 bool IS_FIRST_ALARM_RAISED;
 bool IS_SECOND_ALARM_RAISED;
 
-
-int noOfMoves=0;
+int noOfMoves = 0;
 
 Position oscillating_position_not_take;
 
-int CUTOFF_MOVE=2;
+int CUTOFF_MOVE = 2;
 #define CUTOFF_LEVEL_P1 CUTOFF_MOVE*2
 #define CUTOFF_LEVEL_P2 CUTOFF_LEVEL_P1+1
+
+time_t start_time;
+float server_time;
 
 #endif	/* GLOBALVARIABLES_H */
 
