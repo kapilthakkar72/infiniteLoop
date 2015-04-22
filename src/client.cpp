@@ -300,21 +300,6 @@ int main(int argc, char *argv[]) {
 
 	while (x) {
 
-		//----Our Code Start---
-		if (getNumberOfWallsPlaced(curr_GS) >= NUM_OF_WALLS_FIRST_ALARM
-				&& !IS_FIRST_ALARM_RAISED) {
-			cout << "------Attention: First Alarm raised for walls" << endl;
-			IS_FIRST_ALARM_RAISED = true;
-		}
-
-		if (getNumberOfWallsPlaced(curr_GS) >= NUM_OF_WALLS_SECOND_ALARM
-				&& !IS_SECOND_ALARM_RAISED) {
-			cout << "------Attention: Second Alarm raised for walls" << endl;
-			IS_SECOND_ALARM_RAISED = true;
-		}
-
-		//---Our Code End---
-
 		memset(recvBuff, '0', sizeof(recvBuff));
 		n = read(sockfd, recvBuff, sizeof(recvBuff) - 1);
 		recvBuff[n] = 0;
@@ -343,7 +328,6 @@ int main(int argc, char *argv[]) {
 					ObjectType_WALL_H;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear(); //clearing the map since opponent has placed a wall
-			cout << "Oppo Placed a horizontal wall" << endl;
 		}
 
 		else if (om == 2) {
@@ -351,7 +335,6 @@ int main(int argc, char *argv[]) {
 					ObjectType_WALL_V;
 			curr_GS.players[opponent].wallsRemaining -= 1;
 			map_to_check_oscillations.clear(); //clearing the map since opponent has placed a wall
-			cout << "Oppo Placed a vertical wall" << endl;
 		}
 
 		if (!HAVE_OPPONENT_WON) {
@@ -364,6 +347,18 @@ int main(int argc, char *argv[]) {
 			HAVE_I_WON = haveIWon(curr_GS);
 			if (HAVE_I_WON)
 				cout << ":) :) :) ... I WON .... :) :) :)" << endl;
+		}
+
+		if (getNumberOfWallsPlaced(curr_GS) >= NUM_OF_WALLS_FIRST_ALARM
+				&& !IS_FIRST_ALARM_RAISED) {
+			cout << "------Attention: First Alarm raised for walls" << endl;
+			IS_FIRST_ALARM_RAISED = true;
+		}
+
+		if (getNumberOfWallsPlaced(curr_GS) >= NUM_OF_WALLS_SECOND_ALARM
+				&& !IS_SECOND_ALARM_RAISED) {
+			cout << "------Attention: Second Alarm raised for walls" << endl;
+			IS_SECOND_ALARM_RAISED = true;
 		}
 
 		//---Our Code End---
