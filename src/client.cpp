@@ -67,7 +67,7 @@ Move AI_processing(GameState &curr_GS, int & m) {
 	move = curr_GS.moveToBeTaken;
 	move.isValid = true;
 
-	if (checkIsOscillating(move)) {
+	if (checkIsOscillating(move) || IS_SUPER_3_FAST_MODE) {
 		move = getGS_for_ShortestMove(curr_GS).moveToBeTaken;
 		map_to_check_oscillations.clear();
 	}
@@ -199,9 +199,9 @@ int main(int argc, char *argv[]) {
 
 	DO_I_HAVE_OPTION = true;
 	IS_FAST_MODE = IS_FAST_MODE_DEFAULT;
-	IS_SUPER_1_FAST_MODE = IS_SUPER_FAST_MODE_DEFAULT;
-	IS_SUPER_2_FAST_MODE = IS_SUPER_SUPER_FAST_MODE_DEFAULT;
-	IS_SUPER_3_FAST_MODE = IS_SUPER_SUPER_SUPER_FAST_MODE_DEFAULT;
+	IS_SUPER_1_FAST_MODE = IS_SUPER_1_FAST_MODE_DEFAULT;
+	IS_SUPER_2_FAST_MODE = IS_SUPER_2_FAST_MODE_DEFAULT;
+	IS_SUPER_3_FAST_MODE = IS_SUPER_3_FAST_MODE_DEFAULT;
 
 	HAVE_OPPONENT_WON = false;
 	HAVE_I_WON = false;
@@ -508,14 +508,14 @@ int main(int argc, char *argv[]) {
 
 		if (TL < BUFFER_SUPER_1_FAST_MODE && !IS_SUPER_1_FAST_MODE) {
 			cout
-					<< "------------------NEED TO HURRY = = = = SUPER_FAST_MODE=>ON--------------------"
+					<< "------------------NEED TO HURRY = = = = SUPER_1_FAST_MODE=>ON--------------------"
 					<< endl;
 			IS_SUPER_1_FAST_MODE = true;
 		}
 
 		if (TL < BUFFER_SUPER_2_FAST_MODE && !IS_SUPER_2_FAST_MODE) {
 			cout
-					<< "------------------NEED TO HURRY = = = = SUPER_SUPER_FAST_MODE=>ON--------------------"
+					<< "------------------NEED TO HURRY = = = = SUPER_2_FAST_MODE=>ON--------------------"
 					<< endl;
 			CUTOFF_MOVE = 1;
 			IS_SUPER_2_FAST_MODE = true;
@@ -523,7 +523,7 @@ int main(int argc, char *argv[]) {
 
 		if (TL < BUFFER_SUPER_3_FAST_MODE && !IS_SUPER_3_FAST_MODE) {
 			cout
-					<< "------------------NEED TO HURRY = = = = SUPER_SUPER_SUPER_FAST_MODE=>ON--------------------"
+					<< "------------------NEED TO HURRY = = = = SUPER_3_FAST_MODE=>ON--------------------"
 					<< endl;
 			IS_SUPER_3_FAST_MODE = true; //TODO: Logic is yet to be implement, return shortest move..
 		}

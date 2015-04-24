@@ -108,6 +108,10 @@ int a_star(Graph g, Player p, PlayerNum turn) {
 bool isValidPositionForWall(Position wall_pos, GameState gs,
 		WallType wallType) {
 
+	if(IS_SUPER_3_FAST_MODE) {
+		return false;
+	}
+
 	Graph graph = gs.graphStruct;
 
 	if (wall_pos.row % 2 != 0 || wall_pos.col % 2 != 0) //walls can only be at even positions
@@ -502,25 +506,24 @@ GameState alpha_beta(GameState node, Utility alpha, Utility beta, Weights w) {
 
 	float elapsed_time = difftime(curr_time, start_time);
 
-	if (server_time - elapsed_time <= BUFFER_SUPER_1_FAST_MODE
-			&& !IS_SUPER_1_FAST_MODE) {
-		cout << "-------_Turning SuperFast Mode in between alpha_beta---"
+	float time_left = server_time - elapsed_time;
+
+	if (time_left <= BUFFER_SUPER_1_FAST_MODE && !IS_SUPER_1_FAST_MODE) {
+		cout << "-------_Turning Super_1_Fast Mode in between alpha_beta---"
 				<< endl;
 		IS_SUPER_1_FAST_MODE = true;
 	}
 
-	if (server_time - elapsed_time <= BUFFER_SUPER_2_FAST_MODE
-			&& !IS_SUPER_2_FAST_MODE) {
+	if (time_left <= BUFFER_SUPER_2_FAST_MODE && !IS_SUPER_2_FAST_MODE) {
 		cout
-				<< "===========_Turning SuperSUPERFast Mode in between alpha_beta========="
+				<< "===========_Turning Super_2_Fast Mode in between alpha_beta========="
 				<< endl;
 		IS_SUPER_2_FAST_MODE = true;
 	}
 
-	if (server_time - elapsed_time <= BUFFER_SUPER_3_FAST_MODE
-			&& !IS_SUPER_3_FAST_MODE) {
+	if (time_left <= BUFFER_SUPER_3_FAST_MODE && !IS_SUPER_3_FAST_MODE) {
 		cout
-				<< "===========_Turning SuperSUPER_SUPERFast Mode in between alpha_beta========="
+				<< "===========_Turning Super_3_Fast Mode in between alpha_beta========="
 				<< endl;
 		IS_SUPER_3_FAST_MODE = true;
 	}

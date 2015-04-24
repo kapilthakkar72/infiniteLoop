@@ -45,9 +45,9 @@ enum Direction {
 #define MAX_TIMES_OSCILLATING 3
 #define IS_FAST_MODE_DEFAULT true
 
-#define IS_SUPER_FAST_MODE_DEFAULT false//this shall be false
-#define IS_SUPER_SUPER_FAST_MODE_DEFAULT false//this shall be false
-#define IS_SUPER_SUPER_SUPER_FAST_MODE_DEFAULT false//this shall be false
+#define IS_SUPER_1_FAST_MODE_DEFAULT false//this shall be false
+#define IS_SUPER_2_FAST_MODE_DEFAULT false//this shall be false
+#define IS_SUPER_3_FAST_MODE_DEFAULT false//this shall be false
 
 #define NUM_OF_WALLS_FIRST_ALARM 4
 #define NUM_OF_WALLS_SECOND_ALARM 7
