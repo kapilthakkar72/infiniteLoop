@@ -49,8 +49,8 @@ enum Direction {
 #define IS_SUPER_SUPER_FAST_MODE_DEFAULT false//this shall be false
 #define IS_SUPER_SUPER_SUPER_FAST_MODE_DEFAULT false//this shall be false
 
-#define NUM_OF_WALLS_FIRST_ALARM 2
-#define NUM_OF_WALLS_SECOND_ALARM 5
+#define NUM_OF_WALLS_FIRST_ALARM 4
+#define NUM_OF_WALLS_SECOND_ALARM 7
 
 #define WTS_FINAL_A0 1.0
 #define WTS_FINAL_A1 1.1
