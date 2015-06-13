@@ -9,7 +9,7 @@
 * At the terminal node, we have used eval function, where we are considering difference in
 number of steps and difference between number of walls as follows: <br>
 
-<i> Eval = (steps((P2) - steps((P1)) + 1.1 * (walls(P1) - walls(P2))</i> <br>
+<i> Eval = 1.0 * (steps((P2) - steps((P1)) + 1.1 * (walls(P1) - walls(P2))</i> <br>
 Where, P1 : Player 1 & P2: Player 2<br>
 P1 will always try to maximize this eval value & P2 will always try to minimize this eval value <br>
 
@@ -18,7 +18,7 @@ The 4 moving positions (Up, Down, Left, Right) are anyways considered. We take t
 
 * We are checking upto 4 ply for Player 1 and up to 5 ply for Player 2 at the start of the game. When time left for the game is very less then we are reducing the number of ply by 2 for each player. <br>
 
-* All the parameters are easily configurable, check constants.h & Global Variables.h <br>
+* All the parameters are easily configurable, check constants.h & GlobalVariables.h <br>
 
 * We even implemented RUSH move & REED openings, though could not find it of much use, thus skipped using it in the code. In case needed, they can be used again by simply setting a couple of boolean variables to true. <br>
 
