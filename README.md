@@ -9,13 +9,12 @@
 * At the terminal node, we have used eval function, where we are considering difference in
 number of steps and difference between number of walls as follows: <br>
 
-<i> Eval = (SR((P2) - SR((P1) ) + 1.1 * (WR(P1) - WR(P2))</i> <br>
-Where, <br>
-P1 : Player 1, P2: Player 2, SR: steps remaining and WR: Walls remaining<br>
+<i> Eval = (steps((P2) - steps((P1)) + 1.1 * (walls(P1) - walls(P2))</i> <br>
+Where, P1 : Player 1 & P2: Player 2<br>
 P1 will always try to maximize this eval value & P2 will always try to minimize this eval value <br>
 
 * The branching factor is dynamic, decided based on the games current situation, & the time left.
-The 4 moving positions (Up, Down, Left, Right) are anyways considered. We take the walls position as the positions around the opponent & around the already placed walls. <br><br>
+The 4 moving positions (Up, Down, Left, Right) are anyways considered. We take the walls position as the positions around the opponent & around the already placed walls. <br>
 
 * We are checking upto 4 ply for Player 1 and up to 5 ply for Player 2 at the start of the game. When time left for the game is very less then we are reducing the number of ply by 2 for each player. <br>
 
@@ -36,8 +35,8 @@ Compile the code using compile.sh as “./compile.sh” <br>
 Run the server as “python TkBoard.py”<br>
 Run the client as “./client <serverIp> <portNo.> 1/0” (1 for AI mode, 0 for human mode) <br><br>
 Obviously you need to run two clients for the game to begin <br>
-</t>You can use the same client (AI/Human mode) <br>
-</t>or use any client from the bots folder  <br><br>
+&nbsp;&nbsp;You can use the same client (AI/Human mode) <br>
+&nbsp;&nbsp;or use any client from the bots folder  <br><br>
 
 
 <b>Moves:</b>
