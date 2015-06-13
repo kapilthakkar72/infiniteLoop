@@ -33,7 +33,7 @@ The 4 moving positions (Up, Down, Left, Right) are anyways considered. We take t
 
 Compile the code using compile.sh as <i>“g++ client.cpp  -w -O3 -o client"</i> <br>
 Run the server as <i>“python TkBoard.py”</i><br>
-Run the client as <i>“./client <serverIp> <portNo.> 1/0” </i> (1 for AI mode, 0 for human mode) <br><br>
+Run the client as <i>“./client -serverIp- -portNo.-> 1/0” </i> (1 for AI mode, 0 for human mode) <br><br>
 Obviously you need to run two clients for the game to begin <br>
 &nbsp;&nbsp;You can use the same client (AI/Human mode) <br>
 &nbsp;&nbsp;or use any client from the bots folder  <br><br>
